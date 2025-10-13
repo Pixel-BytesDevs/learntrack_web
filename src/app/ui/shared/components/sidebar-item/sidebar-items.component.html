@@ -1,0 +1,9 @@
+@for (item of items; track $index) {
+	<div
+		class="sidebar-item flex gap-sm py-xxs text-subordinary-9 text-medium items-center"
+		[routerLink]="item.ruta"
+		routerLinkActive="active"
+	>
+		<p>{{ item.label }}</p>
+	</div>
+}

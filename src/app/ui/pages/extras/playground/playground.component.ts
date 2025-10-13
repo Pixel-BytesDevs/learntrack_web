@@ -1,49 +1,48 @@
-import { ITEMS_SIDEBAR_COURSE_TEST } from './../../../../core/domain/constants/items-sidebar-test.const';
-import { UnidadAccordion } from './../../../../core/domain/interfaces/unidad-accordion.interface';
-import { TiposAlerta } from './../../../../core/domain/types/tipos-alerta.type';
-import { SeccionComponent } from './components/seccion-component/seccion.component';
-import { TrackuiToggleButton } from '../../../shared/trackui/trackui-toggle-button/trackui-toggle-button.component';
-import { TrackuiAlertaComponent } from '../../../shared/trackui/trackui-alerta/trackui-alerta.component';
 import { NgFor, NgIf } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TiposEtiqueta } from '../../../../core/domain/types/tipos-etiqueta.type';
-import { TrackuiEtiquetaComponent } from '../../../shared/trackui/trackui-etiqueta/trackui-etiqueta.component';
-import { TrackUiIconsDirective } from '../../../shared/trackui/trackui-icons/trackui-icons.directive';
-import { TrackuiCardEtiquetaComponent } from '../../../shared/trackui/trackui-card-etiqueta/trackui-card-etiqueta.component';
-import { TrackuiInputComponent } from '../../../shared/trackui/trackui-input/trackui-input.component';
-import { ItemTabMenuComponent } from '../../../shared/trackui/trackui-tab-menu/item-tab-menu/item-tab-menu.component';
-import { TrackuiTabMenuComponent } from '../../../shared/trackui/trackui-tab-menu/trackui-tab-menu.component';
-import { OPCIONES_TABMENU_TEST } from '../../../../core/domain/constants/opciones-tabmenu-test.const';
-import { TrackuiDropdown } from '../../../shared/trackui/trackui-dropdown/trackui-dropdown.directive';
-import { TrackuiDropdownMenuComponent } from '../../../shared/trackui/trackui-dropdown/trackui-dropdown-menu/trackui-dropdown-menu.component';
-import { TrackuiMenuItemDirective } from '../../../shared/trackui/trackui-dropdown/trackui-menu-item/trackui-menu-item.directive';
-import { TiposButton } from '../../../../core/domain/types/tipos-button.type';
-import { TrackuiButtonDirective } from '../../../shared/trackui/trackui-button/trackui-button.directive';
-import { TrackuiBreadcrumbComponent } from '../../../shared/trackui/trackui-breadcrumb/trackui-breadcrumb.component';
+import { ITEMS_SIDEBAR_TEST } from '../../../../core/domain/constants/items-sidebar-test.const';
 import { OPCIONES_BREADCRUMB_TEST } from '../../../../core/domain/constants/opciones-breadcrumb-test.const';
-import { TrackuiCheckboxComponent } from '../../../shared/trackui/trackui-checkbox/trackui-checkbox.component';
-import { TrackuiOptionSelectComponent } from '../../../shared/trackui/trackui-select/trackui-option-select/trackui-option-select.component';
-import { TrackuiSelectComponent } from '../../../shared/trackui/trackui-select/trackui-select.component';
 import { OPCIONES_SEGMENT_TEST } from '../../../../core/domain/constants/opciones-control-segment.const';
-import { TrackuiControlSegmentComponent } from '../../../shared/trackui/trackui-control-segment/trackui-control-segment.component';
-import { TrackuiAccordionComponent } from '../../../shared/trackui/trackui-accordion/trackui-accordion.component';
+import { OPCIONES_TABMENU_TEST } from '../../../../core/domain/constants/opciones-tabmenu-test.const';
+import { UNIDADES_ACCORDION_TEST } from '../../../../core/domain/constants/unidades-accordion-test.const';
+import { TiposButton } from '../../../../core/domain/types/tipos-button.type';
+import { TiposEtiqueta } from '../../../../core/domain/types/tipos-etiqueta.type';
+import { ExpansionPanelContentComponent } from '../../../shared/trackui/trackui-accordion/expansion-panel-content/expansion-panel-content.component';
+import { ExpansionPanelHeaderComponent } from '../../../shared/trackui/trackui-accordion/expansion-panel-header/expansion-panel-header.component';
 import { ExpansionPanelComponent } from '../../../shared/trackui/trackui-accordion/expansion-panel/expansion-panel.component';
 import { PanelDescriptionComponent } from '../../../shared/trackui/trackui-accordion/panel-description/panel-description.component';
-import { PanelTitleComponent } from '../../../shared/trackui/trackui-accordion/panel-title/panel-title.component';
-import { ExpansionPanelHeaderComponent } from '../../../shared/trackui/trackui-accordion/expansion-panel-header/expansion-panel-header.component';
 import { PanelItemComponent } from '../../../shared/trackui/trackui-accordion/panel-item/panel-item.component';
-import { UNIDADES_ACCORDION_TEST } from '../../../../core/domain/constants/unidades-accordion-test.const';
-import { ExpansionPanelContentComponent } from '../../../shared/trackui/trackui-accordion/expansion-panel-content/expansion-panel-content.component';
+import { PanelTitleComponent } from '../../../shared/trackui/trackui-accordion/panel-title/panel-title.component';
+import { TrackuiAccordionComponent } from '../../../shared/trackui/trackui-accordion/trackui-accordion.component';
+import { TrackuiAlertaComponent } from '../../../shared/trackui/trackui-alerta/trackui-alerta.component';
+import { TrackuiBreadcrumbComponent } from '../../../shared/trackui/trackui-breadcrumb/trackui-breadcrumb.component';
+import { TrackuiButtonDirective } from '../../../shared/trackui/trackui-button/trackui-button.directive';
+import { TrackuiCardEtiquetaComponent } from '../../../shared/trackui/trackui-card-etiqueta/trackui-card-etiqueta.component';
+import { TrackuiCheckboxComponent } from '../../../shared/trackui/trackui-checkbox/trackui-checkbox.component';
+import { TrackuiControlSegmentComponent } from '../../../shared/trackui/trackui-control-segment/trackui-control-segment.component';
 import { TrackuiDividerComponent } from '../../../shared/trackui/trackui-divider/trackui-divider.component';
-import { TrackuiUploadComponent } from '../../../shared/trackui/trackui-upload/trackui-upload.component';
-import { TrackuiUploadButtonComponent } from '../../../shared/trackui/trackui-upload-button/trackui-upload-button.component';
-import { TrackuiTextareaComponent } from '../../../shared/trackui/trackui-textarea/trackui-textarea.component';
-import { TrackuiSidebarComponent } from '../../../shared/trackui/trackui-sidebar/trackui-sidebar.component';
-import { ITEMS_SIDEBAR_TEST } from '../../../../core/domain/constants/items-sidebar-test.const';
+import { TrackuiDropdownMenuComponent } from '../../../shared/trackui/trackui-dropdown/trackui-dropdown-menu/trackui-dropdown-menu.component';
+import { TrackuiDropdown } from '../../../shared/trackui/trackui-dropdown/trackui-dropdown.directive';
+import { TrackuiMenuItemDirective } from '../../../shared/trackui/trackui-dropdown/trackui-menu-item/trackui-menu-item.directive';
+import { TrackuiEtiquetaComponent } from '../../../shared/trackui/trackui-etiqueta/trackui-etiqueta.component';
+import { TrackUiIconsDirective } from '../../../shared/trackui/trackui-icons/trackui-icons.directive';
+import { TrackuiInputComponent } from '../../../shared/trackui/trackui-input/trackui-input.component';
 import { TrackuiModalComponent } from '../../../shared/trackui/trackui-modal/trackui-modal.component';
-import { TrackuiStepComponent } from '../../../shared/trackui/trackui-ste/trackui-ste.component';
+import { TrackuiOptionSelectComponent } from '../../../shared/trackui/trackui-select/trackui-option-select/trackui-option-select.component';
+import { TrackuiSelectComponent } from '../../../shared/trackui/trackui-select/trackui-select.component';
+import { TrackuiSidebarComponent } from '../../../shared/trackui/trackui-sidebar/trackui-sidebar.component';
 import { ItemStepComponent } from '../../../shared/trackui/trackui-ste/item-ste/item-ste.component';
+import { TrackuiStepComponent } from '../../../shared/trackui/trackui-ste/trackui-ste.component';
+import { TrackuiTabMenuComponent } from '../../../shared/trackui/trackui-tab-menu/trackui-tab-menu.component';
+import { TrackuiTextareaComponent } from '../../../shared/trackui/trackui-textarea/trackui-textarea.component';
+import { TrackuiToggleButton } from '../../../shared/trackui/trackui-toggle-button/trackui-toggle-button.component';
+import { TrackuiUploadButtonComponent } from '../../../shared/trackui/trackui-upload-button/trackui-upload-button.component';
+import { TrackuiUploadComponent } from '../../../shared/trackui/trackui-upload/trackui-upload.component';
+import { ITEMS_SIDEBAR_COURSE_TEST } from './../../../../core/domain/constants/items-sidebar-test.const';
+import { TiposAlerta } from './../../../../core/domain/types/tipos-alerta.type';
+import { SeccionComponent } from './components/seccion-component/seccion.component';
+
 import { FormsModule } from '@angular/forms';
 @Component({
 	selector: 'playground',
@@ -70,6 +69,7 @@ import { FormsModule } from '@angular/forms';
 		TrackuiAccordionComponent,
 		ExpansionPanelComponent,
 		PanelDescriptionComponent,
+		
 		PanelTitleComponent,
 		ExpansionPanelHeaderComponent,
 		PanelItemComponent,
@@ -84,6 +84,7 @@ import { FormsModule } from '@angular/forms';
 		ItemStepComponent,
 		NgIf,
 		FormsModule,
+		
 	],
 	templateUrl: 'playground.component.html',
 	styleUrl: 'playground.component.scss',
@@ -94,6 +95,22 @@ export class PlayGroundPage {
 			console.log('✅ Objeto recibido en el Playground:', valor);
 		});
 	}
+
+	isSidebarOpen = false;
+	sidebarItems = [
+		{ label: 'Inicio', ruta: '/playground', icon: 'home' },
+		{ label: 'Cursos', ruta: '/courses', icon: 'school' },
+		{ label: 'Perfil', ruta: '/profile', icon: 'person' },
+	];
+
+	// Método para abrir/cerrar el sidebar
+	toggleSidebar() {
+		this.isSidebarOpen = !this.isSidebarOpen;
+	}
+
+	closeSidebar() {
+    this.isSidebarOpen = false;
+  }
 
 	tiposEtiquetas: TiposEtiqueta[] = [
 		'primary',
@@ -119,7 +136,6 @@ export class PlayGroundPage {
 		'cuaternary',
 	];
 
-	isSidebarOpen = false;
 	isModalOpen = false;
 
 	readonly opciones = OPCIONES_TABMENU_TEST;

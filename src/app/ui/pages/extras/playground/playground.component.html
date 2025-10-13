@@ -1,10 +1,10 @@
-<trackui-sidebar
-	[isOpen]="isSidebarOpen"
-	titulo="titulo prueba"
-	[cerrar]="cerrarSider"
->
-	<p class="">Hola abelito</p>
+<trackui-sidebar 
+  [isOpen]="isSidebarOpen" 
+  [titulo]="'Mi Sidebar'" 
+  [items]="sidebarItems" 
+  (cerrar)="closeSidebar()">
 </trackui-sidebar>
+
 
 <trackui-modal
 	titulo="Titulo modal"

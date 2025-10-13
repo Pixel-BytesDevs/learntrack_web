@@ -65,4 +65,7 @@ export type TrackuiIcons =
     | 'tres-rayas'
     | 'ubicacion'
     | 'upload'
-    | 'warning';
+    | 'warning'
+    | 'grafo'
+    | 'enlace'
+;

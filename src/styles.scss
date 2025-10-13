@@ -5,3 +5,7 @@
 @forward "styles/clases/index.scss";
 @forward "styles/general/general.scss";
 @forward "styles/atoms/index.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

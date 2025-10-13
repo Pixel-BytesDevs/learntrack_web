@@ -9,12 +9,18 @@ export const routes: Routes = [
 			),
 	},
 	{
-		// cuando inician sesión
-		path: '',
-		loadChildren: () => import('./ui/routes/main.routes').then(
-			(r) => r.MAIN_ROUTES
+		path: 'profesor',
+		loadChildren: () => import('./ui/routes/profesor.routes').then(
+			(r) => r.PROFESOR_ROUTES
 		)
+
 	},
+	// {
+	// 	path: '',
+	// 	loadChildren: () => import('./ui/routes/main.routes').then(
+	// 		(r) => r.MAIN_ROUTES
+	// 	)
+	// },
 	{
 		path: 'auth',
 		loadComponent: () => import('./ui/pages/home/home.component').then(
@@ -23,6 +29,6 @@ export const routes: Routes = [
 	},
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'profesor'
     }
 ];
