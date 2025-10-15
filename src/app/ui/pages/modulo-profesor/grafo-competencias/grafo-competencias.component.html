@@ -1,9 +1,9 @@
 <div class="flex-column gap-md tw-h-full tw-overflow-hidden">
-	<!-- 🔹 Sección superior -->
+	<!-- Sección superior -->
 	<section
 		class="tw-bg-inverse tw-rounded-2xl tw-border tw-border-neutral-5 py-md px-lg tw-shadow-sm tw-flex tw-flex-col lg:tw-flex-row tw-items-start lg:tw-items-center tw-justify-between gap-md tw-transition-all"
 	>
-		<!-- 🧭 Título y descripción -->
+		<!-- Título y descripción -->
 		<div class="tw-flex tw-flex-col gap-xxs tw-flex-1">
 			<h2
 				class="tw-text-2xl tw-font-semibold tw-text-primary-7 tw-tracking-tight tw-leading-snug"
@@ -16,36 +16,38 @@
 			</p>
 		</div>
 
-		<!-- 🔗 Input + botón -->
-		<div
-			class="tw-flex tw-flex-col sm:tw-flex-row gap-xs tw-w-full lg:tw-w-auto tw-flex-shrink-0"
-		>
+		<!-- Input + botón -->
+		@if (estado !== estadoGrafoEnum.GENERADO) {
 			<div
-				class="pr-sm tw-relative tw-w-full sm:tw-w-80 tw-flex tw-items-center tw-border tw-border-neutral-4 tw-rounded-xl tw-bg-neutral-0 hover:tw-border-primary-4 focus-within:tw-border-primary-4 tw-transition-all"
+				class="tw-flex tw-flex-col sm:tw-flex-row gap-xs tw-w-full lg:tw-w-auto tw-flex-shrink-0"
 			>
-				<input
-					type="text"
-					placeholder="https://www.minedu.gob.pe/curriculo..."
-					class="tw-flex-1 tw-bg-transparent tw-outline-none tw-text-sm py-sm pl-md tw-pr-9 tw-text-neutral-9 tw-rounded-xl tw-placeholder-neutral-5"
-					[(ngModel)]="link"
-				/>
-				<span
-					trackuiIcon
-					nombre="enlace"
-					style="font-size: 16px"
-					class="text-subordinary-8"
-				></span>
-			</div>
+				<div
+					class="pr-sm tw-relative tw-w-full sm:tw-w-80 tw-flex tw-items-center tw-border tw-border-neutral-4 tw-rounded-xl tw-bg-neutral-0 hover:tw-border-primary-4 focus-within:tw-border-primary-4 tw-transition-all"
+				>
+					<input
+						type="text"
+						placeholder="https://www.minedu.gob.pe/curriculo..."
+						class="tw-flex-1 tw-bg-transparent tw-outline-none tw-text-sm py-sm pl-md tw-pr-9 tw-text-neutral-9 tw-rounded-xl tw-placeholder-neutral-5"
+						[(ngModel)]="link"
+					/>
+					<span
+						trackuiIcon
+						nombre="enlace"
+						style="font-size: 16px"
+						class="text-subordinary-8"
+					></span>
+				</div>
 
-			<button
-				trackuiButton
-				tipo="primary"
-				(click)="generarGrafo()"
-				class="tw-w-full sm:tw-w-auto"
-			>
-				Generar grafo
-			</button>
-		</div>
+				<button
+					trackuiButton
+					tipo="primary"
+					(click)="generarGrafo()"
+					class="tw-w-full sm:tw-w-auto"
+				>
+					Generar grafo
+				</button>
+			</div>
+		}
 	</section>
 
 	<!-- 🔹 Contenedor del grafo -->
@@ -53,7 +55,7 @@
 		class="tw-rounded-2xl tw-border tw-border-neutral-5 tw-bg-neutral-0 tw-relative tw-shadow-inner tw-overflow-hidden tw-flex-1 tw-min-h-[400px]"
 	>
 		<!-- Estado: vacío -->
-		@if (estado === 'vacio') {
+		@if (estado === estadoGrafoEnum.NOGENERADO) {
 			<div
 				class="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center gap-xs px-md"
 			>
@@ -67,22 +69,14 @@
 		}
 
 		<!-- Estado: cargando -->
-		@if (estado === 'cargando') {
+		@if (estado === estadoGrafoEnum.CARGANDO) {
 			<div
 				class="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-white/70 tw-backdrop-blur-sm gap-sm"
 			>
-				<div
-					class="tw-w-10 tw-h-10 tw-border-4 tw-border-primary-3 tw-border-t-primary-6 tw-rounded-full tw-animate-spin"
-				></div>
-				<p class="tw-text-primary-6 tw-font-medium tw-text-sm tw-animate-pulse">
-					Generando grafo...
-				</p>
+				<trackui-loading />
 			</div>
 		}
-
-		<!-- Estado: listo (mock) -->
-		<!-- Estado: listo (mock) -->
-		@if (estado === 'listo') {
+		@if (estado === estadoGrafoEnum.GENERADO) {
 			<section
 				class="tw-flex-1 tw-h-full tw-min-h-[400px] tw-overflow-hidden tw-rounded-2xl"
 			>
@@ -90,7 +84,7 @@
 				<div
 					class="tw-relative tw-flex-1 tw-h-full tw-min-h-[400px] tw-overflow-hidden"
 				>
-					<app-grafo-temas
+					<grafo-temas
 						class="tw-w-full tw-h-full"
 						[temas]="[
 							{ id: 1, nombre: 'Números naturales' },
@@ -99,7 +93,7 @@
 							{ id: 4, nombre: 'División', prereqs: [3] },
 							{ id: 5, nombre: 'Fracciones', prereqs: [3, 4] },
 						]"
-					></app-grafo-temas>
+					></grafo-temas>
 				</div>
 			</section>
 		}

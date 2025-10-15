@@ -11,7 +11,7 @@ import { DataSet } from 'vis-data';
 import { NgIf } from '@angular/common';
 
 @Component({
-	selector: 'app-grafo-temas',
+	selector: 'grafo-temas',
 	imports: [],
 	template: `
 		<div class="tw-relative tw-w-full tw-h-full">
@@ -50,7 +50,7 @@ export class GrafoTemasComponent implements AfterViewInit, OnDestroy {
 
 	private network?: Network;
 	private resizeObserver?: ResizeObserver;
-  private resizeTimeout?: any;
+	private resizeTimeout?: any;
 
 	ngAfterViewInit() {
 		const nodes = new DataSet(
