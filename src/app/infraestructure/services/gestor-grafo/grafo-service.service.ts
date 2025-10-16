@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { GrafoCompetencia } from "../../../core/domain/interfaces/grafo-compentencia/grafo-compentencia.interface";
+import { Observable } from "rxjs";
 
 
 @Injectable({
@@ -11,8 +12,8 @@ export class GrafoService {
     private http = inject(HttpClient);
 
 
-    getGrafoAlgebra() {
-        this.http.get<GrafoCompetencia>('localhost:8080/grafo')
+    public getGrafoAlgebra(): Observable<GrafoCompetencia> {
+        return this.http.get<GrafoCompetencia>('http://localhost:8080/grafo');
     }
 
 }

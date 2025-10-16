@@ -84,16 +84,12 @@
 				<div
 					class="tw-relative tw-flex-1 tw-h-full tw-min-h-[400px] tw-overflow-hidden"
 				>
-					<grafo-temas
-						class="tw-w-full tw-h-full"
-						[temas]="[
-							{ id: 1, nombre: 'Números naturales' },
-							{ id: 2, nombre: 'Suma y resta', prereqs: [1] },
-							{ id: 3, nombre: 'Multiplicación', prereqs: [1, 2] },
-							{ id: 4, nombre: 'División', prereqs: [3] },
-							{ id: 5, nombre: 'Fracciones', prereqs: [3, 4] },
-						]"
-					></grafo-temas>
+					@if (grafo$ | async; as grafo) {
+						<grafo-temas
+							class="tw-w-full tw-h-full"
+							[temas2]="grafo.temas"
+						></grafo-temas>
+					}
 				</div>
 			</section>
 		}

@@ -3,5 +3,5 @@ export interface Tema {
     nombre: string;
     gradoRecomendado: number;
     nivelDificultad: string;
-    temasRequerido: Tema[];
+    temasRequeridos: Tema[];
 }

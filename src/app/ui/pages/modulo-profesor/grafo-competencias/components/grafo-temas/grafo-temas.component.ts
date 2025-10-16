@@ -9,6 +9,7 @@ import {
 import { Network, Node, Edge } from 'vis-network';
 import { DataSet } from 'vis-data';
 import { NgIf } from '@angular/common';
+import { Tema } from '../../../../../../core/domain/interfaces/grafo-compentencia/tema.interface';
 
 @Component({
 	selector: 'grafo-temas',
@@ -48,15 +49,17 @@ export class GrafoTemasComponent implements AfterViewInit, OnDestroy {
 	@ViewChild('graphContainer') graphContainer!: ElementRef<HTMLDivElement>;
 	@Input() temas: { id: number; nombre: string; prereqs?: number[] }[] = [];
 
+	@Input() temas2: Tema[] = [];
+
 	private network?: Network;
 	private resizeObserver?: ResizeObserver;
 	private resizeTimeout?: any;
 
 	ngAfterViewInit() {
 		const nodes = new DataSet(
-			this.temas.map((t) => ({
-				id: t.id,
-				label: t.nombre,
+			this.temas2.map((t) => ({
+				id: t.temaId,
+				label: `${t.nombre}\n(${t.nivelDificultad})`,
 				color: {
 					background: '#E9F5FF',
 					border: '#0077B6',
@@ -66,14 +69,15 @@ export class GrafoTemasComponent implements AfterViewInit, OnDestroy {
 				shape: 'box',
 				borderWidth: 1.5,
 				shadow: { enabled: true, color: 'rgba(0,0,0,0.05)', size: 5 },
+				title: `Grado recomendado: ${t.gradoRecomendado}`,
 			})),
 		);
 
 		const edges = new DataSet<Edge>(
-			this.temas.flatMap((t) =>
-				(t.prereqs ?? []).map((p) => ({
-					from: p,
-					to: t.id,
+			this.temas2.flatMap((t) =>
+				(t.temasRequeridos ?? []).map((req) => ({
+					from: req.temaId,
+					to: t.temaId,
 					arrows: 'to',
 					color: { color: '#A0AEC0', highlight: '#0077B6' },
 					smooth: { enabled: true, type: 'cubicBezier', roundness: 0.5 },
@@ -82,15 +86,42 @@ export class GrafoTemasComponent implements AfterViewInit, OnDestroy {
 		);
 
 		const options = {
-			layout: { hierarchical: false },
+			layout: {
+				hierarchical: {
+					enabled: true,
+					direction: 'LR',
+					sortMethod: 'directed',
+					levelSeparation: 200,
+					nodeSpacing: 150,
+					treeSpacing: 200,
+				},
+			},
 			physics: {
-				stabilization: true,
-				barnesHut: { gravitationalConstant: -8000, springLength: 120 },
+				enabled: false,
 			},
 			interaction: {
 				hover: true,
 				zoomView: true,
 				dragNodes: true,
+				dragView: true,
+				navigationButtons: true, // agrega botones de navegación
+				keyboard: {
+					enabled: true, // permite moverse con el teclado
+					speed: { x: 10, y: 10, zoom: 0.02 },
+				},
+			},
+			nodes: {
+				shape: 'box',
+				widthConstraint: { minimum: 100, maximum: 200 },
+				color: {
+					background: '#E9F5FF',
+					border: '#0077B6',
+					highlight: { background: '#0077B6', border: '#023E8A' },
+				},
+			},
+			edges: {
+				arrows: 'to',
+				color: { color: '#A0AEC0', highlight: '#0077B6' },
 			},
 		};
 
@@ -99,18 +130,18 @@ export class GrafoTemasComponent implements AfterViewInit, OnDestroy {
 			{ nodes, edges },
 			options,
 		);
-
-		// 👇 Observa los cambios de tamaño del contenedor
+		this.network.fit({
+			animation: { duration: 1000, easingFunction: 'easeInOutQuad' },
+		});
 		this.resizeObserver = new ResizeObserver(() => {
 			this.network?.redraw();
 		});
-
 		this.resizeObserver.observe(this.graphContainer.nativeElement);
 
 		this.network.on('click', (params) => {
 			if (params.nodes.length > 0) {
 				const clickedId = params.nodes[0];
-				const tema = this.temas.find((t) => t.id === clickedId);
+				const tema = this.temas2.find((t) => t.temaId === clickedId);
 				console.log('Tema seleccionado:', tema);
 			}
 		});
