@@ -36,6 +36,9 @@ export class GrafoCompetenciasComponent implements OnInit{
 
 	ngOnInit(): void {
 		this.grafo$ = this.grafoService.getGrafoAlgebra();
+		if(this.grafo$){
+			this.estado = EstadoGrafoEnum.GENERADO;
+		}
 	}
 
 	generarGrafo() {

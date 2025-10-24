@@ -1,8 +1,14 @@
 <main class="p-sm flex-column gap-sm h100-screen">
 	<header-profesor />
 
+	<button (click)="abrirMenu()">Menu</button>
+
 	<section class="flex gap-sm h100">
-		<sidebar-app></sidebar-app>
+		<sidebar-app
+			class="sidebar-container"
+			[isMobile]="isMobile()"
+			[isOpenMenu]="isOpenMenu()"
+		></sidebar-app>
 
 		<!-- Contenedor del contenido principal -->
 		<section class="expanded br-sm">

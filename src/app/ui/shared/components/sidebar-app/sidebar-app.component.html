@@ -1,11 +1,18 @@
 <aside
 	class="sidebar-app br-sm border-cuaternary-2 background-cuaternary-0 p-sm h100"
-	[class.expanded]="isExpanded()"
+	[ngClass]="{
+		expanded: isExpanded() && !isMobile(),
+		'mobile-open': isMobile() && isOpenMenu(),
+		'mobile-close': isMobile() && !isOpenMenu(),
+	}"
 >
 	<!-- Botón collapse -->
 	<button
 		class="btn-collapse flex items-center br-50 background-tertiary-5 p-xxxs tw-shadow-md"
 		(click)="colapsar()"
+		[ngClass]="{
+			'btn-collapse-hidden': isMobile() && isOpenMenu(),
+		}"
 	>
 		<span
 			class="text-inverse transition-transform"
@@ -18,21 +25,13 @@
 
 	<section class="flex-column gap-xs">
 		<item-sidebar-app
-
-            class="w100"
+			*ngFor="let item of sidebarItems"
+			class="w100"
 			[isExpanded]="isExpanded()"
-            ruta = ""
-			nombreIcon="home"
-			label="Dashboard"
-            [(controlItem)]="controlOpcionSeleccionada"
-		/>
-		<item-sidebar-app
-            class="w100"
-			[isExpanded]="isExpanded()"
-            ruta = "grafo"
-			nombreIcon="grafo"
-			label="Grafo"
-            [(controlItem)]="controlOpcionSeleccionada"
+			[nombreIcon]="item.icon"
+			[label]="item.label"
+			[ruta]="item.route"
+			[(controlItem)]="controlOpcionSeleccionada"
 		/>
 	</section>
 </aside>

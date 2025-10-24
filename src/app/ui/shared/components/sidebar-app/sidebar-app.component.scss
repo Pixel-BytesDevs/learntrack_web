@@ -1,32 +1,47 @@
 .sidebar-app {
-  position: relative;
-  height: 100%;
-  transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: 200px;
+	position: relative;
+	height: 100%;
+	transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+	width: 200px;
 
-  &.expanded {
-    width: 250px;
-  }
+	&.expanded {
+		width: 250px;
+	}
 
-  &:not(.expanded) {
-    width: 72px;
-  }
+	&:not(.expanded) {
+		width: 72px;
+	}
+
+	&.mobile-close {
+		display: none;
+	}
+
+	&.mobile-open {
+		position: fixed;
+		width: 100%;
+		height: 100vh;
+		z-index: 999;
+	}
 }
 
 .btn-collapse {
-  position: absolute;
-  top: 16px;
-  right: -12px;
+	position: absolute;
+	top: 16px;
+	right: -12px;
+
+  &.btn-collapse-hidden{
+    display: none;
+  }
 }
 
 .btn-collpse__icon {
-    transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 
 .max-estiramiento {
-    width: 200px;
+	width: 200px;
 }
 
 .min-estiramiento {
-    width: 50px;
+	width: 50px;
 }
