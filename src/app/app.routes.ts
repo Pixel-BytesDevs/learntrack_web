@@ -13,7 +13,12 @@ export const routes: Routes = [
 		loadChildren: () => import('./ui/routes/profesor.routes').then(
 			(r) => r.PROFESOR_ROUTES
 		)
-
+	},
+	{
+		path: 'alumno',
+		loadChildren: () => import('./ui/routes/alumno.routes').then(
+			(r) => r.ALUMNO_ROUTES
+		)
 	},
 	// {
 	// 	path: '',

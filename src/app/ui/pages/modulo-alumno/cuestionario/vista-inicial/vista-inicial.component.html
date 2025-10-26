@@ -1,0 +1,92 @@
+<main class="tw-flex tw-flex-col tw-items-center tw-px-6 tw-py-4">
+	<!-- Vista Inicial: Imagen y botón para comenzar diagnóstico -->
+	<div class="tw-flex tw-flex-col tw-items-center tw-gap-4">
+		<img
+			src="/images/diagnostico.jpg"
+			alt="Diagnóstico"
+			class="tw-w-64 tw-h-48 tw-object-contain"
+		/>
+		<h1 class="tw-font-extrabold tw-text-3xl tw-text-primary-7">
+			Diagnóstico Inicial
+		</h1>
+		<p class="tw-text-base tw-text-center tw-mt-4 text-primary-1">
+			Ayúdanos a conocerte mejor para personalizar tu aprendizaje
+		</p>
+	</div>
+
+	<!-- Bloques informativos (Duración y Protecciones) -->
+	<div class="tw-grid tw-gap-6 md:tw-grid-cols-3 tw-mt-8">
+		<div
+			class="tw-rounded-2xl tw-bg-primary-0 tw-border tw-border-primary-1 tw-p-5 tw-flex tw-gap-4 tw-shadow-sm"
+		>
+			<i class="bi bi-clock tw-text-primary-6 tw-text-xl"></i>
+
+			<div class="flex gap-xs">
+				<span
+					trackuiIcon
+					nombre="nivel-intermedio"
+					style="font-size: 40px"
+				></span>
+				<div class="">
+					<span class="tw-block tw-text-primary-8 tw-font-semibold"
+						>Evaluaremos tu nivel actual</span
+					>
+					<p class="tw-text-neutral-6 tw-text-sm">
+						Pequeñas actividades para evaluar tu punto de partida
+					</p>
+				</div>
+			</div>
+		</div>
+		<div
+			class="tw-rounded-2xl tw-bg-primary-0 tw-border tw-border-primary-1 tw-p-5 tw-flex tw-gap-4 tw-shadow-sm"
+		>
+			<i class="bi bi-clock text-primary-6 tw-text-xl"></i>
+
+			<div class="flex gap-xs">
+				<span
+					trackuiIcon
+					nombre="nivel-intermedio"
+					style="font-size: 40px"
+				></span>
+				<div class="">
+					<span class="tw-block tw-text-primary-8 tw-font-semibold"
+						>Identificaremos tu estilo de aprendizaje</span
+					>
+					<p class="tw-text-neutral-6 tw-text-sm">
+						Cuestionario corto y sin respuestas correctas o incorrectas
+					</p>
+				</div>
+			</div>
+		</div>
+		<div
+			class="tw-rounded-2xl tw-bg-primary-0 tw-border tw-border-primary-1 tw-p-5 tw-flex tw-gap-4 tw-shadow-sm"
+		>
+			<i class="bi bi-clock tw-text-primary-6 tw-text-xl"></i>
+
+			<div class="flex gap-xs">
+				<span
+					trackuiIcon
+					nombre="grafo"
+					style="font-size: 40px"
+				></span>
+				<div class="">
+					<span class="tw-block tw-text-primary-8 tw-font-semibold"
+						>Creamos tu ruta personalizada</span
+					>
+					<p class="tw-text-neutral-6 tw-text-sm">
+						Un plan a tu medida para avanzar con confianza
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- Botón para comenzar todo -->
+		<button
+			trackuiButton tipo="primary"
+			class="tw-mt-6"
+			(click)="startDiagnostico()"
+		>
+			Comenzar Diagnóstico
+		</button>
+</main>

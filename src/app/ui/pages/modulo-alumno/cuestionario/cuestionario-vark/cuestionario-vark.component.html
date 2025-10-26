@@ -1,0 +1,111 @@
+<main class="tw-w-full tw-max-w-3xl tw-mx-auto tw-px-4 tw-py-6">
+	<!-- Progreso -->
+	<div class="tw-flex tw-items-center tw-gap-3 tw-w-full tw-mb-8">
+		<span class="tw-text-base tw-font-semibold text-primary-7">
+			Diagnóstico: {{ progress }}%
+		</span>
+		<div class="tw-relative tw-w-full tw-h-2 tw-rounded-full tw-bg-neutral-2">
+			<div
+				class="tw-absolute tw-h-full tw-rounded-full tw-bg-primary-7"
+				[style.width.%]="progress"
+			></div>
+		</div>
+		<span class="tw-text-sm text-neutral-6"
+			>{{ answeredCount }}/{{ total }} respondidas</span
+		>
+	</div>
+
+	<!-- Título -->
+	<div class="tw-w-full tw-mb-4">
+		<h2 class="tw-text-2xl tw-font-extrabold text-primary-8">
+			Cuestionario VARK
+		</h2>
+		<p class="text-base text-neutral-8">
+			Selecciona una o más alternativas que te representen.
+		</p>
+	</div>
+
+	<!-- Pregunta -->
+	<div *ngIf="currentQuestion as q" class="tw-w-full tw-mb-6">
+		<div
+			class="tw-bg-inverse tw-p-6 tw-rounded-2xl tw-shadow-md tw-border tw-border-neutral-3"
+		>
+			<h3 class="text-primary-8 tw-font-semibold tw-text-xl tw-mb-5">
+				{{ q.preguntaId }}. {{ q.sentencia }}
+			</h3>
+
+			<!-- Alternativas (multi-select) -->
+			<div class="tw-grid tw-gap-3">
+				<label
+					*ngFor="let alt of q.alternativas"
+					class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-rounded-xl tw-border tw-border-neutral-4 tw-bg-inverse tw-px-4 tw-py-3 tw-shadow-sm hover:tw-border-primary-4 hover:tw-bg-primary-0 tw-transition"
+					[ngClass]="{
+						'tw-border-primary-5 tw-bg-primary-0': isChecked(q.preguntaId, alt.alternativaId),
+					}"
+					(keydown.enter)="toggleAlt(q.preguntaId, alt.alternativaId, !isChecked(q.preguntaId, alt.alternativaId))"
+					(keydown.space)="toggleAlt(q.preguntaId, alt.alternativaId, !isChecked(q.preguntaId, alt.alternativaId))"
+					role="checkbox"
+					[attr.aria-checked]="isChecked(q.preguntaId, alt.alternativaId)"
+					tabindex="0"
+				>
+					<div class="tw-flex tw-items-center tw-gap-3 tw-w-full">
+						<input
+							type="checkbox"
+							[checked]="isChecked(q.preguntaId, alt.alternativaId)"
+							(change)="onAltChange(q.preguntaId, alt.alternativaId, $event)"
+						/>
+						<span class="text-neutral-9">{{ alt.alternativa }}</span>
+					</div>
+					<i
+						class="bi bi-check2-circle tw-text-primary-6 tw-text-lg"
+						*ngIf="isChecked(q.preguntaId, alt.alternativaId)"
+					></i>
+				</label>
+			</div>
+
+			<p class="tw-text-sm text-neutral-5 tw-mt-3">
+				No hay respuestas correctas o incorrectas.
+			</p>
+		</div>
+	</div>
+
+	<!-- Botonera -->
+	<div class="tw-sticky tw-bottom-4 tw-bg-transparent">
+		<div class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-mt-6">
+			<button
+				trackuiButton
+				tipo="outlined"
+				(click)="previousQuestion()"
+				[disabled]="currentQuestion?.preguntaId === firstId"
+			>
+				Anterior
+			</button>
+
+			<div class="tw-flex tw-items-center tw-gap-3">
+				<button trackuiButton tipo="outlined" (click)="saveAndExit()">
+					Guardar y continuar luego
+				</button>
+
+				<button
+					trackuiButton
+					tipo="primary"
+					*ngIf="!isLastQuestion"
+					(click)="nextQuestion()"
+					[disabled]="!hasSelection(currentQuestion?.preguntaId)"
+				>
+					Siguiente
+				</button>
+
+				<button
+					trackuiButton
+					tipo="primary"
+					*ngIf="isLastQuestion"
+					(click)="submitCuestionario()"
+					[disabled]="!isComplete"
+				>
+					Enviar respuestas
+				</button>
+			</div>
+		</div>
+	</div>
+</main>
