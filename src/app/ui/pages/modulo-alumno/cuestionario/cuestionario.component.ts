@@ -15,14 +15,19 @@ export class CuestionarioComponent implements OnInit {
 	isProgressVisible = true; // Barra de progreso visible
 	progress = 0; // Porcentaje de progreso
 
-	constructor(private router: Router, private storageSesion: SessionStorage) {}
+	constructor(
+		private router: Router,
+		private storageSesion: SessionStorage,
+	) {}
 
 	ngOnInit(): void {
 		// Ejemplo de lógica para manejar el progreso
-    var progressInSession = this.storageSesion.get(KEYS_STORAGE.progresoGeneral);
-    if(progressInSession){
-      this.progress = progressInSession;
-    }
+		var progressInSession = this.storageSesion.get(
+			KEYS_STORAGE.progresoGeneral,
+		);
+		if (progressInSession) {
+			this.progress = progressInSession;
+		}
 
 		this.router.events.subscribe((event) => {
 			// Lógica para actualizar el progreso según el enrutamiento
@@ -38,7 +43,7 @@ export class CuestionarioComponent implements OnInit {
 	// Método para cambiar el progreso
 	updateProgress(progress: number): void {
 		this.progress = progress;
-    this.storageSesion.save(KEYS_STORAGE.progresoGeneral,progress);
+		this.storageSesion.save(KEYS_STORAGE.progresoGeneral, progress);
 	}
 
 	// Método para abrir/cerrar el dropdown del usuario
