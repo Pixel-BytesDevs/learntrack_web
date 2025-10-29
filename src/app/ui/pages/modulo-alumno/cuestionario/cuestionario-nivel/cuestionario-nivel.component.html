@@ -1,1 +1,90 @@
-<p>cuestionario-nivel works!</p>
+<main class="tw-w-full tw-max-w-3xl tw-mx-auto tw-px-4 tw-py-6">
+	<!-- Progreso -->
+	<div class="tw-flex tw-items-center tw-gap-3 tw-w-full tw-mb-8">
+		<span class="tw-text-base tw-font-semibold text-primary-7"
+			>Progreso: {{ progress }}%</span
+		>
+		<div class="tw-relative tw-w-full tw-h-2 tw-rounded-full tw-bg-neutral-2">
+			<div
+				class="tw-absolute tw-h-full tw-rounded-full tw-bg-primary-7"
+				[style.width.%]="progress"
+			></div>
+		</div>
+		<span class="tw-text-sm text-neutral-6">{{ answered }}/{{ total }}</span>
+	</div>
+
+	<!-- Pregunta -->
+	<div *ngIf="current as q" class="tw-w-full tw-mb-6">
+		<div
+			class="tw-bg-inverse tw-p-6 tw-rounded-2xl tw-shadow-md tw-border tw-border-neutral-3"
+		>
+			<h3 class="text-primary-8 tw-font-semibold tw-text-xl tw-mb-4">
+				{{ q.id }}. {{ q.sentence }}
+			</h3>
+			<div [katex]="q.latex"></div>
+
+			<!-- Alternativas (respuesta única) -->
+			<div class="tw-grid tw-gap-3 tw-mt-5">
+				<label
+					*ngFor="let alt of q.alternatives"
+					class="tw-flex tw-items-center tw-gap-3 tw-rounded-xl tw-border tw-border-neutral-4 tw-bg-inverse tw-px-4 tw-py-3 tw-shadow-sm hover:tw-border-primary-4 hover:tw-bg-primary-0 tw-transition"
+					[ngClass]="{
+						'tw-border-primary-5 tw-bg-primary-0': isSelected(q.id, alt.id),
+					}"
+				>
+					<input
+						type="radio"
+						name="q{{ q.id }}"
+						[value]="alt.id"
+						[checked]="isSelected(q.id, alt.id)"
+						(change)="selectAlt(q.id, alt.id)"
+					/>
+					<div>
+						<span *ngIf="alt.sentence">{{ alt.sentence }}</span>
+						<div
+							*ngIf="alt.latex"
+							[katex]="alt.latex"
+							[displayMode]="false"
+						></div>
+					</div>
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<!-- Botones -->
+	<div class="tw-sticky tw-bottom-4 tw-bg-transparent">
+		<div class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-mt-6">
+			<button
+				trackuiButton
+				tipo="outlined"
+				(click)="previous()"
+				[disabled]="currentIndex === 0"
+			>
+				Anterior
+			</button>
+
+			<div class="tw-flex tw-items-center tw-gap-3">
+				<button
+					trackuiButton
+					tipo="primary"
+					*ngIf="!isLast"
+					(click)="next()"
+					[disabled]="!selectedAnswers[current?.id ?? 0]"
+				>
+					Siguiente
+				</button>
+
+				<button
+					trackuiButton
+					tipo="primary"
+					*ngIf="isLast"
+					(click)="submit()"
+					[disabled]="!isComplete"
+				>
+					Enviar
+				</button>
+			</div>
+		</div>
+	</div>
+</main>
