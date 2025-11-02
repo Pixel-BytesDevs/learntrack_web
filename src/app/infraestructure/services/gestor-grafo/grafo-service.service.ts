@@ -13,7 +13,7 @@ export class GrafoService {
 
 
     public getGrafoAlgebra(): Observable<GrafoCompetencia> {
-        return this.http.get<GrafoCompetencia>('http://localhost:8080/grafo');
+        return this.http.get<GrafoCompetencia>('http://localhost:8090/grafo');
     }
 
 }

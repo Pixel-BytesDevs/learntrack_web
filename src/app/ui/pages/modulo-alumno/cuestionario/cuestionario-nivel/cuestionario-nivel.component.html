@@ -1,90 +1,147 @@
-<main class="tw-w-full tw-max-w-3xl tw-mx-auto tw-px-4 tw-py-6">
-	<!-- Progreso -->
-	<div class="tw-flex tw-items-center tw-gap-3 tw-w-full tw-mb-8">
-		<span class="tw-text-base tw-font-semibold text-primary-7"
-			>Progreso: {{ progress }}%</span
-		>
-		<div class="tw-relative tw-w-full tw-h-2 tw-rounded-full tw-bg-neutral-2">
+<main class="tw-w-full tw-max-w-3xl tw-mx-auto tw-px-4 tw-py-6 tw-space-y-8">
+	<!-- Estado de carga -->
+	<ng-container *ngIf="loading$ | async; else contentBlock">
+		<div class="tw-text-center tw-py-16 tw-text-neutral-5">
 			<div
-				class="tw-absolute tw-h-full tw-rounded-full tw-bg-primary-7"
-				[style.width.%]="progress"
+				class="tw-w-10 tw-h-10 tw-border-4 tw-border-primary-5 tw-border-t-transparent tw-rounded-full tw-animate-spin tw-mx-auto mb-3"
 			></div>
+			<p>Cargando cuestionario...</p>
 		</div>
-		<span class="tw-text-sm text-neutral-6">{{ answered }}/{{ total }}</span>
-	</div>
+	</ng-container>
 
-	<!-- Pregunta -->
-	<div *ngIf="current as q" class="tw-w-full tw-mb-6">
-		<div
-			class="tw-bg-inverse tw-p-6 tw-rounded-2xl tw-shadow-md tw-border tw-border-neutral-3"
-		>
-			<h3 class="text-primary-8 tw-font-semibold tw-text-xl tw-mb-4">
-				{{ q.id }}. {{ q.sentence }}
-			</h3>
-			<div [katex]="q.latex"></div>
-
-			<!-- Alternativas (respuesta única) -->
-			<div class="tw-grid tw-gap-3 tw-mt-5">
-				<label
-					*ngFor="let alt of q.alternatives"
-					class="tw-flex tw-items-center tw-gap-3 tw-rounded-xl tw-border tw-border-neutral-4 tw-bg-inverse tw-px-4 tw-py-3 tw-shadow-sm hover:tw-border-primary-4 hover:tw-bg-primary-0 tw-transition"
-					[ngClass]="{
-						'tw-border-primary-5 tw-bg-primary-0': isSelected(q.id, alt.id),
-					}"
+	<ng-template #contentBlock>
+		<!-- Contenido principal reactivo -->
+		<ng-container *ngIf="questions$ | async as questions; else emptyBlock">
+			<!-- Progreso -->
+			<div class="tw-flex tw-items-center tw-gap-3 tw-w-full">
+				<span class="tw-text-base tw-font-semibold tw-text-primary-7">
+					Progreso: {{ progress }}%
+				</span>
+				<div
+					class="tw-relative tw-w-full tw-h-2 tw-rounded-full tw-bg-neutral-2"
 				>
-					<input
-						type="radio"
-						name="q{{ q.id }}"
-						[value]="alt.id"
-						[checked]="isSelected(q.id, alt.id)"
-						(change)="selectAlt(q.id, alt.id)"
-					/>
-					<div>
-						<span *ngIf="alt.sentence">{{ alt.sentence }}</span>
-						<div
-							*ngIf="alt.latex"
-							[katex]="alt.latex"
-							[displayMode]="false"
-						></div>
+					<div
+						class="tw-absolute tw-h-full tw-rounded-full tw-bg-primary-7 tw-transition-all tw-duration-300"
+						[style.width.%]="progress"
+					></div>
+				</div>
+				<span class="tw-text-sm tw-text-neutral-6"
+					>{{ answered }}/{{ total }}</span
+				>
+			</div>
+
+			@if (questions.length > 0) {
+				@let q = current;
+				@if (q) {
+					<div
+						class="tw-bg-inverse tw-p-6 tw-rounded-2xl tw-shadow-md tw-border tw-border-neutral-3"
+					>
+						<h3 class="tw-text-primary-8 tw-font-semibold tw-text-xl tw-mb-4">
+							{{ q.id }}. {{ q.sentence }}
+						</h3>
+
+						<!-- Expresión matemática -->
+						@if (q.expressionLatex) {
+							<div [katex]="q.expressionLatex"></div>
+						}
+
+						<!-- Alternativas -->
+						<div class="tw-grid tw-gap-3 tw-mt-5">
+							@for (alt of q.alternatives; track alt.id) {
+								<label
+									class="tw-flex tw-items-center tw-gap-3 tw-rounded-xl tw-border tw-border-neutral-4 tw-bg-inverse tw-px-4 tw-py-3 tw-shadow-sm tw-cursor-pointer tw-transition hover:tw-border-primary-4 hover:tw-bg-primary-0"
+									[ngClass]="{
+										'tw-border-primary-5 tw-bg-primary-0': isSelected(
+											q.id,
+											alt.id
+										),
+									}"
+								>
+									<input
+										type="radio"
+										class="tw-hidden"
+										name="q{{ q.id }}"
+										[value]="alt.id"
+										[checked]="isSelected(q.id, alt.id)"
+										(change)="selectAlt(q.id, alt.id)"
+									/>
+
+									<div class="tw-flex tw-items-center tw-gap-3">
+										<div
+											class="tw-w-4 tw-h-4 tw-rounded-full tw-border tw-border-neutral-5 tw-flex tw-items-center tw-justify-center"
+											[ngClass]="{
+												'tw-border-primary-6 tw-bg-primary-6': isSelected(
+													q.id,
+													alt.id
+												),
+											}"
+										>
+											@if (isSelected(q.id, alt.id)) {
+												<div
+													class="tw-w-2 tw-h-2 tw-bg-white tw-rounded-full"
+												></div>
+											}
+										</div>
+										<div class="tw-flex tw-flex-col">
+											@if (alt.sentence) {
+												<span>{{ alt.sentence }}</span>
+											}
+											@if (alt.latex) {
+												<div [katex]="alt.latex"></div>
+											}
+										</div>
+									</div>
+								</label>
+							}
+						</div>
 					</div>
-				</label>
-			</div>
-		</div>
-	</div>
+				}
+			}
 
-	<!-- Botones -->
-	<div class="tw-sticky tw-bottom-4 tw-bg-transparent">
-		<div class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-mt-6">
-			<button
-				trackuiButton
-				tipo="outlined"
-				(click)="previous()"
-				[disabled]="currentIndex === 0"
+			<!-- Navegación -->
+			<div
+				class="tw-sticky tw-bottom-4 tw-bg-inverse/70 tw-backdrop-blur-md tw-rounded-2xl tw-p-3 tw-shadow-md"
 			>
-				Anterior
-			</button>
+				<div class="tw-flex tw-items-center tw-justify-between tw-gap-3">
+					<button
+						trackuiButton
+						tipo="outlined"
+						(click)="previous()"
+						[disabled]="currentIndex === 0"
+					>
+						Anterior
+					</button>
 
-			<div class="tw-flex tw-items-center tw-gap-3">
-				<button
-					trackuiButton
-					tipo="primary"
-					*ngIf="!isLast"
-					(click)="next()"
-					[disabled]="!selectedAnswers[current?.id ?? 0]"
-				>
-					Siguiente
-				</button>
+					<div class="tw-flex tw-items-center tw-gap-3">
+						<button
+							trackuiButton
+							tipo="primary"
+							*ngIf="!isLast"
+							(click)="next()"
+							[disabled]="!selectedAnswers[current?.id ?? 0]"
+						>
+							Siguiente
+						</button>
 
-				<button
-					trackuiButton
-					tipo="primary"
-					*ngIf="isLast"
-					(click)="submit()"
-					[disabled]="!isComplete"
-				>
-					Enviar
-				</button>
+						<button
+							trackuiButton
+							tipo="primary"
+							*ngIf="isLast"
+							(click)="submit()"
+							[disabled]="!isComplete"
+						>
+							Enviar
+						</button>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
+		</ng-container>
+
+		<!-- Bloque vacío -->
+		<ng-template #emptyBlock>
+			<div class="tw-text-center tw-py-20 tw-text-neutral-5">
+				<p>No se encontraron preguntas para este cuestionario.</p>
+			</div>
+		</ng-template>
+	</ng-template>
 </main>

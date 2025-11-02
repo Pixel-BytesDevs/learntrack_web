@@ -4,6 +4,7 @@ export const Services = Object.freeze({
     },
     moduloAlumno: {
         cuestionarioUrl: 'http://localhost:8094/preguntas',
-        insertCuestionarioIrl: 'http://localhost:8094/cuestionarios/respuestas?reemplazar=true'
+        insertCuestionarioIrl: 'http://localhost:8094/cuestionarios/respuestas?reemplazar=true',
+        cuestionarioNivel: 'http://localhost:8094/placement',
     }
 })

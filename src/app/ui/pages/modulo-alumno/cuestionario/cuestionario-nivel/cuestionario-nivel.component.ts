@@ -1,61 +1,57 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TrackuiButtonDirective } from '../../../../shared/trackui/trackui-button/trackui-button.directive';
 import { QuestionPlacement } from '../../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/question.dto';
 import { KatexDirective } from '../../../../shared/directiva/katex.directive';
+import { CuestionarioNivelService } from '../../../../../infraestructure/services/modulo-alumno/cuestionario-nivel/cuestionario-nivel.service';
+import { filter, Observable, Subject, tap } from 'rxjs';
 
 @Component({
 	selector: 'cuestionario-nivel',
 	imports: [
 		NgIf,
-		NgFor,
 		NgClass,
 		FormsModule,
 		TrackuiButtonDirective,
 		KatexDirective,
+		AsyncPipe,
 	],
 	templateUrl: './cuestionario-nivel.component.html',
 	styleUrl: './cuestionario-nivel.component.scss',
 })
-export class CuestionarioNivelComponent {
+export class CuestionarioNivelComponent implements OnInit, OnDestroy {
 	questions: QuestionPlacement[] = [];
 	currentIndex = 0;
 	selectedAnswers: Record<number, number> = {}; // respuesta única por pregunta
 	progress = 0;
 	isLast = false;
 
+	questions$!: Observable<QuestionPlacement[]>;
+	loading$!: Observable<boolean>;
+
+	private placementService = inject(CuestionarioNivelService);
+	private destroy$ = new Subject<void>();
+
 	ngOnInit(): void {
-		this.loadMockQuestions();
-		this.updateProgress();
+		this.questions$ = this.placementService.questions$;
+
+		this.loading$ = this.placementService.loading$;
+
+		this.questions$
+			.pipe(
+				filter((qs) => !!qs && qs.length > 0),
+				tap((qs) => {
+					this.questions = qs;
+					this.updateProgress();
+				}),
+			)
+			.subscribe();
+
+		this.placementService.getPlacementTest();
 	}
 
-	loadMockQuestions(): void {
-		this.questions = [
-			{
-				id: 1,
-				sentence: '¿Cuál es el resultado de la siguiente expresión?',
-				expressionLatex: '\\frac{1}{2} + \\frac{1}{3}',
-				alternatives: [
-					{ id: 1, sentence: '0.5', latex: '', isCorrect: false },
-					{ id: 2, sentence: '0.83', latex: '', isCorrect: true },
-					{ id: 3, sentence: '1.2', latex: '', isCorrect: false },
-					{ id: 4, sentence: '2', latex: '', isCorrect: false },
-				],
-			},
-			{
-				id: 2,
-				sentence: 'Selecciona la derivada de:',
-				expressionLatex: 'f(x) = x^2 + 3x',
-				alternatives: [
-					{ id: 1, sentence: '', latex: '2x + 3', isCorrect: true },
-					{ id: 2, sentence: '', latex: 'x^2 + 3', isCorrect: false },
-					{ id: 3, sentence: '', latex: '2x^2 + 3x', isCorrect: false },
-					{ id: 4, sentence: '', latex: 'x + 3', isCorrect: false },
-				],
-			},
-		];
-	}
+	loadMockQuestions(): void {}
 
 	get current(): QuestionPlacement | null {
 		return this.questions[this.currentIndex] ?? null;
@@ -107,5 +103,10 @@ export class CuestionarioNivelComponent {
 	submit(): void {
 		console.log('Respuestas:', this.selectedAnswers);
 		// Aquí puedes enviar las respuestas a tu backend
+	}
+
+	ngOnDestroy(): void {
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 }
