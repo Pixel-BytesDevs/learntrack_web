@@ -14,27 +14,28 @@ export class KatexDirective {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		const el = this.host.nativeElement;
-		el.innerHTML = '';
+		el.innerHTML = ''; // Limpiar el contenido antes de renderizar
 
 		if (!this.expr || !this.expr.trim()) return;
 
-		// Detectar si realmente contiene sintaxis LaTeX
-		const hasLatexSyntax = this.isLatexExpression(this.expr);
+		// Detectar si la expresión es LaTeX o texto plano
+		const isLatex = this.isLatexExpression(this.expr);
 
 		try {
-			if (hasLatexSyntax) {
+			if (isLatex) {
 				// Renderizar con KaTeX solo si tiene sintaxis LaTeX
 				katex.render(this.expr, el, {
 					displayMode: this.displayMode,
 					throwOnError: this.throwOnError,
 					errorColor: this.errorColor,
-					strict: 'warn',
+					strict: 'warn', // Puedes ajustarlo según tu necesidad
 				});
 			} else {
-				// Mostrar texto plano con formato legible
-				el.textContent = this.formatPlainText(this.expr);
+				// Si no es LaTeX, solo mostrar el texto respetando los espacios
+				el.textContent = this.expr; // Aquí no procesamos el texto como LaTeX
 			}
 		} catch (e) {
+			// Si ocurre un error, mostrar el texto tal como está
 			el.textContent = this.expr ?? '';
 		}
 	}
@@ -43,6 +44,10 @@ export class KatexDirective {
 	 * Detecta si la expresión parece contener código LaTeX.
 	 */
 	private isLatexExpression(expr: string): boolean {
+		// Agregar verificación para los delimitadores \(
+		if (expr.startsWith('\\(') && expr.endsWith('\\)')) {
+			return true;
+		}
 		const latexIndicators = [
 			/\\frac/,
 			/\\sum/,
@@ -60,18 +65,11 @@ export class KatexDirective {
 			/\\cdot/,
 			/\\times/,
 			/\\overline/,
+			/\\mathbb{.*}/,
+			/\\text{.*}/,
+			/\\neq/,
+			/\\quad/,
 		];
 		return latexIndicators.some((pattern) => pattern.test(expr));
-	}
-
-	/**
-	 * Mejora legibilidad del texto plano (por ejemplo, agrega espacios entre números y operadores).
-	 */
-	private formatPlainText(text: string): string {
-		return text
-			.replace(/([0-9])([+\-*/=<>])/g, '$1 $2 ') // separa número y operador
-			.replace(/([+\-*/=<>])([0-9])/g, '$1 $2') // separa operador y número
-			.replace(/\s{2,}/g, ' ') // normaliza espacios
-			.trim();
 	}
 }

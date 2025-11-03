@@ -36,9 +36,9 @@
 					<div
 						class="tw-bg-inverse tw-p-6 tw-rounded-2xl tw-shadow-md tw-border tw-border-neutral-3"
 					>
-						<h3 class="tw-text-primary-8 tw-font-semibold tw-text-xl tw-mb-4">
-							{{ q.id }}. {{ q.sentence }}
-						</h3>
+						<div [katex]="q.sentence">
+						
+						</div>
 
 						<!-- Expresión matemática -->
 						@if (q.expressionLatex) {
