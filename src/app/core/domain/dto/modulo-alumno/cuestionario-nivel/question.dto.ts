@@ -1,11 +1,11 @@
+import { IdLabel } from '../../../interfaces/base/id-label.interface';
 import { AlternativePlacement } from './alternative-placement.dto';
 
 export interface QuestionPlacement {
 	id: number;
-	difficulty?: string;
+	difficulty: IdLabel<number>;
 	topicId?: string;
-	sentence: string;
-	grade?: number;
-	expressionLatex: string;
+	timeTakenInSeconds: number;
+	statement: string;
 	alternatives: AlternativePlacement[];
 }

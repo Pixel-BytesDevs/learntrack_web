@@ -5,7 +5,8 @@ import { TrackuiButtonDirective } from '../../../../shared/trackui/trackui-butto
 import { QuestionPlacement } from '../../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/question.dto';
 import { KatexDirective } from '../../../../shared/directiva/katex.directive';
 import { CuestionarioNivelService } from '../../../../../infraestructure/services/modulo-alumno/cuestionario-nivel/cuestionario-nivel.service';
-import { filter, Observable, Subject, tap } from 'rxjs';
+import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { PlacementResponse } from '../../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/placement.dto';
 
 @Component({
 	selector: 'cuestionario-nivel',
@@ -21,58 +22,61 @@ import { filter, Observable, Subject, tap } from 'rxjs';
 	styleUrl: './cuestionario-nivel.component.scss',
 })
 export class CuestionarioNivelComponent implements OnInit, OnDestroy {
-	questions: QuestionPlacement[] = [];
+	private destroy$ = new Subject<void>();
+	private service = inject(CuestionarioNivelService);
+
+	test$ = this.service.questions$;
+	loading$ = this.service.loading$;
+
+	test: PlacementResponse | null = null;
 	currentIndex = 0;
-	selectedAnswers: Record<number, number> = {}; // respuesta única por pregunta
+	selectedAnswers: Record<number, number> = {};
 	progress = 0;
 	isLast = false;
 
-	questions$!: Observable<QuestionPlacement[]>;
-	loading$!: Observable<boolean>;
-
-	private placementService = inject(CuestionarioNivelService);
-	private destroy$ = new Subject<void>();
-
 	ngOnInit(): void {
-		this.questions$ = this.placementService.questions$;
-
-		this.loading$ = this.placementService.loading$;
-
-		this.questions$
+		this.test$
 			.pipe(
-				filter((qs) => !!qs && qs.length > 0),
-				tap((qs) => {
-					this.questions = qs;
+				filter(
+					(t): t is PlacementResponse =>
+						!!t && !!t.questionTestResponses?.length,
+				),
+				tap((t) => {
+					this.test = structuredClone(t); 
 					this.updateProgress();
 				}),
+				takeUntil(this.destroy$),
 			)
 			.subscribe();
 
-		this.placementService.getPlacementTest();
+		this.service.getPlacementTest();
 	}
 
-	loadMockQuestions(): void {}
-
 	get current(): QuestionPlacement | null {
-		return this.questions[this.currentIndex] ?? null;
+		return this.test?.questionTestResponses[this.currentIndex] ?? null;
 	}
 
 	get total(): number {
-		return this.questions.length;
+		return this.test?.questionTestResponses.length ?? 0;
 	}
 
 	get answered(): number {
 		return Object.keys(this.selectedAnswers).length;
 	}
 
-	updateProgress(): void {
-		const pct = Math.floor((this.answered / this.total) * 100);
-		this.progress = isNaN(pct) ? 0 : pct;
-		this.isLast = this.currentIndex === this.total - 1;
+	get isComplete(): boolean {
+		return this.answered === this.total;
 	}
 
 	selectAlt(qId: number, altId: number): void {
 		this.selectedAnswers[qId] = altId;
+
+		// Actualizamos el modelo directamente
+		const question = this.test?.questionTestResponses.find((q) => q.id === qId);
+		if (question) {
+			question.alternatives.forEach((alt) => (alt.selected = alt.id === altId));
+		}
+
 		this.updateProgress();
 	}
 
@@ -84,7 +88,7 @@ export class CuestionarioNivelComponent implements OnInit, OnDestroy {
 		if (this.currentIndex < this.total - 1) {
 			this.currentIndex++;
 			this.updateProgress();
-			window.scrollTo({ top: 0, behavior: 'smooth' });
+			this.scrollTop();
 		}
 	}
 
@@ -92,17 +96,39 @@ export class CuestionarioNivelComponent implements OnInit, OnDestroy {
 		if (this.currentIndex > 0) {
 			this.currentIndex--;
 			this.updateProgress();
-			window.scrollTo({ top: 0, behavior: 'smooth' });
+			this.scrollTop();
 		}
 	}
 
-	get isComplete(): boolean {
-		return this.answered === this.total;
+	private scrollTop() {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
+	updateProgress(): void {
+		const pct = Math.floor((this.answered / this.total) * 100);
+		this.progress = isNaN(pct) ? 0 : pct;
+		this.isLast = this.currentIndex === this.total - 1;
+	}
+
+	/** 🧾 Enviar el PlacementTest completo */
 	submit(): void {
-		console.log('Respuestas:', this.selectedAnswers);
-		// Aquí puedes enviar las respuestas a tu backend
+		if (!this.test) return;
+
+		const now = new Date().toISOString();
+		const updatedTest: PlacementResponse = {
+			...this.test,
+			endedAt: now,
+			duration: this.calculateDuration(this.test.startedAt, now),
+		};
+
+		//this.service.submitPlacementTest(updatedTest);
+		console.log('PlacementTest a enviar:', updatedTest);
+	}
+
+	private calculateDuration(startedAt: string, endedAt: string): number {
+		const start = new Date(startedAt).getTime();
+		const end = new Date(endedAt).getTime();
+		return Math.floor((end - start) / 1000); // segundos
 	}
 
 	ngOnDestroy(): void {
