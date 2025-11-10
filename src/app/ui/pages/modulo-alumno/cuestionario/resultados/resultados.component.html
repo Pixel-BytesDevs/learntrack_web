@@ -1,0 +1,158 @@
+<div
+	*ngIf="resultado; else sinResultado"
+	class="tw-w-full tw-min-h-screen tw-bg-gradient-to-b tw-from-white tw-to-blue-50 tw-flex tw-items-center tw-justify-center tw-p-4 md:tw-p-8 tw-font-inter tw-animate-fade-in"
+>
+	<!-- Contenedor principal -->
+	<div
+		class="tw-w-full tw-max-w-5xl tw-bg-white tw-rounded-2xl tw-shadow-xl tw-p-6 sm:tw-p-8 lg:tw-p-12 tw-transition-all tw-duration-500"
+	>
+		<!-- Encabezado -->
+		<div class="tw-text-center tw-mb-8">
+			<div class="tw-text-6xl sm:tw-text-7xl tw-mb-3">✅</div>
+			<h2 class="tw-text-2xl sm:tw-text-3xl tw-font-semibold tw-text-green-700">
+				¡Diagnóstico Completado!
+			</h2>
+			<p class="tw-text-gray-600 tw-text-sm sm:tw-text-base">
+				Hemos creado tu perfil de aprendizaje personalizado
+			</p>
+		</div>
+
+		<!-- Estilo predominante -->
+		<div
+			class="tw-bg-blue-50 tw-p-5 sm:tw-p-6 tw-rounded-xl tw-mb-10 tw-flex tw-flex-col lg:tw-flex-row tw-items-start tw-gap-4 tw-shadow-inner"
+		>
+			<div class="tw-text-5xl sm:tw-text-6xl tw-text-orange-500">🎯</div>
+			<div>
+				<h3 class="tw-text-lg sm:tw-text-xl tw-font-semibold tw-text-gray-800">
+					Tu Estilo de Aprendizaje
+				</h3>
+				<h4
+					class="tw-text-xl sm:tw-text-2xl tw-font-bold tw-text-gray-900 tw-mt-1"
+				>
+					{{ estiloPredominante?.tipo | titlecase }}
+				</h4>
+				<p class="tw-text-gray-600 tw-mt-2 tw-text-sm sm:tw-text-base">
+					{{ descripcion }}
+				</p>
+			</div>
+		</div>
+
+		<!-- Barras de progreso -->
+		<div class="tw-space-y-5">
+			<div
+				*ngFor="let estilo of resultado.estilos"
+				class="tw-w-full tw-transition-all tw-duration-500"
+			>
+				<div class="tw-flex tw-justify-between tw-mb-1">
+					<span
+						class="tw-font-medium tw-text-gray-700 tw-text-sm sm:tw-text-base"
+						>{{ estilo.tipo | titlecase }}</span
+					>
+					<span class="tw-text-gray-500 tw-text-sm sm:tw-text-base"
+						>{{ estilo.porcentaje }}%</span
+					>
+				</div>
+				<div
+					class="tw-w-full tw-bg-gray-200 tw-rounded-full tw-h-3 sm:tw-h-4 tw-overflow-hidden"
+				>
+					<div
+						class="tw-h-full tw-rounded-full tw-transition-all tw-duration-700"
+						[ngStyle]="{
+							width: estilo.porcentaje + '%',
+							backgroundColor:
+								estilo.tipo === 'VISUAL'
+									? '#2a9df4'
+									: estilo.tipo === 'AUDITIVO'
+										? '#4b7bec'
+										: estilo.tipo === 'LECTURA_ESCRITURA'
+											? '#9b59b6'
+											: '#27ae60',
+						}"
+					></div>
+				</div>
+			</div>
+		</div>
+		<!-- Sección: Nivel actual -->
+		<div class="tw-bg-white tw-rounded-2xl tw-p-5 tw-shadow-md tw-mt-8">
+			<h3
+				class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4 tw-flex tw-items-center tw-gap-2"
+			>
+				<span class="tw-text-blue-600 tw-text-xl">∑</span>
+				Tu Nivel Actual en Álgebra
+			</h3>
+
+			<div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 tw-gap-4">
+				<div
+					*ngFor="let item of competenciasProgreso"
+					class="tw-flex tw-flex-col tw-gap-1"
+				>
+					<div
+						class="tw-flex tw-justify-between tw-text-sm tw-font-medium tw-text-gray-700"
+					>
+						<span>{{ item.nombre }}</span>
+						<span>{{ item.porcentaje }}%</span>
+					</div>
+					<div class="tw-w-full tw-bg-gray-200 tw-rounded-full tw-h-2.5">
+						<div
+							class="tw-bg-blue-500 tw-h-2.5 tw-rounded-full tw-transition-all tw-duration-700"
+							[style.width.%]="item.porcentaje"
+						></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sección: Competencia inicial -->
+		<div class="tw-bg-white tw-rounded-2xl tw-p-5 tw-shadow-md tw-mt-6">
+			<h3
+				class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4 tw-flex tw-items-center tw-gap-2"
+			>
+				<span class="tw-text-blue-600 tw-text-xl">🗺️</span>
+				Comenzaremos Aquí
+			</h3>
+
+			<div class="tw-space-y-2 tw-text-gray-700">
+				<p>
+					<strong class="tw-font-semibold tw-text-gray-900"
+						>📘 Competencia inicial:</strong
+					>
+					{{ competenciaInicial.competencia }}
+				</p>
+				<p>
+					<strong class="tw-font-semibold tw-text-gray-900"
+						>🎯 Dificultad sugerida:</strong
+					>
+					{{ competenciaInicial.dificultad }}
+				</p>
+				<p class="tw-text-sm tw-leading-relaxed">
+					<strong class="tw-font-semibold tw-text-gray-900">ℹ️</strong>
+					{{ competenciaInicial.descripcion }}
+				</p>
+			</div>
+		</div>
+		<!-- Botón para continuar -->
+		<div class="tw-flex tw-justify-center tw-mt-10">
+			<button
+				routerLink="/aula/dashboard"
+				class="tw-bg-blue-600 tw-text-white tw-px-6 tw-py-3 tw-rounded-xl tw-font-semibold tw-transition tw-duration-300 hover:tw-bg-blue-700 hover:tw-scale-105 focus:tw-ring-2 focus:tw-ring-blue-300"
+			>
+				Comenzar Aprendizaje
+			</button>
+		</div>
+	</div>
+</div>
+
+<ng-template #sinResultado>
+	<div
+		class="tw-w-full tw-h-screen tw-flex tw-items-center tw-justify-center tw-bg-gray-50 tw-text-gray-500 tw-text-center tw-p-4"
+	>
+		<div>
+			<p class="tw-text-lg tw-font-medium">
+				No se encontró ningún resultado de cuestionario.
+			</p>
+			<p class="tw-text-sm tw-text-gray-400 tw-mt-2">
+				Intenta realizar nuevamente el test para obtener tu diagnóstico.
+			</p>
+		</div>
+	</div>
+</ng-template>

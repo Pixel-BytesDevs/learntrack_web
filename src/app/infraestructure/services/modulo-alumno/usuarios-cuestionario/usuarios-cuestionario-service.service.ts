@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Services } from '../../../../../environments/services/services.dev';
 import { HttpClient } from '@angular/common/http';
-import { catchError, of } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
+import { CuestionarioResponse } from '../../../../core/domain/dto/modulo-alumno/resultado-vark/detalle-respuesta.dto';
+import { CuestionarioPayload } from '../../../../core/domain/dto/modulo-alumno/resultado-vark/cuestionario-payload.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +13,44 @@ export class UsuariosCuestionarioService{
 
   constructor(private http: HttpClient) {}
 
-  // Llamada POST para guardar el cuestionario
-  submitCuestionario(payload: {
-    usuarioId: number;
-    respuestas: { preguntaId: number; alternativaIds: number[] }[];
-  }) {
-    return this.http.post(`${this.apiUrl}`, payload).pipe(
+  private _resultadoCuestionario?: CuestionarioResponse;
+
+  submitCuestionario(payload: CuestionarioPayload) {
+    return this.http.post<CuestionarioResponse>(`${this.apiUrl}`, payload).pipe(
+      tap((response) => {
+        // Guardamos la respuesta en memoria al recibirla del backend
+        this._resultadoCuestionario = response;
+      }),
       catchError((error) => {
         console.error('Error al enviar el cuestionario:', error);
-        // Simular una respuesta "exitosa" para continuar el flujo aunque falle
-        return of({ success: false, message: 'Se usó fallback (mock)', data: payload });
+        // En caso de error, devolvemos un mock con la misma estructura
+        const mockResponse: CuestionarioResponse = {
+          usuarioId: payload.usuarioId,
+          preguntasProcesadas: payload.respuestas.length,
+          registrosInsertados: payload.respuestas.reduce(
+            (acc, r) => acc + r.alternativaIds.length,
+            0
+          ),
+          message: 'Se usó fallback (mock)',
+          detalles: payload.respuestas.map((r) => ({
+            preguntaId: r.preguntaId,
+            alternativaIds: r.alternativaIds,
+          })),
+          estilos: [],
+        };
+        this._resultadoCuestionario = mockResponse;
+        return of(mockResponse);
       })
     );
+  }
+
+  // 🔹 Getter para acceder al resultado desde otros componentes
+  get resultadoCuestionario(): CuestionarioResponse | undefined {
+    return this._resultadoCuestionario;
+  }
+
+  // 🔹 Método opcional para limpiar la memoria (por ejemplo, al cerrar sesión)
+  clearResultado() {
+    this._resultadoCuestionario = undefined;
   }
 }

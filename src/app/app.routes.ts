@@ -20,6 +20,12 @@ export const routes: Routes = [
 			(r) => r.ALUMNO_ROUTES
 		)
 	},
+	{
+		path: 'aula',
+		loadChildren: () => import('./ui/routes/alumno-aula.routes').then(
+			(r) => r.ALUMNO_AULA_ROUTES
+		)
+	},
 	// {
 	// 	path: '',
 	// 	loadChildren: () => import('./ui/routes/main.routes').then(

@@ -57,6 +57,25 @@ module.exports = {
 			fontFamily: {
 				sans: ['"Rubik"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 			},
+			keyframes: {
+				fadeIn: {
+					'0%': { opacity: 0, transform: 'translateY(10px)' },
+					'100%': { opacity: 1, transform: 'translateY(0)' },
+				},
+				tick: {
+					'0%, 100%': { transform: 'rotate(0deg)' },
+					'50%': { transform: 'rotate(6deg)' },
+				},
+				timeChange: {
+					'0%': { opacity: 0.7, transform: 'scale(0.98)' },
+					'100%': { opacity: 1, transform: 'scale(1)' },
+				},
+			},
+			animation: {
+				'fade-in': 'fadeIn 0.7s ease-in-out',
+				tick: 'tick 1s linear infinite',
+				timeChange: 'timeChange 0.3s ease-out',
+			},
 		},
 	},
 	plugins: [],

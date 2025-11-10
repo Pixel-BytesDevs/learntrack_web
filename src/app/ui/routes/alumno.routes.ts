@@ -28,6 +28,20 @@ export const ALUMNO_ROUTES: Routes = [
 						(c) => c.CuestionarioNivelComponent,
 					),
 			},
+			{
+				path: 'resultados',
+				loadComponent: () =>
+					import('../pages/modulo-alumno/cuestionario/resultados/resultados.component').then(
+						(c) => c.ResultadosComponent,
+					),
+			},
+			{
+				path: 'dashboard',
+				loadComponent: () =>
+					import('../pages/modulo-alumno/dashboard/dashboard.component').then(
+						(c) => c.DashboardComponent,
+					),
+			}
 		],
 	},
 ];

@@ -20,7 +20,7 @@ interface SidebarItem {
 export class SidebarAppComponent {
 	mockUser = {
 		name: 'Juan Pérez',
-		role: 'profesor',
+		role: 'alumno',
 	};
 
 	sidebarItems: SidebarItem[] = [];
@@ -62,8 +62,8 @@ export class SidebarAppComponent {
 
       case 'alumno':
         this.sidebarItems = [
-          { label: 'Mis Cursos', icon: 'home', route: 'student-courses' },
-          { label: 'Tareas', icon: 'home', route: 'tasks' },
+          { label: 'Dashboard', icon: 'home', route: '/aula/dashboard' },
+          { label: 'Mi progreso', icon: 'home', route: '/aula/my-progress' },
           { label: 'Perfil', icon: 'home', route: 'profile' },
         ];
         break;

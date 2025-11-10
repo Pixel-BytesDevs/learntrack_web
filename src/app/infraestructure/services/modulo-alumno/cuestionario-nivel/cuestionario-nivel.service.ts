@@ -20,36 +20,27 @@ export class CuestionarioNivelService {
 	readonly questions$ = this._questions$.asObservable();
 	readonly loading$ = this._loading$.asObservable();
 
-	getPlacementTest() {
+	getPlacementTest(): Observable<PlacementResponse | null> {
 		this._loading$.next(true);
 
-		this.http
-			.post<PlacementResponse>(`${this.apiUrl}`, null)
-			.pipe(
-				tap((res) => this._questions$.next(res)),
-				catchError((error) => {
-					console.error('Error al obtener PlacementTest:', error);
-					this._questions$.next(null);
-					return of(null);
-				}),
-				tap(() => this._loading$.next(false)),
-			)
-			.subscribe();
+		return this.http.post<PlacementResponse>(`${this.apiUrl}`, null).pipe(
+			tap((res) => this._questions$.next(res)),
+			catchError((error) => {
+				console.error('Error al obtener PlacementTest:', error);
+				this._questions$.next(null);
+				return of(null);
+			}),
+			tap(() => this._loading$.next(false)),
+		);
 	}
 
-	submitPlacementTest(test: PlacementResponse) {
-		this._loading$.next(true);
-
-		this.http
-			.post(`${this.apiUrl}/submit`, test)
-			.pipe(
-				tap(() => console.log('PlacementTest enviado correctamente', test)),
-				catchError((error) => {
-					console.error('Error al enviar PlacementTest:', error);
-					return of(null);
-				}),
-				tap(() => this._loading$.next(false)),
-			)
-			.subscribe();
+	submitPlacementTest(test: PlacementResponse): Observable<any> {
+		return this.http.post(`${this.apiUrl}/submit`, test).pipe(
+			tap(() => console.log('PlacementTest enviado correctamente', test)),
+			catchError((error) => {
+				console.error('Error al enviar PlacementTest:', error);
+				return of(null);
+			}),
+		);
 	}
 }

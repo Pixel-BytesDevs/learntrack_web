@@ -1,8 +1,6 @@
 <main class="p-sm flex-column gap-sm h100-screen">
 	<header-profesor />
 
-	<button (click)="abrirMenu()">Menu</button>
-
 	<section class="flex gap-sm h100">
 		<sidebar-app
 			class="sidebar-container"
@@ -10,9 +8,11 @@
 			[isOpenMenu]="isOpenMenu()"
 		></sidebar-app>
 
-		<!-- Contenedor del contenido principal -->
-		<section class="expanded br-sm">
-			<router-outlet />
+		<!-- Contenedor principal del contenido -->
+		<section class="expanded br-sm main-content">
+			<div class="scrollable-content">
+				<router-outlet />
+			</div>
 		</section>
 	</section>
 </main>
