@@ -20,6 +20,13 @@ export const ALUMNO_AULA_ROUTES: Routes = [
 						'../pages/modulo-alumno/my-progress/my-progress.component'
 					).then((c) => c.MyProgressComponent),
 			},
+            {
+				path: 'recomendaciones',
+				loadChildren: () =>
+					import('./recomendaciones.routes').then(
+						(c) => c.RECOMENDACIONES_ROUTES,
+					),
+			},
 		],
 	},
 ];

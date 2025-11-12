@@ -27,12 +27,12 @@
 .scrollable-content {
 	flex: 1;
 	overflow-y: auto;
-	scrollbar-width: thin;
-	scrollbar-color: #9ca3af #f3f4f6; // estilo elegante del scroll (Firefox)
+	scrollbar-width: none ;
+	scrollbar-color: #9ca3af #f3f4f6; 
 
 	// Chrome y Edge
 	&::-webkit-scrollbar {
-		width: 8px;
+		width: 0px;
 	}
 	&::-webkit-scrollbar-thumb {
 		background-color: #9ca3af;

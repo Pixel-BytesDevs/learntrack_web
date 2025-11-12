@@ -64,6 +64,7 @@ export class SidebarAppComponent {
         this.sidebarItems = [
           { label: 'Dashboard', icon: 'home', route: '/aula/dashboard' },
           { label: 'Mi progreso', icon: 'home', route: '/aula/my-progress' },
+          { label: 'Mis recomendaciones', icon: 'home', route: '/aula/recomendaciones' },
           { label: 'Perfil', icon: 'home', route: 'profile' },
         ];
         break;
