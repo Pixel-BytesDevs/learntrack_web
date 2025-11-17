@@ -36,10 +36,6 @@ export class VisorOaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Limpiar recursos
-    if (this.currentResourceUrl) {
-      URL.revokeObjectURL(this.currentResourceUrl);
-    }
   }
 
   loadOAData(): void {
@@ -50,7 +46,6 @@ export class VisorOaComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.oaData = data;
         this.selectedResource = data.mainResource;
-        this.loadResource(this.selectedResource);
         this.loading = false;
       },
       error: (err) => {
@@ -61,19 +56,8 @@ export class VisorOaComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadResource(resource: OAResource): void {
+  selectResource(resource: OAResource): void {
     this.selectedResource = resource;
-    
-    // Simular carga de URL (en producción usarías el servicio real)
-    this.oaViewerService.getResourceUrl(resource.id).subscribe({
-      next: (response) => {
-        this.currentResourceUrl = response.url;
-      },
-      error: (err) => {
-        console.error('Error loading resource URL:', err);
-        // En caso de error, mostrar mensaje o recurso alternativo
-      }
-    });
   }
 
   getResourceTypeIcon(type: string): string {
@@ -115,7 +99,7 @@ export class VisorOaComponent implements OnInit, OnDestroy {
   }
 
   onTimeUpdate(): void {
-    if (this.videoPlayer) {
+    if (this.videoPlayer && this.selectedResource?.type === 'video') {
       this.currentTime = this.videoPlayer.nativeElement.currentTime;
       this.videoDuration = this.videoPlayer.nativeElement.duration;
       this.videoProgress = (this.currentTime / this.videoDuration) * 100;
@@ -123,12 +107,13 @@ export class VisorOaComponent implements OnInit, OnDestroy {
   }
 
   seekTo(percentage: number): void {
-    if (this.videoPlayer && this.videoDuration) {
+    if (this.videoPlayer && this.videoDuration && this.selectedResource?.type === 'video') {
       this.videoPlayer.nativeElement.currentTime = (percentage / 100) * this.videoDuration;
     }
   }
 
   formatTime(seconds: number): string {
+    if (isNaN(seconds)) return '0:00';
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -138,7 +123,6 @@ export class VisorOaComponent implements OnInit, OnDestroy {
     if (this.oaData) {
       this.oaViewerService.updateProgress(this.oaData.mainResource.id, 100).subscribe({
         next: () => {
-          // Opcional: mostrar mensaje de éxito o redirigir
           alert('¡Objeto de aprendizaje completado!');
         },
         error: (err) => {

@@ -80,7 +80,7 @@
             <!-- Recurso Principal -->
             <div *ngIf="activeTab === 'main'" class="tw-space-y-3">
               <div 
-                (click)="loadResource(oaData!.mainResource)"
+                (click)="selectResource(oaData!.mainResource)"
                 [class]="selectedResource?.id === oaData!.mainResource.id ? 
                   'tw-bg-blue-50 tw-border-2 tw-border-blue-200' : 
                   'tw-bg-gray-50 hover:tw-bg-gray-100'"
@@ -107,7 +107,7 @@
             <div *ngIf="activeTab === 'complementary'" class="tw-space-y-3">
               <div 
                 *ngFor="let resource of oaData!.complementaryResources"
-                (click)="loadResource(resource)"
+                (click)="selectResource(resource)"
                 [class]="selectedResource?.id === resource.id ? 
                   'tw-bg-blue-50 tw-border-2 tw-border-blue-200' : 
                   'tw-bg-gray-50 hover:tw-bg-gray-100'"
@@ -182,7 +182,7 @@
                 (loadedmetadata)="onTimeUpdate()"
                 class="tw-w-full tw-rounded-lg tw-shadow-lg"
                 controls
-                [src]="currentResourceUrl"
+                [src]="selectedResource?.url"
               >
                 Tu navegador no soporta el elemento video.
               </video>
@@ -220,7 +220,7 @@
             <div *ngIf="selectedResource?.type === 'pdf'" class="tw-w-full">
               <embed 
                 #pdfViewer
-                [src]="currentResourceUrl"
+                [src]="selectedResource?.url"
                 type="application/pdf"
                 class="tw-w-full tw-h-96 lg:tw-h-[600px] tw-rounded-lg tw-shadow-lg"
               >
