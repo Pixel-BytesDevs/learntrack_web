@@ -1,32 +1,61 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of } from 'rxjs';
+import {
+	catchError,
+	Observable,
+	of,
+	Subject,
+	switchMap,
+	takeUntil,
+	timer,
+} from 'rxjs';
+import { Recommendation } from '../../../../core/domain/dto/recommendation/recommendation.dto';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class RecomendacionService {
-private apiUrl = 'http://localhost:8080/api/v1/recommendations';  // URL de la API
+	private apiUrl = 'http://26.138.194.69:5000/api/v1/recommendations';
 
-  constructor(private http: HttpClient) {}
+	private stopPolling$ = new Subject<void>();
 
-  getRecommendation(): Observable<any> {
-    return this.http.get<any>(this.apiUrl).pipe(
-      catchError((error) => {
-        console.error('Error al obtener datos de recomendación', error);
-        return of({
-          topicName: 'Ecuaciones Lineales',
-          description: 'Recurso audiovisual que guía, con ejemplos y ejercicios, el procedimiento para resolver ecuaciones lineales de primer grado.',
-          recommendationText: 'Este contenido te ayudará a fortalecer tu comprensión de ecuaciones lineales, actualmente tienes un 65% de dominio.',
-          currentDomain: 65,
-          competence: 'Ecuaciones Lineales',
-          level: 'Básico',
-          learningObjective: 'Resolver ecuaciones de primer grado con una variable',
-          learningStyle: 'Optimizado para estilo visual',
-          progress: 68,
-          prerequisites: ['Propiedades básicas de la igualdad', 'Operaciones con números enteros', 'Simplificación de expresiones']
-        });
-      })
-    );
-  }
+	constructor(private http: HttpClient) {}
+
+	/** GET simple (sin polling) */
+	getRecommendation(userId: number): Observable<Recommendation | null> {
+		return this.http.get<any>(`${this.apiUrl}/${userId}`).pipe(
+			catchError((err) => {
+				console.error('Error obteniendo recomendación', err);
+				return of(null);
+			}),
+		);
+	}
+
+	/**
+	 * Polling controlado: consulta cada X ms hasta que haya una recomendación lista
+	 */
+	pollRecommendation(
+		userId: number,
+		stop$: Subject<void>,
+		intervalMs = 3000,
+	): Observable<Recommendation | null> {
+		return timer(0, intervalMs).pipe(
+			switchMap(() => this.getRecommendation(userId)),
+			takeUntil(stop$),
+			switchMap((response) => {
+				if (!response || response.status === 'PENDING') {
+					console.log('Recomendación no lista');
+					return of(null);
+				}
+				stop$.next();
+				console.log('Recomendación lista:', response as Recommendation);
+				return of(response as Recommendation);
+			}),
+		);
+	}
+
+	/** Cancelación manual */
+	stopPolling() {
+		this.stopPolling$.next();
+	}
 }

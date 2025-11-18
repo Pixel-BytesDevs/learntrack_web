@@ -1,322 +1,416 @@
-<div class="tw-min-h-screen tw-bg-gradient-to-br tw-from-blue-50 tw-to-indigo-100 tw-py-6 tw-px-4 sm:tw-px-6 lg:tw-px-8">
-  
-  <!-- Loading State -->
-  <div *ngIf="loading" class="tw-flex tw-justify-center tw-items-center tw-h-96">
-    <div class="tw-text-center">
-      <div class="tw-animate-spin tw-rounded-full tw-h-16 tw-w-16 tw-border-b-2 tw-border-blue-600 tw-mx-auto tw-mb-4"></div>
-      <p class="tw-text-gray-600 tw-text-lg">Cargando objeto de aprendizaje...</p>
-    </div>
-  </div>
+<div
+	class="tw-min-h-screen tw-bg-gradient-to-br tw-from-blue-50 tw-to-indigo-100 tw-py-6 tw-px-4 sm:tw-px-6 lg:tw-px-8"
+>
+	<!-- Loading State -->
+	<div
+		*ngIf="loading"
+		class="tw-flex tw-justify-center tw-items-center tw-h-96"
+	>
+		<div class="tw-text-center">
+			<div
+				class="tw-animate-spin tw-rounded-full tw-h-16 tw-w-16 tw-border-b-2 tw-border-blue-600 tw-mx-auto tw-mb-4"
+			></div>
+			<p class="tw-text-gray-600 tw-text-lg">
+				Cargando objeto de aprendizaje...
+			</p>
+		</div>
+	</div>
 
-  <!-- Error State -->
-  <div *ngIf="error && !loading" class="tw-bg-red-50 tw-border tw-border-red-200 tw-rounded-xl tw-p-6 tw-text-center tw-max-w-2xl tw-mx-auto">
-    <div class="tw-text-red-600 tw-text-6xl tw-mb-4">⚠️</div>
-    <h3 class="tw-text-red-800 tw-text-xl tw-font-semibold tw-mb-2">Error al cargar</h3>
-    <p class="tw-text-red-700 tw-mb-4">{{ error }}</p>
-    <button 
-      (click)="loadOAData()"
-      class="tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-px-6 tw-py-2 tw-rounded-lg tw-font-semibold"
-    >
-      Reintentar
-    </button>
-  </div>
+	<!-- Error State -->
+	<div
+		*ngIf="error && !loading"
+		class="tw-bg-red-50 tw-border tw-border-red-200 tw-rounded-xl tw-p-6 tw-text-center tw-max-w-2xl tw-mx-auto"
+	>
+		<div class="tw-text-red-600 tw-text-6xl tw-mb-4">⚠️</div>
+		<h3 class="tw-text-red-800 tw-text-xl tw-font-semibold tw-mb-2">
+			Error al cargar
+		</h3>
+		<p class="tw-text-red-700 tw-mb-4">{{ error }}</p>
+		<button
+			(click)="loadOAData()"
+			class="tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-px-6 tw-py-2 tw-rounded-lg tw-font-semibold"
+		>
+			Reintentar
+		</button>
+	</div>
 
-  <!-- Main Content -->
-  <div *ngIf="oaData && !loading" class="tw-max-w-7xl tw-mx-auto">
-    
-    <!-- Header -->
-    <div class="tw-flex tw-items-center tw-justify-between tw-mb-8">
-      <button 
-        (click)="goBack()"
-        class="tw-flex tw-items-center tw-gap-2 tw-text-gray-600 hover:tw-text-gray-800 tw-transition-colors"
-      >
-        <span class="tw-text-2xl">←</span>
-        <span class="tw-font-semibold">Volver a recomendaciones</span>
-      </button>
-      
-      <div class="tw-text-right">
-        <div class="tw-text-sm tw-text-gray-600">Tu progreso</div>
-        <div class="tw-flex tw-items-center tw-gap-3">
-          <div class="tw-w-32 tw-bg-gray-200 tw-rounded-full tw-h-2">
-            <div 
-              class="tw-bg-green-600 tw-h-2 tw-rounded-full tw-transition-all tw-duration-500"
-              [style.width]="oaData.progress + '%'"
-            ></div>
-          </div>
-          <span class="tw-font-bold tw-text-gray-800">{{ oaData.progress }}%</span>
-        </div>
-      </div>
-    </div>
+	<!-- Main Content -->
+	<div *ngIf="oaData && !loading" class="tw-max-w-7xl tw-mx-auto">
+		<!-- Header -->
+		<div class="tw-flex tw-items-center tw-justify-between tw-mb-8">
+			<button
+				(click)="goBack()"
+				class="tw-flex tw-items-center tw-gap-2 tw-text-gray-600 hover:tw-text-gray-800 tw-transition-colors"
+			>
+				<span class="tw-text-2xl">←</span>
+				<span class="tw-font-semibold">Volver a recomendaciones</span>
+			</button>
 
-    <div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-4 tw-gap-8">
-      
-      <!-- Sidebar - Recursos Complementarios -->
-      <div class="lg:tw-col-span-1">
-        <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-sticky tw-top-6">
-          
-          <!-- Pestañas -->
-          <div class="tw-flex tw-border-b tw-border-gray-200">
-            <button 
-              (click)="activeTab = 'main'"
-              [class]="activeTab === 'main' ? 
-                'tw-flex-1 tw-py-4 tw-font-semibold tw-text-blue-600 tw-border-b-2 tw-border-blue-600' : 
-                'tw-flex-1 tw-py-4 tw-text-gray-500 hover:tw-text-gray-700'"
-            >
-              Principal
-            </button>
-            <button 
-              (click)="activeTab = 'complementary'"
-              [class]="activeTab === 'complementary' ? 
-                'tw-flex-1 tw-py-4 tw-font-semibold tw-text-blue-600 tw-border-b-2 tw-border-blue-600' : 
-                'tw-flex-1 tw-py-4 tw-text-gray-500 hover:tw-text-gray-700'"
-            >
-              Complementarios
-            </button>
-          </div>
+			<div class="tw-text-right">
+				<div class="tw-text-sm tw-text-gray-600">Tu progreso</div>
+				<div class="tw-flex tw-items-center tw-gap-3">
+					<div class="tw-w-32 tw-bg-gray-200 tw-rounded-full tw-h-2">
+						<div
+							class="tw-bg-green-600 tw-h-2 tw-rounded-full tw-transition-all tw-duration-500"
+							[style.width]="oaData.progress + '%'"
+						></div>
+					</div>
+					<span class="tw-font-bold tw-text-gray-800"
+						>{{ oaData.progress }}%</span
+					>
+				</div>
+			</div>
+		</div>
 
-          <!-- Contenido de pestañas -->
-          <div class="tw-p-4 tw-max-h-96 tw-overflow-y-auto">
-            
-            <!-- Recurso Principal -->
-            <div *ngIf="activeTab === 'main'" class="tw-space-y-3">
-              <div 
-                (click)="selectResource(oaData!.mainResource)"
-                [class]="selectedResource?.id === oaData!.mainResource.id ? 
-                  'tw-bg-blue-50 tw-border-2 tw-border-blue-200' : 
-                  'tw-bg-gray-50 hover:tw-bg-gray-100'"
-                class="tw-p-3 tw-rounded-lg tw-cursor-pointer tw-transition-colors"
-              >
-                <div class="tw-flex tw-items-center tw-gap-3">
-                  <span class="tw-text-2xl">{{ getResourceTypeIcon(oaData!.mainResource.type) }}</span>
-                  <div class="tw-flex-1">
-                    <h4 class="tw-font-semibold tw-text-gray-900 tw-text-sm">{{ oaData!.mainResource.title }}</h4>
-                    <div class="tw-flex tw-items-center tw-gap-2 tw-mt-1">
-                      <span [class]="getResourceTypeColor(oaData!.mainResource.type) + ' tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium'">
-                        {{ oaData!.mainResource.type }}
-                      </span>
-                      <span *ngIf="oaData!.mainResource.duration" class="tw-text-xs tw-text-gray-500">
-                        {{ oaData!.mainResource.duration }} min
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+		<div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-4 tw-gap-8">
+			<!-- Sidebar - Recursos Complementarios -->
+			<div class="lg:tw-col-span-1">
+				<div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-sticky tw-top-6">
+					<!-- Pestañas -->
+					<div class="tw-flex tw-border-b tw-border-gray-200">
+						<button
+							(click)="activeTab = 'main'"
+							[class]="
+								activeTab === 'main'
+									? 'tw-flex-1 tw-py-4 tw-font-semibold tw-text-blue-600 tw-border-b-2 tw-border-blue-600'
+									: 'tw-flex-1 tw-py-4 tw-text-gray-500 hover:tw-text-gray-700'
+							"
+						>
+							Principal
+						</button>
+						<button
+							(click)="activeTab = 'complementary'"
+							[class]="
+								activeTab === 'complementary'
+									? 'tw-flex-1 tw-py-4 tw-font-semibold tw-text-blue-600 tw-border-b-2 tw-border-blue-600'
+									: 'tw-flex-1 tw-py-4 tw-text-gray-500 hover:tw-text-gray-700'
+							"
+						>
+							Complementarios
+						</button>
+					</div>
 
-            <!-- Recursos Complementarios -->
-            <div *ngIf="activeTab === 'complementary'" class="tw-space-y-3">
-              <div 
-                *ngFor="let resource of oaData!.complementaryResources"
-                (click)="selectResource(resource)"
-                [class]="selectedResource?.id === resource.id ? 
-                  'tw-bg-blue-50 tw-border-2 tw-border-blue-200' : 
-                  'tw-bg-gray-50 hover:tw-bg-gray-100'"
-                class="tw-p-3 tw-rounded-lg tw-cursor-pointer tw-transition-colors"
-              >
-                <div class="tw-flex tw-items-center tw-gap-3">
-                  <span class="tw-text-xl">{{ getResourceTypeIcon(resource.type) }}</span>
-                  <div class="tw-flex-1">
-                    <h4 class="tw-font-semibold tw-text-gray-900 tw-text-sm">{{ resource.title }}</h4>
-                    <div class="tw-flex tw-items-center tw-gap-2 tw-mt-1">
-                      <span [class]="getResourceTypeColor(resource.type) + ' tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium'">
-                        {{ resource.type }}
-                      </span>
-                      <span *ngIf="resource.duration" class="tw-text-xs tw-text-gray-500">
-                        {{ resource.duration }} min
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+					<!-- Contenido de pestañas -->
+					<div class="tw-p-4 tw-max-h-96 tw-overflow-y-auto">
+						<!-- Recurso Principal -->
+						<div *ngIf="activeTab === 'main'" class="tw-space-y-3">
+							<div
+								(click)="selectResource(oaData!.mainResource)"
+								[class]="
+									selectedResource?.id === oaData!.mainResource.id
+										? 'tw-bg-blue-50 tw-border-2 tw-border-blue-200'
+										: 'tw-bg-gray-50 hover:tw-bg-gray-100'
+								"
+								class="tw-p-3 tw-rounded-lg tw-cursor-pointer tw-transition-colors"
+							>
+								<div class="tw-flex tw-items-center tw-gap-3">
+									<span class="tw-text-2xl">{{
+										getResourceTypeIcon(oaData!.mainResource.type)
+									}}</span>
+									<div class="tw-flex-1">
+										<h4 class="tw-font-semibold tw-text-gray-900 tw-text-sm">
+											{{ oaData!.mainResource.title }}
+										</h4>
+										<div class="tw-flex tw-items-center tw-gap-2 tw-mt-1">
+											<span
+												[class]="
+													getResourceTypeColor(oaData!.mainResource.type) +
+													' tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium'
+												"
+											>
+												{{ oaData!.mainResource.type }}
+											</span>
+											<span
+												*ngIf="oaData!.mainResource.duration"
+												class="tw-text-xs tw-text-gray-500"
+											>
+												{{ oaData!.mainResource.duration }} min
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-        <!-- Información de Competencia -->
-        <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-p-6 tw-mt-6">
-          <h3 class="tw-font-semibold tw-text-gray-900 tw-mb-3">Competencia</h3>
-          <p class="tw-text-sm tw-text-gray-700">{{ oaData.competency }}</p>
-          
-          <h4 class="tw-font-semibold tw-text-gray-900 tw-mt-4 tw-mb-2">Objetivos de aprendizaje</h4>
-          <ul class="tw-space-y-1">
-            <li *ngFor="let objective of oaData.learningObjectives" 
-                class="tw-text-sm tw-text-gray-600 tw-flex tw-items-start tw-gap-2">
-              <span class="tw-text-green-500 tw-mt-1">•</span>
-              {{ objective }}
-            </li>
-          </ul>
-        </div>
-      </div>
+						<!-- Recursos Complementarios -->
+						<div *ngIf="activeTab === 'complementary'" class="tw-space-y-3">
+							<div
+								*ngFor="let resource of oaData!.complementaryResources"
+								(click)="selectResource(resource)"
+								[class]="
+									selectedResource?.id === resource.id
+										? 'tw-bg-blue-50 tw-border-2 tw-border-blue-200'
+										: 'tw-bg-gray-50 hover:tw-bg-gray-100'
+								"
+								class="tw-p-3 tw-rounded-lg tw-cursor-pointer tw-transition-colors"
+							>
+								<div class="tw-flex tw-items-center tw-gap-3">
+									<span class="tw-text-xl">{{
+										getResourceTypeIcon(resource.type)
+									}}</span>
+									<div class="tw-flex-1">
+										<h4 class="tw-font-semibold tw-text-gray-900 tw-text-sm">
+											{{ resource.title }}
+										</h4>
+										<div class="tw-flex tw-items-center tw-gap-2 tw-mt-1">
+											<span
+												[class]="
+													getResourceTypeColor(resource.type) +
+													' tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium'
+												"
+											>
+												{{ resource.type }}
+											</span>
+											<span
+												*ngIf="resource.duration"
+												class="tw-text-xs tw-text-gray-500"
+											>
+												{{ resource.duration }} min
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-      <!-- Área Principal del Visor -->
-      <div class="lg:tw-col-span-3">
-        <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-overflow-hidden">
-          
-          <!-- Header del Recurso -->
-          <div class="tw-p-6 tw-border-b tw-border-gray-200">
-            <div class="tw-flex tw-items-start tw-justify-between">
-              <div>
-                <h1 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-2">
-                  {{ selectedResource?.title }}
-                </h1>
-                <div class="tw-flex tw-items-center tw-gap-3">
-                  <span [class]="getResourceTypeColor(selectedResource?.type || '') + ' tw-px-3 tw-py-1 tw-rounded-full tw-text-sm tw-font-medium'">
-                    {{ getResourceTypeIcon(selectedResource?.type || '') }} {{ selectedResource?.type }}
-                  </span>
-                  <span *ngIf="selectedResource?.duration" class="tw-text-gray-600 tw-text-sm">
-                    {{ selectedResource?.duration ?? ''}}  minutos
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+				<!-- Información de Competencia -->
+				<div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-p-6 tw-mt-6">
+					<h3 class="tw-font-semibold tw-text-gray-900 tw-mb-3">Competencia</h3>
+					<p class="tw-text-sm tw-text-gray-700">{{ oaData.competency }}</p>
 
-          <!-- Visor de Contenido -->
-          <div class="tw-p-6">
-            
-            <!-- Video Player -->
-            <div *ngIf="selectedResource?.type === 'video'" class="tw-relative">
-              <video 
-                #videoPlayer
-                (timeupdate)="onTimeUpdate()"
-                (loadedmetadata)="onTimeUpdate()"
-                class="tw-w-full tw-rounded-lg tw-shadow-lg"
-                controls
-                [src]="selectedResource?.url"
-              >
-                Tu navegador no soporta el elemento video.
-              </video>
-              
-              <!-- Controles Personalizados (opcional) -->
-              <div class="tw-mt-4 tw-bg-gray-100 tw-rounded-lg tw-p-4">
-                <div class="tw-flex tw-items-center tw-gap-4">
-                  <button 
-                    (click)="togglePlay()"
-                    class="tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-p-2 tw-rounded-full tw-w-10 tw-h-10 tw-flex tw-items-center tw-justify-center"
-                  >
-                    {{ isPlaying ? '❚❚' : '▶' }}
-                  </button>
-                  
-                  <div class="tw-flex-1">
-                    <div 
-                      class="tw-w-full tw-bg-gray-300 tw-rounded-full tw-h-2 tw-cursor-pointer"
-                      (click)="seekTo(videoProgress)"
-                    >
-                      <div 
-                        class="tw-bg-blue-600 tw-h-2 tw-rounded-full tw-transition-all"
-                        [style.width]="videoProgress + '%'"
-                      ></div>
-                    </div>
-                    <div class="tw-flex tw-justify-between tw-text-sm tw-text-gray-600 tw-mt-1">
-                      <span>{{ formatTime(currentTime) }}</span>
-                      <span>{{ formatTime(videoDuration) }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+					<h4 class="tw-font-semibold tw-text-gray-900 tw-mt-4 tw-mb-2">
+						Objetivos de aprendizaje
+					</h4>
+					<ul class="tw-space-y-1">
+						<li
+							*ngFor="let objective of oaData.learningObjectives"
+							class="tw-text-sm tw-text-gray-600 tw-flex tw-items-start tw-gap-2"
+						>
+							<span class="tw-text-green-500 tw-mt-1">•</span>
+							{{ objective }}
+						</li>
+					</ul>
+				</div>
+			</div>
 
-            <!-- PDF Viewer -->
-            <div *ngIf="selectedResource?.type === 'pdf'" class="tw-w-full">
-              <embed 
-                #pdfViewer
-                [src]="selectedResource?.url"
-                type="application/pdf"
-                class="tw-w-full tw-h-96 lg:tw-h-[600px] tw-rounded-lg tw-shadow-lg"
-              >
-              <div class="tw-mt-4 tw-text-center">
-                <a 
-                  [href]="currentResourceUrl" 
-                  download
-                  class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
-                >
-                  📥 Descargar PDF
-                </a>
-              </div>
-            </div>
+			<!-- Área Principal del Visor -->
+			<div class="lg:tw-col-span-3">
+				<div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-overflow-hidden">
+					<!-- Header del Recurso -->
+					<div class="tw-p-6 tw-border-b tw-border-gray-200">
+						<div class="tw-flex tw-items-start tw-justify-between">
+							<div>
+								<h1 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-2">
+									{{ selectedResource?.title }}
+								</h1>
+								<div class="tw-flex tw-items-center tw-gap-3">
+									<span
+										[class]="
+											getResourceTypeColor(selectedResource?.type || '') +
+											' tw-px-3 tw-py-1 tw-rounded-full tw-text-sm tw-font-medium'
+										"
+									>
+										{{ getResourceTypeIcon(selectedResource?.type || '') }}
+										{{ selectedResource?.type }}
+									</span>
+									<span
+										*ngIf="selectedResource?.duration"
+										class="tw-text-gray-600 tw-text-sm"
+									>
+										{{ selectedResource?.duration ?? '' }} minutos
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
 
-            <!-- Image Viewer -->
-            <div *ngIf="selectedResource?.type === 'image'" class="tw-text-center">
-              <img 
-                [src]="currentResourceUrl" 
-                [alt]="selectedResource?.title"
-                class="tw-max-w-full tw-max-h-96 tw-rounded-lg tw-shadow-lg tw-mx-auto"
-              >
-              <div class="tw-mt-4">
-                <a 
-                  [href]="currentResourceUrl" 
-                  download
-                  class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
-                >
-                  📥 Descargar Imagen
-                </a>
-              </div>
-            </div>
+					<!-- Visor de Contenido -->
+					<div class="tw-p-6">
+						<!-- Video Player -->
+						<div *ngIf="selectedResource?.type === 'video'" class="tw-relative">
+							<video
+								#videoPlayer
+								(timeupdate)="onTimeUpdate()"
+								(loadedmetadata)="onTimeUpdate()"
+								class="tw-w-full tw-rounded-lg tw-shadow-lg"
+								controls
+								[src]="selectedResource?.url"
+							>
+								Tu navegador no soporta el elemento video.
+							</video>
 
-            <!-- Exercise/Link Viewer -->
-            <div *ngIf="selectedResource?.type === 'exercise' || selectedResource?.type === 'link'" class="tw-text-center tw-py-12">
-              <div class="tw-text-6xl tw-mb-4">{{ getResourceTypeIcon("pdf")}}</div>
-              <h3 class="tw-text-xl tw-font-semibold tw-text-gray-900 tw-mb-4">{{ selectedResource?.title }}</h3>
-              <p class="tw-text-gray-600 tw-mb-6 tw-max-w-md tw-mx-auto">{{ selectedResource?.description }}</p>
-              <a 
-                [href]="currentResourceUrl" 
-                target="_blank"
-                class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-text-lg"
-              >
-                {{ selectedResource?.type === 'exercise' ? 'Comenzar Ejercicio' : 'Abrir Enlace' }} →
-              </a>
-            </div>
+							<!-- Controles Personalizados (opcional) -->
+							<div class="tw-mt-4 tw-bg-gray-100 tw-rounded-lg tw-p-4">
+								<div class="tw-flex tw-items-center tw-gap-4">
+									<button
+										(click)="togglePlay()"
+										class="tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-p-2 tw-rounded-full tw-w-10 tw-h-10 tw-flex tw-items-center tw-justify-center"
+									>
+										{{ isPlaying ? '❚❚' : '▶' }}
+									</button>
 
-            <!-- Reading/Summary Viewer -->
-            <div *ngIf="selectedResource?.type === 'reading' || selectedResource?.type === 'summary'" class="tw-prose tw-max-w-none">
-              <div class="tw-bg-gray-50 tw-rounded-lg tw-p-6 tw-border-2 tw-border-gray-200">
-                <h3 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-4">{{ selectedResource?.title }}</h3>
-                <p class="tw-text-gray-700 tw-leading-relaxed">{{ selectedResource?.description }}</p>
-                
-                <div *ngIf="currentResourceUrl" class="tw-mt-6 tw-flex tw-gap-4">
-                  <a 
-                    [href]="currentResourceUrl" 
-                    target="_blank"
-                    class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
-                  >
-                    📖 Leer Online
-                  </a>
-                  <a 
-                    [href]="currentResourceUrl" 
-                    download
-                    class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-gray-600 hover:tw-bg-gray-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
-                  >
-                    📥 Descargar
-                  </a>
-                </div>
-              </div>
-            </div>
+									<div class="tw-flex-1">
+										<div
+											class="tw-w-full tw-bg-gray-300 tw-rounded-full tw-h-2 tw-cursor-pointer"
+											(click)="seekTo(videoProgress)"
+										>
+											<div
+												class="tw-bg-blue-600 tw-h-2 tw-rounded-full tw-transition-all"
+												[style.width]="videoProgress + '%'"
+											></div>
+										</div>
+										<div
+											class="tw-flex tw-justify-between tw-text-sm tw-text-gray-600 tw-mt-1"
+										>
+											<span>{{ formatTime(currentTime) }}</span>
+											<span>{{ formatTime(videoDuration) }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-          </div>
+						<!-- PDF Viewer -->
+						<div *ngIf="selectedResource?.type === 'pdf'" class="tw-w-full">
+							<embed
+								#pdfViewer
+								[src]="selectedResource?.url"
+								type="application/pdf"
+								class="tw-w-full tw-h-96 lg:tw-h-[600px] tw-rounded-lg tw-shadow-lg"
+							/>
+							<div class="tw-mt-4 tw-text-center">
+								<a
+									[href]="currentResourceUrl"
+									download
+									class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
+								>
+									📥 Descargar PDF
+								</a>
+							</div>
+						</div>
 
-          <!-- Footer del Visor -->
-          <div class="tw-p-6 tw-bg-gray-50 tw-border-t tw-border-gray-200">
-            <div class="tw-flex tw-justify-between tw-items-center">
-              <div>
-                <h4 class="tw-font-semibold tw-text-gray-900 tw-mb-2">Prerrequisitos recomendados</h4>
-                <div class="tw-flex tw-flex-wrap tw-gap-2">
-                  <span *ngFor="let prereq of oaData.prerequisites" 
-                        class="tw-bg-blue-100 tw-text-blue-800 tw-px-3 tw-py-1 tw-rounded-full tw-text-sm">
-                    {{ prereq }}
-                  </span>
-                </div>
-              </div>
-              
-              <button 
-                (click)="markAsCompleted()"
-                class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-shadow-md tw-transition-colors"
-              >
-                ✅ Marcar como Completado
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+						<!-- Image Viewer -->
+						<div
+							*ngIf="selectedResource?.type === 'image'"
+							class="tw-text-center"
+						>
+							<img
+								[src]="currentResourceUrl"
+								[alt]="selectedResource?.title"
+								class="tw-max-w-full tw-max-h-96 tw-rounded-lg tw-shadow-lg tw-mx-auto"
+							/>
+							<div class="tw-mt-4">
+								<a
+									[href]="currentResourceUrl"
+									download
+									class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
+								>
+									📥 Descargar Imagen
+								</a>
+							</div>
+						</div>
+
+						<!-- Exercise/Link Viewer -->
+						<div
+							*ngIf="
+								selectedResource?.type === 'exercise' ||
+								selectedResource?.type === 'link'
+							"
+							class="tw-text-center tw-py-12"
+						>
+							<div class="tw-text-6xl tw-mb-4">
+								{{ getResourceTypeIcon('pdf') }}
+							</div>
+							<h3 class="tw-text-xl tw-font-semibold tw-text-gray-900 tw-mb-4">
+								{{ selectedResource?.title }}
+							</h3>
+							<p class="tw-text-gray-600 tw-mb-6 tw-max-w-md tw-mx-auto">
+								{{ selectedResource?.description }}
+							</p>
+							<a
+								[href]="currentResourceUrl"
+								target="_blank"
+								class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-text-lg"
+							>
+								{{
+									selectedResource?.type === 'exercise'
+										? 'Comenzar Ejercicio'
+										: 'Abrir Enlace'
+								}}
+								→
+							</a>
+						</div>
+
+						<!-- Reading/Summary Viewer -->
+						<div
+							*ngIf="
+								selectedResource?.type === 'reading' ||
+								selectedResource?.type === 'summary'
+							"
+							class="tw-prose tw-max-w-none"
+						>
+							<div
+								class="tw-bg-gray-50 tw-rounded-lg tw-p-6 tw-border-2 tw-border-gray-200"
+							>
+								<h3 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-4">
+									{{ selectedResource?.title }}
+								</h3>
+								<p class="tw-text-gray-700 tw-leading-relaxed">
+									{{ selectedResource?.description }}
+								</p>
+
+								<div
+									*ngIf="currentResourceUrl"
+									class="tw-mt-6 tw-flex tw-gap-4"
+								>
+									<a
+										[href]="currentResourceUrl"
+										target="_blank"
+										class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
+									>
+										📖 Leer Online
+									</a>
+									<a
+										[href]="currentResourceUrl"
+										download
+										class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-gray-600 hover:tw-bg-gray-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-font-semibold"
+									>
+										📥 Descargar
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Footer del Visor -->
+					<div class="tw-p-6 tw-bg-gray-50 tw-border-t tw-border-gray-200">
+						<div class="tw-flex tw-justify-between tw-items-center">
+							<div>
+								<h4 class="tw-font-semibold tw-text-gray-900 tw-mb-2">
+									Prerrequisitos recomendados
+								</h4>
+								<div class="tw-flex tw-flex-wrap tw-gap-2">
+									<span
+										*ngFor="let prereq of oaData.prerequisites"
+										class="tw-bg-blue-100 tw-text-blue-800 tw-px-3 tw-py-1 tw-rounded-full tw-text-sm"
+									>
+										{{ prereq }}
+									</span>
+								</div>
+							</div>
+
+							<button
+								(click)="markAsCompleted()"
+								class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-shadow-md tw-transition-colors"
+							>
+								✅ Marcar como Completado
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
