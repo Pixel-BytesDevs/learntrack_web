@@ -25,7 +25,7 @@ export class CuestionarioComponent implements OnInit {
 			KEYS_STORAGE.progresoGeneral,
 		);
 		if (progressInSession) {
-			this.progress = progressInSession;
+			//this.progress = progressInSession;
 		}
 
 		this.router.events.subscribe((event) => {

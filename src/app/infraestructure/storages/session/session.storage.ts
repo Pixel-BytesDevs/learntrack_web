@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
+import { IStorage } from '../storage';
 
 @Injectable({ providedIn: 'root' })
-export class SessionStorage {
-	save(key: string, value: any) {
-		sessionStorage.setItem(key, value);
+export class SessionStorage implements IStorage {
+	save<T>(key: string, value: T): void {
+		const serialized = JSON.stringify(value);
+		sessionStorage.setItem(key, serialized);
 	}
 
-	get(key: string): any {
+	get<T>(key: string): T | undefined {
 		const value = sessionStorage.getItem(key);
-		if (value != null) {
-			return value;
-		}
-		return '';
+		return value ? JSON.parse(value) : undefined;
 	}
 
 	remove(key: string) {
 		sessionStorage.removeItem(key);
+	}
+
+	clear(): void {
+		sessionStorage.clear();
 	}
 }
