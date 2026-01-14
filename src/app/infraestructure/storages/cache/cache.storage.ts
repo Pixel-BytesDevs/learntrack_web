@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
 import { IStorage } from '../storage';
 
-@Injectable({ providedIn: 'root' })
-export class LocalStorage implements IStorage {
+@Injectable({
+	providedIn: 'root',
+})
+export class CacheStorage implements IStorage {
+	private cache: Map<string, string> = new Map<string, string>();
+
 	save<T>(key: string, value: T): void {
 		const serialized = JSON.stringify(value);
-		localStorage.setItem(key, serialized);
+		this.cache.set(key, serialized);
 	}
 
 	get<T>(key: string): T | undefined {
-		const value = localStorage.getItem(key);
+		const value = this.cache.get(key);
 		return value ? JSON.parse(value) : undefined;
 	}
 
 	remove(key: string) {
-		localStorage.removeItem(key);
+		this.cache.delete(key);
 	}
 
 	clear(): void {
-		localStorage.clear();
+		this.cache.clear();
 	}
 }
