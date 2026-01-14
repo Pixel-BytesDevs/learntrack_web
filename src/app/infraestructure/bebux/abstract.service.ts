@@ -1,13 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 export interface IGetQuery<IQuery> {
 	readonly extraUrl?: string;
 	readonly parameters?: IQuery;
 }
 
-export interface IDeleteQuery<IQuery>{
+export interface IDeleteQuery<IQuery> {
 	readonly extraUrl?: string;
 	readonly parameters?: IQuery;
 }
@@ -22,7 +22,7 @@ export interface IPutQuery<DataRequest> {
 	readonly request?: DataRequest;
 }
 
-//TODO: los errores, tiempo de espera y limite de tiempo
+//TODO: tiempo de espera y limite de tiempo
 export abstract class AbstractService {
 	private readonly http: HttpClient = inject(HttpClient);
 
@@ -42,27 +42,23 @@ export abstract class AbstractService {
 		});
 	}
 
-	//delete
 	protected delete<IResponse, IQuery>(
 		data: IDeleteQuery<IQuery>,
-	): Observable<IResponse>{
+	): Observable<IResponse> {
 		const params = this.buildParams(data?.parameters || {});
 		const endpoint = this.buildSafeUrl(data.extraUrl);
-		return this.http.delete<IResponse>(endpoint,{
+		return this.http.delete<IResponse>(endpoint, {
 			params: params,
-		})
+		});
 	}
 
-	//post
 	protected post<IResponse, IRequest>(
 		postData: IPostQuery<IRequest>,
 	): Observable<IResponse> {
-
 		const endpoint = this.buildSafeUrl(postData.extraUrl);
 		return this.http.post<IResponse>(endpoint, postData.request);
 	}
 
-	//put
 	protected put<IResponse, IRequest>(
 		putData: IPutQuery<IRequest>,
 	): Observable<IResponse> {
@@ -70,7 +66,6 @@ export abstract class AbstractService {
 
 		return this.http.put<IResponse>(endpoint, putData.request);
 	}
-	
 
 	private buildParams(query: Record<string, unknown>): Record<string, string> {
 		const params: Record<string, string> = {};

@@ -1,12 +1,14 @@
-import { NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe, NgFor } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { LoadingService } from '../../../../infraestructure/bebux/loading.service';
 
 @Component({
 	selector: 'trackui-loading',
-	imports: [],
+	imports: [AsyncPipe],
 	templateUrl: './trackui-loading.component.html',
 	styleUrl: './trackui-loading.component.scss',
 })
 export class TrackuiLoadingComponent {
 	cubes = Array(3).fill(0);
+	loading$ = inject(LoadingService).loading$;
 }

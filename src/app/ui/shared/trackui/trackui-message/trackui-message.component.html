@@ -1,0 +1,22 @@
+<div
+	class="message toast flex p-xs gap-xs items-center br-sm text-medium"
+	[class.show]="visible"
+	[ngClass]="['background-' + tipo() + '-0', 'text-' + tipo() + '-6']"
+>
+	<div class="container-icon background-inverse br-50 p-xxxs">
+		<span
+			class="container-icon--2 flex p-xxs justify-center items-center br-50 text-inverse"
+			[ngClass]="'background-' + tipo() + '-6'"
+		>
+			<span
+				trackuiIcon
+				[nombre]="iconPorTipo(tipo())"
+				style="font-size: 16px"
+			></span>
+		</span>
+	</div>
+	<div>
+		<p>{{ error?.message }}</p>
+	</div>
+	<ng-content></ng-content>
+</div>

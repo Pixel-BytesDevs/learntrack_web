@@ -5,10 +5,12 @@ import {
 	ApiService,
 	CreatePostRequest,
 } from './infraestructure/bebux/api.service';
+import { TrackuiMessageComponent } from './ui/shared/trackui/trackui-message/trackui-message.component';
+import { TrackuiLoadingComponent } from './ui/shared/trackui/trackui-loading/trackui-loading.component';
 
 @Component({
 	selector: 'app-root',
-	imports: [RouterOutlet],
+	imports: [TrackuiMessageComponent, TrackuiLoadingComponent],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	providers: [ApiService],
