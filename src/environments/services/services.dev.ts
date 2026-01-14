@@ -7,5 +7,6 @@ export const Services = Object.freeze({
         insertCuestionarioIrl: 'http://localhost:8094/cuestionarios/respuestas?reemplazar=true',
         cuestionarioNivel: 'http://localhost:8094/api/placement/1',
         grafoEstudiante: 'http://localhost:8094/api/usuario-topic',
+        evaluacion: 'http://localhost:8094/api/recommendation-evaluation'
     }
 })

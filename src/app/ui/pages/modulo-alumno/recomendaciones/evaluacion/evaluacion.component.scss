@@ -1,0 +1,25 @@
+// evaluation.component.scss
+:host {
+  display: block;
+}
+
+// Mejora la visualización de las fórmulas matemáticas
+.katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+// Animaciones para el modal
+.tw-transform {
+  transition: transform 0.3s ease;
+}
+
+// Efecto de entrada para el modal
+.tw-scale-95 {
+  transform: scale(0.95);
+}
+
+.tw-scale-100 {
+  transform: scale(1);
+}

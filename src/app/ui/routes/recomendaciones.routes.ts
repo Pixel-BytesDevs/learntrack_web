@@ -19,7 +19,15 @@ export const RECOMENDACIONES_ROUTES: Routes = [
 					import(
 						'../pages/modulo-alumno/recomendaciones/visor-oa/visor-oa.component'
 					).then((c) => c.VisorOaComponent),
+			},
+			{
+				path: 'evaluacion',
+				loadComponent: () =>
+					import(
+						'../pages/modulo-alumno/recomendaciones/evaluacion/evaluacion.component'
+					).then((c) => c.EvaluacionComponent),
 			}
+
 		],
 	},
 ];

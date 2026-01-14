@@ -6,11 +6,11 @@
 		<div
 			class="tw-bg-white tw-rounded-3xl tw-shadow-2xl tw-p-8 tw-mb-8 tw-border tw-border-gray-100"
 		>
-			<div *ngIf="recommendation as rec" class="tw-text-center tw-mb-8">
+			<div class="tw-text-center tw-mb-8">
 				<h1
 					class="tw-text-3xl lg:tw-text-4xl tw-font-bold tw-bg-gradient-to-r tw-from-primary-7 tw-to-blue-600 tw-bg-clip-text tw-text-transparent tw-mb-4"
 				>
-					{{ rec.topicName }}
+					{{ this.recommendation?.topicName }}
 				</h1>
 			</div>
 
@@ -40,9 +40,9 @@
 						>
 							<div class="tw-flex tw-items-center tw-gap-2">
 								<span class="tw-text-lg">🎬</span>
-								<span>Video</span>
+								<span>{{this.oaPrincipal?.typeName}}</span>
 								<span class="tw-mx-2">•</span>
-								<span>15 min</span>
+								<span>{{this.oaPrincipal?.estimatedDuration}}</span>
 							</div>
 						</div>
 
@@ -51,7 +51,7 @@
 						>
 							<div class="tw-flex tw-items-center tw-gap-2">
 								<span class="tw-text-lg">📊</span>
-								<span>Nivel Medio</span>
+								<span>{{this.oaPrincipal?.levelName}}</span>
 							</div>
 						</div>
 					</div>
@@ -95,11 +95,13 @@
 						<span class="tw-font-semibold tw-text-primary-7"
 							>personalizado para ti</span
 						>
+						{{`y te ayudará a fortalecer tu comprensión de ${this.recommendation?.topicName},
+						donde actualmente tienes un `}}
 						y te ayudará a fortalecer tu comprensión de ecuaciones lineales,
 						donde actualmente tienes un
 						<span
 							class="tw-inline-block tw-bg-gradient-to-r tw-from-green-500 tw-to-emerald-600 tw-text-white tw-px-2 tw-py-1 tw-rounded-full tw-text-sm tw-font-bold"
-							>{{ currentDomain }}% de dominio</span
+							>{{ this.recommendation?.domainLevel }}% de dominio</span
 						>.
 					</p>
 
@@ -112,7 +114,7 @@
 									>🎯 Competencia:</span
 								>
 								<span class="tw-text-gray-800"
-									>Ecuaciones Lineales - Nivel Básico</span
+									>{{`${this.recommendation?.topicName} - Nivel ${this.oaPrincipal?.levelName}`}}</span
 								>
 							</div>
 							<div class="tw-flex tw-items-center tw-gap-2">
@@ -128,7 +130,7 @@
 									>👁️ Estilo:</span
 								>
 								<span class="tw-text-gray-800"
-									>Optimizado para aprendizaje visual</span
+									>{{`Optimizado para aprendizaje ${this.oaPrincipal?.styleName}`}}</span
 								>
 							</div>
 						</div>
@@ -173,7 +175,7 @@
 									stroke="url(#gradient)"
 									stroke-width="3"
 									stroke-dasharray="100, 100"
-									[attr.stroke-dasharray]="progress + ', 100'"
+									[attr.stroke-dasharray]="this.recommendation?.domainLevel + ', 100'"
 									stroke-linecap="round"
 								/>
 								<defs>
@@ -191,7 +193,7 @@
 							</svg>
 							<div class="tw-absolute tw-text-center">
 								<span class="tw-text-3xl tw-font-bold tw-text-gray-900"
-									>{{ progress }}%</span
+									>{{ this.recommendation?.domainLevel }}%</span
 								>
 							</div>
 						</div>

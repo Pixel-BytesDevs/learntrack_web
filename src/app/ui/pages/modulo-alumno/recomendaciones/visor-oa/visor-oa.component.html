@@ -27,7 +27,7 @@
 		</h3>
 		<p class="tw-text-red-700 tw-mb-4">{{ error }}</p>
 		<button
-			(click)="loadOAData()"
+			(click)="loadData()"
 			class="tw-bg-red-600 hover:tw-bg-red-700 tw-text-white tw-px-6 tw-py-2 tw-rounded-lg tw-font-semibold"
 		>
 			Reintentar
@@ -35,7 +35,7 @@
 	</div>
 
 	<!-- Main Content -->
-	<div *ngIf="oaData && !loading" class="tw-max-w-7xl tw-mx-auto">
+	<div *ngIf="oaPrincipal && !loading" class="tw-max-w-7xl tw-mx-auto">
 		<!-- Header -->
 		<div class="tw-flex tw-items-center tw-justify-between tw-mb-8">
 			<button
@@ -52,11 +52,11 @@
 					<div class="tw-w-32 tw-bg-gray-200 tw-rounded-full tw-h-2">
 						<div
 							class="tw-bg-green-600 tw-h-2 tw-rounded-full tw-transition-all tw-duration-500"
-							[style.width]="oaData.progress + '%'"
+							[style.width]="recommendation?.domainLevel + '%'"
 						></div>
 					</div>
 					<span class="tw-font-bold tw-text-gray-800"
-						>{{ oaData.progress }}%</span
+						>{{ recommendation?.domainLevel }}%</span
 					>
 				</div>
 			</div>
@@ -95,9 +95,9 @@
 						<!-- Recurso Principal -->
 						<div *ngIf="activeTab === 'main'" class="tw-space-y-3">
 							<div
-								(click)="selectResource(oaData!.mainResource)"
+								(click)="selectResource(oaPrincipal)"
 								[class]="
-									selectedResource?.id === oaData!.mainResource.id
+									selectedResource?.idObject === oaPrincipal.idObject
 										? 'tw-bg-blue-50 tw-border-2 tw-border-blue-200'
 										: 'tw-bg-gray-50 hover:tw-bg-gray-100'
 								"
@@ -105,26 +105,26 @@
 							>
 								<div class="tw-flex tw-items-center tw-gap-3">
 									<span class="tw-text-2xl">{{
-										getResourceTypeIcon(oaData!.mainResource.type)
+										getResourceTypeIcon(oaPrincipal.typeName)
 									}}</span>
 									<div class="tw-flex-1">
 										<h4 class="tw-font-semibold tw-text-gray-900 tw-text-sm">
-											{{ oaData!.mainResource.title }}
+											{{ oaPrincipal.title}}
 										</h4>
 										<div class="tw-flex tw-items-center tw-gap-2 tw-mt-1">
 											<span
 												[class]="
-													getResourceTypeColor(oaData!.mainResource.type) +
+													getResourceTypeColor(oaPrincipal.typeName) +
 													' tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium'
 												"
 											>
-												{{ oaData!.mainResource.type }}
+												{{ oaPrincipal.typeName }}
 											</span>
 											<span
-												*ngIf="oaData!.mainResource.duration"
+												*ngIf="oaPrincipal.estimatedDuration"
 												class="tw-text-xs tw-text-gray-500"
 											>
-												{{ oaData!.mainResource.duration }} min
+												{{ oaPrincipal.estimatedDuration }} min
 											</span>
 										</div>
 									</div>
@@ -135,10 +135,10 @@
 						<!-- Recursos Complementarios -->
 						<div *ngIf="activeTab === 'complementary'" class="tw-space-y-3">
 							<div
-								*ngFor="let resource of oaData!.complementaryResources"
+								*ngFor="let resource of complementaryResources"
 								(click)="selectResource(resource)"
 								[class]="
-									selectedResource?.id === resource.id
+									selectedResource?.idObject === resource.idObject
 										? 'tw-bg-blue-50 tw-border-2 tw-border-blue-200'
 										: 'tw-bg-gray-50 hover:tw-bg-gray-100'
 								"
@@ -146,7 +146,7 @@
 							>
 								<div class="tw-flex tw-items-center tw-gap-3">
 									<span class="tw-text-xl">{{
-										getResourceTypeIcon(resource.type)
+										getResourceTypeIcon(resource.typeName)
 									}}</span>
 									<div class="tw-flex-1">
 										<h4 class="tw-font-semibold tw-text-gray-900 tw-text-sm">
@@ -155,17 +155,17 @@
 										<div class="tw-flex tw-items-center tw-gap-2 tw-mt-1">
 											<span
 												[class]="
-													getResourceTypeColor(resource.type) +
+													getResourceTypeColor(resource.typeName) +
 													' tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium'
 												"
 											>
-												{{ resource.type }}
+												{{ resource.typeName }}
 											</span>
 											<span
-												*ngIf="resource.duration"
+												*ngIf="resource.estimatedDuration"
 												class="tw-text-xs tw-text-gray-500"
 											>
-												{{ resource.duration }} min
+												{{ resource.estimatedDuration }} min
 											</span>
 										</div>
 									</div>
@@ -178,14 +178,14 @@
 				<!-- Información de Competencia -->
 				<div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-p-6 tw-mt-6">
 					<h3 class="tw-font-semibold tw-text-gray-900 tw-mb-3">Competencia</h3>
-					<p class="tw-text-sm tw-text-gray-700">{{ oaData.competency }}</p>
+					<p class="tw-text-sm tw-text-gray-700">{{ recommendation?.topicName}}</p>
 
 					<h4 class="tw-font-semibold tw-text-gray-900 tw-mt-4 tw-mb-2">
 						Objetivos de aprendizaje
 					</h4>
 					<ul class="tw-space-y-1">
 						<li
-							*ngFor="let objective of oaData.learningObjectives"
+							*ngFor="let objective of mockObjectives"
 							class="tw-text-sm tw-text-gray-600 tw-flex tw-items-start tw-gap-2"
 						>
 							<span class="tw-text-green-500 tw-mt-1">•</span>
@@ -208,18 +208,18 @@
 								<div class="tw-flex tw-items-center tw-gap-3">
 									<span
 										[class]="
-											getResourceTypeColor(selectedResource?.type || '') +
+											getResourceTypeColor(selectedResource?.typeName || '') +
 											' tw-px-3 tw-py-1 tw-rounded-full tw-text-sm tw-font-medium'
 										"
 									>
-										{{ getResourceTypeIcon(selectedResource?.type || '') }}
-										{{ selectedResource?.type }}
+										{{ getResourceTypeIcon(selectedResource?.typeName || '') }}
+										{{ selectedResource?.typeName }}
 									</span>
 									<span
-										*ngIf="selectedResource?.duration"
+										*ngIf="selectedResource?.estimatedDuration"
 										class="tw-text-gray-600 tw-text-sm"
 									>
-										{{ selectedResource?.duration ?? '' }} minutos
+										{{ selectedResource?.estimatedDuration ?? '' }} minutos
 									</span>
 								</div>
 							</div>
@@ -229,14 +229,14 @@
 					<!-- Visor de Contenido -->
 					<div class="tw-p-6">
 						<!-- Video Player -->
-						<div *ngIf="selectedResource?.type === 'video'" class="tw-relative">
+						<div *ngIf="selectedResource?.typeName === 'Video'" class="tw-relative">
 							<video
 								#videoPlayer
 								(timeupdate)="onTimeUpdate()"
 								(loadedmetadata)="onTimeUpdate()"
 								class="tw-w-full tw-rounded-lg tw-shadow-lg"
 								controls
-								[src]="selectedResource?.url"
+								[src]="oaPrincipal.s3Url"
 							>
 								Tu navegador no soporta el elemento video.
 							</video>
@@ -273,10 +273,10 @@
 						</div>
 
 						<!-- PDF Viewer -->
-						<div *ngIf="selectedResource?.type === 'pdf'" class="tw-w-full">
+						<div *ngIf="selectedResource?.typeName === 'Documento'" class="tw-w-full">
 							<embed
 								#pdfViewer
-								[src]="selectedResource?.url"
+								[src]="selectedResource?.s3Url"
 								type="application/pdf"
 								class="tw-w-full tw-h-96 lg:tw-h-[600px] tw-rounded-lg tw-shadow-lg"
 							/>
@@ -293,7 +293,7 @@
 
 						<!-- Image Viewer -->
 						<div
-							*ngIf="selectedResource?.type === 'image'"
+							*ngIf="selectedResource?.typeName === 'image'"
 							class="tw-text-center"
 						>
 							<img
@@ -315,8 +315,8 @@
 						<!-- Exercise/Link Viewer -->
 						<div
 							*ngIf="
-								selectedResource?.type === 'exercise' ||
-								selectedResource?.type === 'link'
+								selectedResource?.typeName === 'exercise' ||
+								selectedResource?.typeName === 'link'
 							"
 							class="tw-text-center tw-py-12"
 						>
@@ -327,7 +327,7 @@
 								{{ selectedResource?.title }}
 							</h3>
 							<p class="tw-text-gray-600 tw-mb-6 tw-max-w-md tw-mx-auto">
-								{{ selectedResource?.description }}
+								{{ selectedResource?.topicName }}
 							</p>
 							<a
 								[href]="currentResourceUrl"
@@ -335,7 +335,7 @@
 								class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-text-lg"
 							>
 								{{
-									selectedResource?.type === 'exercise'
+									selectedResource?.typeName === 'exercise'
 										? 'Comenzar Ejercicio'
 										: 'Abrir Enlace'
 								}}
@@ -346,8 +346,8 @@
 						<!-- Reading/Summary Viewer -->
 						<div
 							*ngIf="
-								selectedResource?.type === 'reading' ||
-								selectedResource?.type === 'summary'
+								selectedResource?.typeName === 'reading' ||
+								selectedResource?.typeName === 'summary'
 							"
 							class="tw-prose tw-max-w-none"
 						>
@@ -358,7 +358,7 @@
 									{{ selectedResource?.title }}
 								</h3>
 								<p class="tw-text-gray-700 tw-leading-relaxed">
-									{{ selectedResource?.description }}
+									{{ selectedResource?.topicName }}
 								</p>
 
 								<div
@@ -393,7 +393,7 @@
 								</h4>
 								<div class="tw-flex tw-flex-wrap tw-gap-2">
 									<span
-										*ngFor="let prereq of oaData.prerequisites"
+										*ngFor="let prereq of mockObjectives"
 										class="tw-bg-blue-100 tw-text-blue-800 tw-px-3 tw-py-1 tw-rounded-full tw-text-sm"
 									>
 										{{ prereq }}
@@ -402,10 +402,10 @@
 							</div>
 
 							<button
-								(click)="markAsCompleted()"
+								(click)="initEvaluation()"
 								class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-shadow-md tw-transition-colors"
 							>
-								✅ Marcar como Completado
+								Iniciar evaluación
 							</button>
 						</div>
 					</div>

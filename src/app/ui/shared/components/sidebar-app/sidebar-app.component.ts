@@ -19,6 +19,7 @@ interface SidebarItem {
 })
 export class SidebarAppComponent {
 	mockUser = {
+    id: '1',
 		name: 'Juan Pérez',
 		role: 'alumno',
 	};
@@ -49,7 +50,7 @@ export class SidebarAppComponent {
 
 	loadSidebarItems() {
     const role = this.mockUser.role;
-
+    localStorage.setItem('idUser',this.mockUser.id);
     switch (role) {
       case 'profesor':
         this.sidebarItems = [

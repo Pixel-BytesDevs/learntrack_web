@@ -2,14 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
 	catchError,
+	filter,
 	Observable,
 	of,
 	Subject,
 	switchMap,
+	take,
 	takeUntil,
 	timer,
 } from 'rxjs';
 import { Recommendation } from '../../../../core/domain/dto/recommendation/recommendation.dto';
+import { RecomendationStateService } from '../recomendation-state/recomendation-state.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -19,7 +22,10 @@ export class RecomendacionService {
 
 	private stopPolling$ = new Subject<void>();
 
-	constructor(private http: HttpClient) {}
+	constructor(
+		private http: HttpClient,
+		private recommendationStateService: RecomendationStateService,
+	) {}
 
 	/** GET simple (sin polling) */
 	getRecommendation(userId: number): Observable<Recommendation | null> {
@@ -40,16 +46,18 @@ export class RecomendacionService {
 		intervalMs = 3000,
 	): Observable<Recommendation | null> {
 		return timer(0, intervalMs).pipe(
-			switchMap(() => this.getRecommendation(userId)),
 			takeUntil(stop$),
-			switchMap((response) => {
+			switchMap(() => this.getRecommendation(userId)),
+			filter((response) => {
 				if (!response || response.status === 'PENDING') {
-					console.log('Recomendación no lista');
-					return of(null);
+					return false;
 				}
-				stop$.next();
-				console.log('Recomendación lista:', response as Recommendation);
-				return of(response as Recommendation);
+				return true;
+			}),
+			take(1), // Toma solo la primera recomendación lista y completa automáticamente
+			switchMap((response) => {
+				this.recommendationStateService.setRecommendation(response); // Establece la recomendación en el estado
+				return of(response);
 			}),
 		);
 	}
