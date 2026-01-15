@@ -8,11 +8,11 @@ import {
 	QueryList,
 } from '@angular/core';
 import { ItemStepComponent } from './item-ste/item-ste.component';
-import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { TrackuiButtonDirective } from '../trackui-button/trackui-button.directive';
 @Component({
 	selector: 'trackui-step',
-	imports: [NgIf, NgFor, NgTemplateOutlet, TrackuiButtonDirective],
+	imports: [NgTemplateOutlet, TrackuiButtonDirective],
 	templateUrl: './trackui-ste.component.html',
 	styleUrl: './trackui-ste.component.scss',
 })

@@ -16,8 +16,9 @@
 			<button
 				class="tw-flex-1 sm:tw-flex-none tw-px-4 tw-py-2 tw-rounded-full"
 				[ngClass]="{
-					'tw-bg-blue-600 tw-text-white tw-shadow-sm': selectedTab === 'general',
-					'tw-text-gray-700 hover:tw-bg-gray-200': selectedTab !== 'general'
+					'tw-bg-blue-600 tw-text-white tw-shadow-sm':
+						selectedTab === 'general',
+					'tw-text-gray-700 hover:tw-bg-gray-200': selectedTab !== 'general',
 				}"
 				(click)="selectTab('general')"
 			>
@@ -28,7 +29,7 @@
 				class="tw-flex-1 sm:tw-flex-none tw-px-4 tw-py-2 tw-rounded-full"
 				[ngClass]="{
 					'tw-bg-blue-600 tw-text-white tw-shadow-sm': selectedTab === 'ruta',
-					'tw-text-gray-700 hover:tw-bg-gray-200': selectedTab !== 'ruta'
+					'tw-text-gray-700 hover:tw-bg-gray-200': selectedTab !== 'ruta',
 				}"
 				(click)="selectTab('ruta')"
 			>
@@ -41,14 +42,18 @@
 	<section
 		class="tw-flex-1 tw-overflow-y-auto tw-animate-fade-in tw-duration-500 tw-px-2 sm:tw-px-4"
 	>
-		<ng-container *ngIf="selectedTab === 'general'">
-			<div class="tw-text-gray-600 tw-text-center tw-mt-10">
-				<p>Resumen general del progreso del estudiante.</p>
-			</div>
-		</ng-container>
+		@if (selectedTab === 'general') {
+			<ng-container>
+				<div class="tw-text-gray-600 tw-text-center tw-mt-10">
+					<p>Resumen general del progreso del estudiante.</p>
+				</div>
+			</ng-container>
+		}
 
-		<ng-container *ngIf="selectedTab === 'ruta'">
-			<app-route-progress />
-		</ng-container>
+		@if (selectedTab === 'ruta') {
+			<ng-container>
+				<app-route-progress />
+			</ng-container>
+		}
 	</section>
 </div>

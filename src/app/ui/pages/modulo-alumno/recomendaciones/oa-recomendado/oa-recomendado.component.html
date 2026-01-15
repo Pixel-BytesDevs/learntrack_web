@@ -40,9 +40,9 @@
 						>
 							<div class="tw-flex tw-items-center tw-gap-2">
 								<span class="tw-text-lg">🎬</span>
-								<span>{{this.oaPrincipal?.typeName}}</span>
+								<span>{{ this.oaPrincipal?.typeName }}</span>
 								<span class="tw-mx-2">•</span>
-								<span>{{this.oaPrincipal?.estimatedDuration}}</span>
+								<span>{{ this.oaPrincipal?.estimatedDuration }}</span>
 							</div>
 						</div>
 
@@ -51,7 +51,7 @@
 						>
 							<div class="tw-flex tw-items-center tw-gap-2">
 								<span class="tw-text-lg">📊</span>
-								<span>{{this.oaPrincipal?.levelName}}</span>
+								<span>{{ this.oaPrincipal?.levelName }}</span>
 							</div>
 						</div>
 					</div>
@@ -95,8 +95,10 @@
 						<span class="tw-font-semibold tw-text-primary-7"
 							>personalizado para ti</span
 						>
-						{{`y te ayudará a fortalecer tu comprensión de ${this.recommendation?.topicName},
-						donde actualmente tienes un `}}
+						{{
+							`y te ayudará a fortalecer tu comprensión de ${this.recommendation?.topicName},
+						donde actualmente tienes un `
+						}}
 						y te ayudará a fortalecer tu comprensión de ecuaciones lineales,
 						donde actualmente tienes un
 						<span
@@ -113,9 +115,9 @@
 								<span class="tw-text-primary-7 tw-font-semibold"
 									>🎯 Competencia:</span
 								>
-								<span class="tw-text-gray-800"
-									>{{`${this.recommendation?.topicName} - Nivel ${this.oaPrincipal?.levelName}`}}</span
-								>
+								<span class="tw-text-gray-800">{{
+									`${this.recommendation?.topicName} - Nivel ${this.oaPrincipal?.levelName}`
+								}}</span>
 							</div>
 							<div class="tw-flex tw-items-center tw-gap-2">
 								<span class="tw-text-primary-7 tw-font-semibold"
@@ -129,9 +131,9 @@
 								<span class="tw-text-primary-7 tw-font-semibold"
 									>👁️ Estilo:</span
 								>
-								<span class="tw-text-gray-800"
-									>{{`Optimizado para aprendizaje ${this.oaPrincipal?.styleName}`}}</span
-								>
+								<span class="tw-text-gray-800">{{
+									`Optimizado para aprendizaje ${this.oaPrincipal?.styleName}`
+								}}</span>
 							</div>
 						</div>
 					</div>
@@ -175,7 +177,9 @@
 									stroke="url(#gradient)"
 									stroke-width="3"
 									stroke-dasharray="100, 100"
-									[attr.stroke-dasharray]="this.recommendation?.domainLevel + ', 100'"
+									[attr.stroke-dasharray]="
+										this.recommendation?.domainLevel + ', 100'
+									"
 									stroke-linecap="round"
 								/>
 								<defs>
@@ -221,17 +225,18 @@
 			<div
 				class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-3"
 			>
-				<div
-					*ngFor="let prereq of prerequisites; let i = index"
-					class="tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-100 tw-p-4 tw-rounded-xl tw-border tw-border-gray-200 tw-text-center tw-transform hover:tw-scale-105 tw-transition-all tw-duration-300 tw-cursor-pointer"
-				>
-					<div class="tw-text-2xl tw-mb-2">
-						{{ ['🔢', '➕', '📐'][i] || '📚' }}
+				@for (prereq of prerequisites; track prereq; let i = $index) {
+					<div
+						class="tw-bg-gradient-to-br tw-from-gray-50 tw-to-gray-100 tw-p-4 tw-rounded-xl tw-border tw-border-gray-200 tw-text-center tw-transform hover:tw-scale-105 tw-transition-all tw-duration-300 tw-cursor-pointer"
+					>
+						<div class="tw-text-2xl tw-mb-2">
+							{{ ['🔢', '➕', '📐'][i] || '📚' }}
+						</div>
+						<span class="tw-text-gray-800 tw-font-medium tw-text-sm">{{
+							prereq
+						}}</span>
 					</div>
-					<span class="tw-text-gray-800 tw-font-medium tw-text-sm">{{
-						prereq
-					}}</span>
-				</div>
+				}
 			</div>
 		</div>
 

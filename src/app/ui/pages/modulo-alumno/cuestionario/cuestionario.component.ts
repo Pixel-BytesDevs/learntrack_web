@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { SessionStorage } from '../../../../infraestructure/storages/session/session.storage';
 import { KEYS_STORAGE } from '../../../../core/domain/constants/key-local-storage.const';
 
 @Component({
 	selector: 'cuestionario',
-	imports: [RouterOutlet, NgIf, NgClass],
+	imports: [RouterOutlet, NgClass],
 	templateUrl: './cuestionario.component.html',
 	styleUrl: './cuestionario.component.scss',
 })

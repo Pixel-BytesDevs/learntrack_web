@@ -2,7 +2,6 @@ import { Component, computed, input, model } from '@angular/core';
 import { TrackuiIcons } from '../../../../../core/domain/types/tipos-icons.type';
 import { TrackUiIconsDirective } from '../../../../shared/trackui/trackui-icons/trackui-icons.directive';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgIf } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 

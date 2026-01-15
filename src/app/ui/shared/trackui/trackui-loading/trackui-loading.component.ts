@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { LoadingService } from '../../../../infraestructure/bebux/loading.service';
 

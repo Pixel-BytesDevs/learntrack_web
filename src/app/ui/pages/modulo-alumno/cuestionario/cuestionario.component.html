@@ -17,17 +17,19 @@
 		</div>
 
 		<!-- Barra de progreso dinámica -->
-		<div *ngIf="isProgressVisible" class="tw-flex tw-items-center tw-gap-2">
-			<span class="tw-text-base tw-font-semibold tw-text-primary-7"
-				>Diagnóstico: {{ progress }}%</span
-			>
-			<div class="tw-relative tw-w-48 tw-h-2 tw-bg-gray-300 tw-rounded-full">
-				<div
-					class="tw-absolute tw-h-full tw-bg-primary-7 tw-rounded-full"
-					[style.width.%]="progress"
-				></div>
+		@if (isProgressVisible) {
+			<div class="tw-flex tw-items-center tw-gap-2">
+				<span class="tw-text-base tw-font-semibold tw-text-primary-7"
+					>Diagnóstico: {{ progress }}%</span
+				>
+				<div class="tw-relative tw-w-48 tw-h-2 tw-bg-gray-300 tw-rounded-full">
+					<div
+						class="tw-absolute tw-h-full tw-bg-primary-7 tw-rounded-full"
+						[style.width.%]="progress"
+					></div>
+				</div>
 			</div>
-		</div>
+		}
 
 		<!-- Dropdown usuario -->
 		<div class="tw-relative" (click)="toggleDropdown()">
@@ -49,38 +51,39 @@
 			</button>
 
 			<!-- Dropdown menu -->
-			<div
-				*ngIf="isOpen"
-				class="tw-absolute tw-right-0 tw-mt-2 tw-w-56 tw-bg-inverse tw-rounded-2xl tw-shadow-xl tw-border tw-border-neutral-5 tw-z-50 tw-overflow-hidden"
-			>
-				<ul class="tw-py-2 tw-text-sm tw-text-base tw-flex tw-flex-col">
-					<li>
-						<a
-							href="#"
-							class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition"
-						>
-							<i class="bi bi-person tw-text-primary-5"></i> Perfil
-						</a>
-					</li>
-					<li>
-						<a
-							href="#"
-							class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition"
-						>
-							<i class="bi bi-gear tw-text-primary-5"></i> Configuración
-						</a>
-					</li>
-					<li><hr class="tw-my-1 tw-border-neutral-5" /></li>
-					<li>
-						<a
-							href="#"
-							class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 tw-text-danger-5 hover:tw-bg-danger-0 tw-transition"
-						>
-							<i class="bi bi-box-arrow-right"></i> Cerrar sesión
-						</a>
-					</li>
-				</ul>
-			</div>
+			@if (isOpen) {
+				<div
+					class="tw-absolute tw-right-0 tw-mt-2 tw-w-56 tw-bg-inverse tw-rounded-2xl tw-shadow-xl tw-border tw-border-neutral-5 tw-z-50 tw-overflow-hidden"
+				>
+					<ul class="tw-py-2 tw-text-sm tw-text-base tw-flex tw-flex-col">
+						<li>
+							<a
+								href="#"
+								class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition"
+							>
+								<i class="bi bi-person tw-text-primary-5"></i> Perfil
+							</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition"
+							>
+								<i class="bi bi-gear tw-text-primary-5"></i> Configuración
+							</a>
+						</li>
+						<li><hr class="tw-my-1 tw-border-neutral-5" /></li>
+						<li>
+							<a
+								href="#"
+								class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 tw-text-danger-5 hover:tw-bg-danger-0 tw-transition"
+							>
+								<i class="bi bi-box-arrow-right"></i> Cerrar sesión
+							</a>
+						</li>
+					</ul>
+				</div>
+			}
 		</div>
 	</header>
 

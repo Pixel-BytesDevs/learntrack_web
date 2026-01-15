@@ -4,14 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PreguntaResponse } from '../../../../../core/domain/dto/modulo-alumno/pregunta.dto';
 import { CuestionarioService } from '../../../../../infraestructure/services/modulo-alumno/cuestionario/cuestionario-service.service';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { TrackuiButtonDirective } from '../../../../shared/trackui/trackui-button/trackui-button.directive';
 import { SessionStorage } from '../../../../../infraestructure/storages/session/session.storage';
 import { KEYS_STORAGE } from '../../../../../core/domain/constants/key-local-storage.const';
 
 @Component({
 	selector: 'cuestionario-vark',
-	imports: [NgIf, NgFor, NgClass, FormsModule, TrackuiButtonDirective],
+	imports: [NgClass, FormsModule, TrackuiButtonDirective],
 	templateUrl: './cuestionario-vark.component.html',
 	styleUrl: './cuestionario-vark.component.scss',
 })

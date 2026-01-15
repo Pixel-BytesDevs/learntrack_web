@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgIf,NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { TrackUiIconsDirective } from '../../../../shared/trackui/trackui-icons/trackui-icons.directive';
 import { TrackuiButtonDirective } from '../../../../shared/trackui/trackui-button/trackui-button.directive';
 

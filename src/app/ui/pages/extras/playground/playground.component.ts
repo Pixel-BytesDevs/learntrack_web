@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ITEMS_SIDEBAR_TEST } from '../../../../core/domain/constants/items-sidebar-test.const';
@@ -51,7 +50,6 @@ import { FormsModule } from '@angular/forms';
 		TrackuiToggleButton,
 		TrackuiEtiquetaComponent,
 		TrackuiAlertaComponent,
-		NgFor,
 		ReactiveFormsModule,
 		TrackUiIconsDirective,
 		TrackuiCardEtiquetaComponent,
@@ -82,7 +80,6 @@ import { FormsModule } from '@angular/forms';
 		TrackuiModalComponent,
 		TrackuiStepComponent,
 		ItemStepComponent,
-		NgIf,
 		FormsModule,
 		
 	],

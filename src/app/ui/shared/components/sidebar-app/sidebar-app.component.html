@@ -24,14 +24,15 @@
 	</button>
 
 	<section class="flex-column gap-xs">
-		<item-sidebar-app
-			*ngFor="let item of sidebarItems"
-			class="w100"
-			[isExpanded]="isExpanded()"
-			[nombreIcon]="item.icon"
-			[label]="item.label"
-			[ruta]="item.route"
-			[(controlItem)]="controlOpcionSeleccionada"
-		/>
+		@for (item of sidebarItems; track item) {
+			<item-sidebar-app
+				class="w100"
+				[isExpanded]="isExpanded()"
+				[nombreIcon]="item.icon"
+				[label]="item.label"
+				[ruta]="item.route"
+				[(controlItem)]="controlOpcionSeleccionada"
+			/>
+		}
 	</section>
 </aside>

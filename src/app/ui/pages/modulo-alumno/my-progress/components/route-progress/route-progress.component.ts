@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
 import {
 	Component,
 	ElementRef,
@@ -21,7 +21,7 @@ export interface TemaNodo {
 
 @Component({
 	selector: 'app-route-progress',
-	imports: [NgIf, NgFor, AsyncPipe],
+	imports: [AsyncPipe],
 	templateUrl: './route-progress.component.html',
 	styleUrl: './route-progress.component.scss',
 })

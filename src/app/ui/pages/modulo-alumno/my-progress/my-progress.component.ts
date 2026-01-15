@@ -1,11 +1,11 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouteProgressComponent } from './components/route-progress/route-progress.component';
 import { RouterOutlet } from "../../../../../../node_modules/@angular/router/router_module.d-Bx9ArA6K";
 
 @Component({
 	selector: 'my-progress',
-	imports: [NgIf, NgClass, RouteProgressComponent],
+	imports: [NgClass, RouteProgressComponent],
 	templateUrl: './my-progress.component.html',
 	styleUrl: './my-progress.component.scss',
 })

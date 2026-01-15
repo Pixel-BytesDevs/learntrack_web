@@ -10,14 +10,13 @@ import { AlternativePlacement } from '../../../../../core/domain/dto/modulo-alum
 import { EvaluationResponse } from '../../../../../core/domain/dto/modulo-alumno/evaluacion/evaluation.dto';
 import { QuestionPlacement } from '../../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/question.dto';
 import { EvaluacionService } from '../../../../../infraestructure/services/modulo-alumno/evaluacion/evaluacion.service';
-import { NgIf, NgFor } from '@angular/common';
 import { KatexDirective } from '../../../../shared/directiva/katex.directive';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 
 @Component({
 	selector: 'app-evaluacion',
-	imports: [NgIf, NgFor, KatexDirective, DecimalPipe],
+	imports: [KatexDirective, DecimalPipe],
 	templateUrl: './evaluacion.component.html',
 	styleUrl: './evaluacion.component.scss',
 })

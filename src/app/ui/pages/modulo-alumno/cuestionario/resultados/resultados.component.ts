@@ -4,7 +4,7 @@ import {
 	EstiloVark,
 } from '../../../../../core/domain/dto/modulo-alumno/resultado-vark/detalle-respuesta.dto';
 import { UsuariosCuestionarioService } from '../../../../../infraestructure/services/modulo-alumno/usuarios-cuestionario/usuarios-cuestionario-service.service';
-import { NgFor, NgIf, NgStyle, TitleCasePipe } from '@angular/common';
+import { NgStyle, TitleCasePipe } from '@angular/common';
 import {
 	CompetenciaInicialDTO,
 	CompetenciaProgresoDTO,
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'resultados',
-	imports: [NgStyle, TitleCasePipe, NgFor, NgIf, RouterLink],
+	imports: [NgStyle, TitleCasePipe, RouterLink],
 	templateUrl: './resultados.component.html',
 	styleUrls: ['./resultados.component.scss'],
 })

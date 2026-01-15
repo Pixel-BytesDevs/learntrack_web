@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgFor } from '@angular/common';
 import { RecomendacionService } from '../../../../infraestructure/services/modulo-alumno/recomendaciones/recomendacion.service';
 import { Router, RouterOutlet } from '@angular/router';
 

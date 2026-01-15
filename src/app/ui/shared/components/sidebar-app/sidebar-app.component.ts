@@ -2,7 +2,6 @@ import { NgClass } from '@angular/common';
 import { Component, effect, input, signal } from '@angular/core';
 import { TrackUiIconsDirective } from '../../trackui/trackui-icons/trackui-icons.directive';
 import { ItemSidebarAppComponent } from './item-sidebar-app/item-sidebar-app.component';
-import { NgFor } from '@angular/common';
 import { TrackuiIcons } from '../../../../core/domain/types/tipos-icons.type';
 
 interface SidebarItem {
@@ -13,7 +12,7 @@ interface SidebarItem {
 
 @Component({
 	selector: 'sidebar-app',
-	imports: [TrackUiIconsDirective,NgFor, NgClass, ItemSidebarAppComponent],
+	imports: [TrackUiIconsDirective, NgClass, ItemSidebarAppComponent],
 	templateUrl: './sidebar-app.component.html',
 	styleUrl: './sidebar-app.component.scss',
 })

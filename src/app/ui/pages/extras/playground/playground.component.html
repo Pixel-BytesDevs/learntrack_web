@@ -1,10 +1,10 @@
-<trackui-sidebar 
-  [isOpen]="isSidebarOpen" 
-  [titulo]="'Mi Sidebar'" 
-  [items]="sidebarItems" 
-  (cerrar)="closeSidebar()">
+<trackui-sidebar
+	[isOpen]="isSidebarOpen"
+	[titulo]="'Mi Sidebar'"
+	[items]="sidebarItems"
+	(cerrar)="closeSidebar()"
+>
 </trackui-sidebar>
-
 
 <trackui-modal
 	titulo="Titulo modal"
@@ -52,28 +52,33 @@
 					<div>{{tipo}}</div>
 				} -->
 
-					<app-trackui-etiqueta
-						*ngFor="let tipo of tiposEtiquetas"
-						[tipo]="tipo"
-						[fill]="true"
-						nombreIcon="upload"
-						>{{ tipo }}-true</app-trackui-etiqueta
-					>
-					<app-trackui-etiqueta
-						*ngFor="let tipo of tiposEtiquetas"
-						[tipo]="tipo"
-						[fill]="false"
-						nombreIcon="buscar"
-						>{{ tipo }}-false</app-trackui-etiqueta
-					>
+					@for (tipo of tiposEtiquetas; track tipo) {
+						<app-trackui-etiqueta
+							[tipo]="tipo"
+							[fill]="true"
+							nombreIcon="upload"
+							>{{ tipo }}-true</app-trackui-etiqueta
+						>
+					}
+
+					@for (tipo of tiposEtiquetas; track tipo) {
+						<app-trackui-etiqueta
+							[tipo]="tipo"
+							[fill]="false"
+							nombreIcon="buscar"
+							>{{ tipo }}-false</app-trackui-etiqueta
+						>
+					}
 				</div>
 			</seccion-componente>
 
 			<seccion-componente titulo="Alertas">
 				<div class="flex flex-wrap gap-md">
-					<app-trackui-alerta *ngFor="let tipo of TiposAlerta" [tipo]="tipo"
-						>Alerta pruebas</app-trackui-alerta
-					>
+					@for (tipo of TiposAlerta; track tipo) {
+						<app-trackui-alerta [tipo]="tipo"
+							>Alerta pruebas</app-trackui-alerta
+						>
+					}
 				</div>
 			</seccion-componente>
 
@@ -88,24 +93,26 @@
 			</seccion-componente>
 			<seccion-componente titulo="Botones">
 				<div class="flex flex-wrap gap-md">
-					<button
-						*ngFor="let tipo of tiposButtonNormal"
-						trackuiButton
-						[tipo]="tipo"
-						forma="normal"
-						(click)="ejecutar()"
-						[isLoading]="isloading"
-					>
-						<span trackuiIcon nombre="user"></span>
-						Prueba boton
-					</button>
-					<button
-						*ngFor="let tipo of tiposButtonCircular"
-						trackuiButton
-						[tipo]="tipo"
-						forma="circular"
-						nameIcon="user"
-					></button>
+					@for (tipo of tiposButtonNormal; track tipo) {
+						<button
+							trackuiButton
+							[tipo]="tipo"
+							forma="normal"
+							(click)="ejecutar()"
+							[isLoading]="isloading"
+						>
+							<span trackuiIcon nombre="user"></span>
+							Prueba boton
+						</button>
+					}
+					@for (tipo of tiposButtonCircular; track tipo) {
+						<button
+							trackuiButton
+							[tipo]="tipo"
+							forma="circular"
+							nameIcon="user"
+						></button>
+					}
 				</div>
 			</seccion-componente>
 			<seccion-componente titulo="Iconos">
@@ -210,9 +217,11 @@
 
 			<seccion-componente titulo="Alertas">
 				<div class="flex flex-wrap gap-md">
-					<app-trackui-alerta *ngFor="let tipo of TiposAlerta" [tipo]="tipo"
-						>Alerta pruebas</app-trackui-alerta
-					>
+					@for (tipo of TiposAlerta; track tipo) {
+						<app-trackui-alerta [tipo]="tipo"
+							>Alerta pruebas</app-trackui-alerta
+						>
+					}
 				</div>
 			</seccion-componente>
 
@@ -227,24 +236,26 @@
 			</seccion-componente>
 			<seccion-componente titulo="Botones">
 				<div class="flex flex-wrap gap-md">
-					<button
-						*ngFor="let tipo of tiposButtonNormal"
-						trackuiButton
-						[tipo]="tipo"
-						forma="normal"
-						(click)="ejecutar()"
-						[isLoading]="isloading"
-					>
-						<span trackuiIcon nombre="user"></span>
-						Prueba boton
-					</button>
-					<button
-						*ngFor="let tipo of tiposButtonCircular"
-						trackuiButton
-						[tipo]="tipo"
-						forma="circular"
-						nameIcon="user"
-					></button>
+					@for (tipo of tiposButtonNormal; track tipo) {
+						<button
+							trackuiButton
+							[tipo]="tipo"
+							forma="normal"
+							(click)="ejecutar()"
+							[isLoading]="isloading"
+						>
+							<span trackuiIcon nombre="user"></span>
+							Prueba boton
+						</button>
+					}
+					@for (tipo of tiposButtonCircular; track tipo) {
+						<button
+							trackuiButton
+							[tipo]="tipo"
+							forma="circular"
+							nameIcon="user"
+						></button>
+					}
 				</div>
 			</seccion-componente>
 			<seccion-componente titulo="Iconos">
@@ -345,7 +356,9 @@
 						<ng-template>
 							<p>Paso 1: Sube un archivo</p>
 							<input type="file" (change)="onFileSelected($event)" />
-							<p *ngIf="fileUploaded" style="color: green">✅ Archivo listo</p>
+							@if (fileUploaded) {
+								<p style="color: green">✅ Archivo listo</p>
+							}
 						</ng-template>
 					</item-step>
 

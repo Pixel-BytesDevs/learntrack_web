@@ -11,7 +11,6 @@ import {
 } from '../../../../../core/domain/interfaces/gestor-oa/oa-resource.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OaViewerService } from '../../../../../infraestructure/services/modulo-alumno/oa-viewer/oa-viewer.service';
-import { NgIf, NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { RecomendationStateService } from '../../../../../infraestructure/services/modulo-alumno/recomendation-state/recomendation-state.service';
 import { Recommendation } from '../../../../../core/domain/dto/recommendation/recommendation.dto';
@@ -20,7 +19,7 @@ import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
 
 @Component({
 	selector: 'app-visor-oa',
-	imports: [NgIf, NgFor, CommonModule],
+	imports: [CommonModule],
 	templateUrl: './visor-oa.component.html',
 	styleUrl: './visor-oa.component.scss',
 })

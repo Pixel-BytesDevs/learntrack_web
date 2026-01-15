@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { Network, Node, Edge } from 'vis-network';
 import { DataSet } from 'vis-data';
-import { NgIf } from '@angular/common';
 import { Tema } from '../../../../../../core/domain/interfaces/grafo-compentencia/tema.interface';
 
 @Component({

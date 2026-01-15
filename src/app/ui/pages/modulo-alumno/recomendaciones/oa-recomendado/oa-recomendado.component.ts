@@ -2,14 +2,14 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { RecomendacionService } from '../../../../../infraestructure/services/modulo-alumno/recomendaciones/recomendacion.service';
 import { TrackuiEtiquetaComponent } from '../../../../shared/trackui/trackui-etiqueta/trackui-etiqueta.component';
 import { Router } from '@angular/router';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe} from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { Recommendation } from '../../../../../core/domain/dto/recommendation/recommendation.dto';
 import { OAData } from '../../../../../core/domain/dto/recommendation/oa-data.dto';
 import { RecomendationStateService } from '../../../../../infraestructure/services/modulo-alumno/recomendation-state/recomendation-state.service';
 @Component({
 	selector: 'app-oa-recomendado',
-	imports: [NgFor],
+	imports: [],
 	templateUrl: './oa-recomendado.component.html',
 	styleUrl: './oa-recomendado.component.scss',
 })
