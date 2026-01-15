@@ -12,6 +12,7 @@ import { PlacementResponse } from '../../core/domain/dto/modulo-alumno/cuestiona
 import { CuestionarioNivelService } from '../../infraestructure/services/modulo-alumno/cuestionario-nivel/cuestionario-nivel.service';
 import { PlacementTestSnapshot } from '../../core/domain/interfaces/cuestionario-nivel/placement-test-snap.model';
 import { Router } from '@angular/router';
+import { UiState } from '../../core/domain/enums/tipos-ui-state.enum';
 
 @Injectable({ providedIn: 'root' })
 export class CuestionarioNivelStateService {
@@ -39,8 +40,8 @@ export class CuestionarioNivelStateService {
 	readonly remainingSeconds$ = this._remainingSeconds.asObservable();
 
 	private _uiState = new BehaviorSubject<
-		'active' | 'loading' | 'timeout' | 'submitting' | 'completed'
-	>('loading');
+		UiState
+	>(UiState.LOADING);
 	readonly uiState$ = this._uiState.asObservable();
 
 	constructor() {
@@ -65,7 +66,7 @@ export class CuestionarioNivelStateService {
 					test!.startedAt = new Date().toISOString();
 					this._test$.next(test);
 					this._remainingSeconds.next(20 * 60); // ejemplo: 20 minutos
-					this._uiState.next('active');
+					this._uiState.next(UiState.ACTIVE);
 					this.saveState();
 				}),
 				catchError((error) => {
@@ -140,7 +141,7 @@ export class CuestionarioNivelStateService {
 
 		this._loading$.next(true);
 		this._submitted$.next(false);
-		this._uiState.next('submitting');
+		this._uiState.next(UiState.SUBMITTING);
 		this.saveState();
 		// this.apiService
 		// 	.submitPlacementTest(validated)
@@ -159,7 +160,7 @@ export class CuestionarioNivelStateService {
 				delay(1500),
 				tap(() => {
 					this._submitted$.next(true);
-					this._uiState.next('completed');
+					this._uiState.next(UiState.COMPLETED);
 					this.clearState(); // 🗑️ limpiar estado guardado al completar
 					this.router.navigate(['/alumno/resultados']);
 				}),
@@ -170,7 +171,7 @@ export class CuestionarioNivelStateService {
 
 	markTimeUp() {
 		this._timeUp$.next(true);
-		this._uiState.next('timeout');
+		this._uiState.next(UiState.TIMEOUT);
 		this.saveState();
 	}
 

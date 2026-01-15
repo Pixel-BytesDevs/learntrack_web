@@ -12,6 +12,7 @@ import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { PlacementResponse } from '../../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/placement.dto';
 import { TimerComponent } from './components/timer.components';
 import { CuestionarioNivelStateService } from '../../../../../presentation/cuestionario-nivel/cuestionario-nivel-state.service';
+import { UiState } from '../../../../../core/domain/enums/tipos-ui-state.enum';
 
 @Component({
 	selector: 'cuestionario-nivel',
@@ -43,8 +44,7 @@ export class CuestionarioNivelComponent implements OnInit, OnDestroy {
 
 	answeredIndices = new Set<number>();
 
-	uiState: 'loading' | 'active' | 'submitting' | 'timeout' | 'completed' =
-		'loading';
+	uiState: UiState = UiState.LOADING ;
 
 	remainingSeconds = 0;
 
@@ -147,21 +147,21 @@ export class CuestionarioNivelComponent implements OnInit, OnDestroy {
 
 	onTimerEnd(): void {
 		if (this.test) {
-			this.uiState = 'timeout';
+			this.uiState = UiState.TIMEOUT;
 			// mostramos mensaje 2 segundos y luego enviamos
 			setTimeout(() => {
-				this.uiState = 'submitting';
+				this.uiState = UiState.SUBMITTING;
 				this.state.submitTest(this.test!);
-				setTimeout(() => (this.uiState = 'completed'), 2000);
+				setTimeout(() => (this.uiState = UiState.COMPLETED), 2000);
 			}, 2000);
 		}
 	}
 
 	submit(): void {
 		if (!this.test) return;
-		this.uiState = 'submitting';
+		this.uiState = UiState.SUBMITTING;
 		this.state.submitTest(this.test);
-		setTimeout(() => (this.uiState = 'completed'), 2000);
+		setTimeout(() => (this.uiState = UiState.COMPLETED), 2000);
 	}
 
 	private calculateDuration(startedAt: string, endedAt: string): number {
