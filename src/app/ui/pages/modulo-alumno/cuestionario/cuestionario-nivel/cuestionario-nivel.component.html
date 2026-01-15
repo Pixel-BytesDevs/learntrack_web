@@ -2,196 +2,195 @@
 	class="tw-w-full tw-max-w-4xl tw-mx-auto tw-px-4 sm:tw-px-6 tw-py-8 tw-space-y-10 tw-min-h-screen"
 >
 	<!-- Cambia el contenido según el estado -->
-	<ng-container [ngSwitch]="uiState">
-		<!-- 🌀 Estado: cargando -->
-		<div
-			*ngSwitchCase="'loading'"
-			class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-20 tw-text-neutral-5"
-		>
+	@switch (uiState) {
+		@case ('loading') {
 			<div
-				class="tw-relative tw-w-12 tw-h-12 tw-mb-5 tw-rounded-full tw-border-4 tw-border-primary-5 tw-border-t-transparent tw-animate-spin"
-			></div>
-			<p class="tw-text-lg tw-font-medium">Cargando cuestionario...</p>
-		</div>
-
-		<!-- ⏰ Estado: tiempo agotado -->
-		<div
-			*ngSwitchCase="'timeout'"
-			class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-py-24"
-		>
-			<div class="tw-text-6xl tw-text-danger-600 tw-animate-pulse tw-font-bold">
-				⏰
+				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-20 tw-text-neutral-5"
+			>
+				<div
+					class="tw-relative tw-w-12 tw-h-12 tw-mb-5 tw-rounded-full tw-border-4 tw-border-primary-5 tw-border-t-transparent tw-animate-spin"
+				></div>
+				<p class="tw-text-lg tw-font-medium">Cargando cuestionario...</p>
 			</div>
-			<p class="tw-text-lg tw-font-medium tw-text-neutral-800">
-				¡El tiempo se ha agotado!
-			</p>
-			<p class="tw-text-sm tw-text-neutral-500">
-				Estamos enviando tus respuestas automáticamente...
-			</p>
-		</div>
-
-		<!-- 📤 Estado: enviando -->
-		<div
-			*ngSwitchCase="'submitting'"
-			class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-24"
-		>
+		}
+		@case ('timeout') {
 			<div
-				class="tw-relative tw-w-10 tw-h-10 tw-border-4 tw-border-primary-4 tw-border-t-transparent tw-rounded-full tw-animate-spin"
-			></div>
-			<p class="tw-text-neutral-700">Enviando tus respuestas...</p>
-		</div>
-
-		<!-- ✅ Estado: completado -->
-		<div
-			*ngSwitchCase="'completed'"
-			class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-24"
-		>
-			<div class="tw-text-6xl tw-text-success-600">✅</div>
-			<p class="tw-text-lg tw-font-semibold tw-text-neutral-800">
-				Cuestionario enviado con éxito
-			</p>
-			<p class="tw-text-sm tw-text-neutral-500">
-				Puedes cerrar esta ventana o esperar tus resultados.
-			</p>
-		</div>
-
-		<!-- Estado normal (activo) -->
-		<section *ngSwitchCase="'active'">
-			@if (test && test.questionTestResponses.length > 0) {
-				<!-- Progreso -->
-				<section class="tw-flex tw-flex-col tw-gap-3">
-					<div class="tw-flex tw-items-center tw-justify-between">
-						<span class="tw-text-base tw-font-semibold"
-							>Progreso: {{ progress }}%</span
-						>
-						<timer-component
-							[seconds]="10"
-							(timeUp)="onTimerEnd()"
-							(tick)="onTick($event)"
-						/>
-						<span class="tw-text-sm tw-text-neutral-6"
-							>{{ answered }}/{{ total }}</span
-						>
-					</div>
-					<div
-						class="tw-relative tw-w-full tw-h-3 tw-rounded-full tw-bg-neutral-2 tw-overflow-hidden"
-					>
-						<div
-							class="tw-absolute tw-top-0 tw-left-0 tw-h-full tw-bg-gradient-to-r tw-from-primary-5 tw-to-primary-7 tw-rounded-full tw-transition-all tw-duration-500"
-							[style.width.%]="progress"
-						></div>
-					</div>
-				</section>
-
-				<!-- Pregunta actual -->
-				@let q = current;
-				@if (q) {
-					<section
-						class="tw-bg-white tw-p-6 sm:tw-p-8 tw-rounded-3xl tw-shadow-xl tw-border tw-border-neutral-3 tw-transition tw-duration-300 tw-space-y-5"
-					>
-						<!-- Enunciado -->
-						<div class="tw-text-lg sm:tw-text-xl tw-font-medium">
-							<div [katex]="q.statement"></div>
+				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-py-24"
+			>
+				<div
+					class="tw-text-6xl tw-text-danger-600 tw-animate-pulse tw-font-bold"
+				>
+					⏰
+				</div>
+				<p class="tw-text-lg tw-font-medium tw-text-neutral-800">
+					¡El tiempo se ha agotado!
+				</p>
+				<p class="tw-text-sm tw-text-neutral-500">
+					Estamos enviando tus respuestas automáticamente...
+				</p>
+			</div>
+		}
+		@case ('submitting') {
+			<div
+				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-24"
+			>
+				<div
+					class="tw-relative tw-w-10 tw-h-10 tw-border-4 tw-border-primary-4 tw-border-t-transparent tw-rounded-full tw-animate-spin"
+				></div>
+				<p class="tw-text-neutral-700">Enviando tus respuestas...</p>
+			</div>
+		}
+		@case ('completed') {
+			<div
+				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-24"
+			>
+				<div class="tw-text-6xl tw-text-success-600">✅</div>
+				<p class="tw-text-lg tw-font-semibold tw-text-neutral-800">
+					Cuestionario enviado con éxito
+				</p>
+				<p class="tw-text-sm tw-text-neutral-500">
+					Puedes cerrar esta ventana o esperar tus resultados.
+				</p>
+			</div>
+		}
+		@case ('active') {
+			<section>
+				@if (test && test.questionTestResponses.length > 0) {
+					<!-- Progreso -->
+					<section class="tw-flex tw-flex-col tw-gap-3">
+						<div class="tw-flex tw-items-center tw-justify-between">
+							<span class="tw-text-base tw-font-semibold"
+								>Progreso: {{ progress }}%</span
+							>
+							<timer-component
+								[seconds]="10"
+								(timeUp)="onTimerEnd()"
+								(tick)="onTick($event)"
+							/>
+							<span class="tw-text-sm tw-text-neutral-6"
+								>{{ answered }}/{{ total }}</span
+							>
 						</div>
+						<div
+							class="tw-relative tw-w-full tw-h-3 tw-rounded-full tw-bg-neutral-2 tw-overflow-hidden"
+						>
+							<div
+								class="tw-absolute tw-top-0 tw-left-0 tw-h-full tw-bg-gradient-to-r tw-from-primary-5 tw-to-primary-7 tw-rounded-full tw-transition-all tw-duration-500"
+								[style.width.%]="progress"
+							></div>
+						</div>
+					</section>
 
-						<!-- Alternativas -->
-						<div class="tw-grid tw-gap-4 sm:tw-gap-5">
-							@for (alt of q.alternatives; track alt.id) {
-								<label
-									class="tw-flex tw-items-center tw-gap-3 tw-rounded-2xl tw-border tw-border-neutral-4 tw-bg-inverse tw-px-5 tw-py-4 tw-shadow-sm tw-cursor-pointer tw-transition-all tw-duration-300 hover:tw-border-primary-4 hover:tw-bg-primary-0/10"
-									[ngClass]="{
-										'tw-border-primary-5 tw-bg-primary-0/20': isSelected(
-											q.id,
-											alt.id
-										),
-									}"
-								>
-									<input
-										type="radio"
-										class="tw-hidden"
-										name="q{{ q.id }}"
-										[value]="alt.id"
-										[checked]="isSelected(q.id, alt.id)"
-										(change)="selectAlt(q.id, alt.id)"
-									/>
+					<!-- Pregunta actual -->
+					@let q = current;
+					@if (q) {
+						<section
+							class="tw-bg-white tw-p-6 sm:tw-p-8 tw-rounded-3xl tw-shadow-xl tw-border tw-border-neutral-3 tw-transition tw-duration-300 tw-space-y-5"
+						>
+							<!-- Enunciado -->
+							<div class="tw-text-lg sm:tw-text-xl tw-font-medium">
+								<div [katex]="q.statement"></div>
+							</div>
 
-									<!-- Icono de selección -->
-									<div
-										class="tw-w-5 tw-h-5 tw-rounded-full tw-border-2 tw-border-neutral-5 tw-flex tw-items-center tw-justify-center tw-transition-all tw-duration-300"
+							<!-- Alternativas -->
+							<div class="tw-grid tw-gap-4 sm:tw-gap-5">
+								@for (alt of q.alternatives; track alt.id) {
+									<label
+										class="tw-flex tw-items-center tw-gap-3 tw-rounded-2xl tw-border tw-border-neutral-4 tw-bg-inverse tw-px-5 tw-py-4 tw-shadow-sm tw-cursor-pointer tw-transition-all tw-duration-300 hover:tw-border-primary-4 hover:tw-bg-primary-0/10"
 										[ngClass]="{
-											'tw-border-primary-6 tw-scale-110': isSelected(
+											'tw-border-primary-5 tw-bg-primary-0/20': isSelected(
 												q.id,
 												alt.id
 											),
 										}"
 									>
-										@if (isSelected(q.id, alt.id)) {
-											<div
-												class="tw-w-2 tw-h-2 tw-bg-white tw-rounded-full"
-											></div>
-										}
-									</div>
+										<input
+											type="radio"
+											class="tw-hidden"
+											name="q{{ q.id }}"
+											[value]="alt.id"
+											[checked]="isSelected(q.id, alt.id)"
+											(change)="selectAlt(q.id, alt.id)"
+										/>
 
-									<!-- Texto -->
-									<div class="tw-text-neutral-800">
-										@if (alt.latexExpression) {
-											<span [katex]="alt.latexExpression"></span>
-										}
-									</div>
-								</label>
-							}
-						</div>
-					</section>
+										<!-- Icono de selección -->
+										<div
+											class="tw-w-5 tw-h-5 tw-rounded-full tw-border-2 tw-border-neutral-5 tw-flex tw-items-center tw-justify-center tw-transition-all tw-duration-300"
+											[ngClass]="{
+												'tw-border-primary-6 tw-scale-110': isSelected(
+													q.id,
+													alt.id
+												),
+											}"
+										>
+											@if (isSelected(q.id, alt.id)) {
+												<div
+													class="tw-w-2 tw-h-2 tw-bg-white tw-rounded-full"
+												></div>
+											}
+										</div>
 
-					<!-- Navegación -->
-					<section
-						class="tw-sticky tw-bottom-0 tw-bg-inverse/80 tw-backdrop-blur-md tw-rounded-2xl tw-p-4 tw-shadow-lg tw-border tw-border-neutral-3 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-mt-6"
-					>
-						<button
-							trackuiButton
-							tipo="outlined"
-							class="tw-px-6 tw-py-2 tw-text-sm sm:tw-text-base"
-							(click)="previous()"
-							[disabled]="
-								currentIndex === 0 || answeredIndices.has(currentIndex - 1)
-							"
+										<!-- Texto -->
+										<div class="tw-text-neutral-800">
+											@if (alt.latexExpression) {
+												<span [katex]="alt.latexExpression"></span>
+											}
+										</div>
+									</label>
+								}
+							</div>
+						</section>
+
+						<!-- Navegación -->
+						<section
+							class="tw-sticky tw-bottom-0 tw-bg-inverse/80 tw-backdrop-blur-md tw-rounded-2xl tw-p-4 tw-shadow-lg tw-border tw-border-neutral-3 tw-flex tw-items-center tw-justify-between tw-gap-3 tw-mt-6"
 						>
-							← Anterior
-						</button>
+							<button
+								trackuiButton
+								tipo="outlined"
+								class="tw-px-6 tw-py-2 tw-text-sm sm:tw-text-base"
+								(click)="previous()"
+								[disabled]="
+									currentIndex === 0 || answeredIndices.has(currentIndex - 1)
+								"
+							>
+								← Anterior
+							</button>
 
-						<div class="tw-flex tw-items-center tw-gap-3">
-							@if (!isLast) {
-								<button
-									trackuiButton
-									tipo="primary"
-									class="tw-px-6 tw-py-2 tw-text-sm sm:tw-text-base"
-									(click)="next()"
-									[disabled]="!selectedAnswers[current?.id ?? 0]"
-								>
-									Siguiente
-								</button>
-							} @else {
-								<button
-									trackuiButton
-									tipo="primary"
-									class="tw-px-6 tw-py-2 tw-text-sm sm:tw-text-base"
-									(click)="submit()"
-									[disabled]="!isComplete"
-								>
-									Enviar
-								</button>
-							}
-						</div>
-					</section>
+							<div class="tw-flex tw-items-center tw-gap-3">
+								@if (!isLast) {
+									<button
+										trackuiButton
+										tipo="primary"
+										class="tw-px-6 tw-py-2 tw-text-sm sm:tw-text-base"
+										(click)="next()"
+										[disabled]="!selectedAnswers[current?.id ?? 0]"
+									>
+										Siguiente
+									</button>
+								} @else {
+									<button
+										trackuiButton
+										tipo="primary"
+										class="tw-px-6 tw-py-2 tw-text-sm sm:tw-text-base"
+										(click)="submit()"
+										[disabled]="!isComplete"
+									>
+										Enviar
+									</button>
+								}
+							</div>
+						</section>
+					}
+				} @else {
+					<!-- Bloque vacío -->
+					<div class="tw-text-center tw-py-20 tw-text-neutral-5">
+						<p class="tw-text-lg">
+							No se encontraron preguntas para este cuestionario.
+						</p>
+					</div>
 				}
-			} @else {
-				<!-- Bloque vacío -->
-				<div class="tw-text-center tw-py-20 tw-text-neutral-5">
-					<p class="tw-text-lg">
-						No se encontraron preguntas para este cuestionario.
-					</p>
-				</div>
-			}
-		</section>
-	</ng-container>
+			</section>
+		}
+	}
 </main>

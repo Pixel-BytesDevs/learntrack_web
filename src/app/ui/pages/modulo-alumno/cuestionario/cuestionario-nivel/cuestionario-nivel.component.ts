@@ -1,8 +1,6 @@
 import {
 	AsyncPipe,
 	NgClass,
-	NgSwitch,
-	NgSwitchCase,
 } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -23,8 +21,6 @@ import { CuestionarioNivelStateService } from '../../../../../presentation/cuest
 		FormsModule,
 		TrackuiButtonDirective,
 		KatexDirective,
-		NgSwitch,
-		NgSwitchCase,
 	],
 	templateUrl: './cuestionario-nivel.component.html',
 	styleUrl: './cuestionario-nivel.component.scss',
