@@ -1,3 +1,4 @@
+import { TiposMaterial } from './../../../../../core/domain/enums/tipos-material.enum';
 import {
 	Component,
 	ElementRef,
@@ -43,6 +44,7 @@ export class VisorOaComponent implements OnInit, OnDestroy {
 	videoDuration = 0;
 	isPlaying = false;
 	currentTime = 0;
+	protected readonly TiposMaterial = TiposMaterial;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -140,7 +142,7 @@ export class VisorOaComponent implements OnInit, OnDestroy {
 	}
 
 	onTimeUpdate(): void {
-		if (this.videoPlayer && this.selectedResource?.typeName === 'video') {
+		if (this.videoPlayer && this.selectedResource?.typeName === TiposMaterial.VIDEO) {
 			this.currentTime = this.videoPlayer.nativeElement.currentTime;
 			this.videoDuration = this.videoPlayer.nativeElement.duration;
 			this.videoProgress = (this.currentTime / this.videoDuration) * 100;
@@ -151,7 +153,7 @@ export class VisorOaComponent implements OnInit, OnDestroy {
 		if (
 			this.videoPlayer &&
 			this.videoDuration &&
-			this.selectedResource?.typeName === 'video'
+			this.selectedResource?.typeName === TiposMaterial.VIDEO
 		) {
 			this.videoPlayer.nativeElement.currentTime =
 				(percentage / 100) * this.videoDuration;

@@ -250,7 +250,7 @@
 						<!-- Visor de Contenido -->
 						<div class="tw-p-6">
 							<!-- Video Player -->
-							@if (selectedResource?.typeName === 'Video') {
+							@if (selectedResource?.typeName === TiposMaterial.VIDEO) {
 								<div class="tw-relative">
 									<video
 										#videoPlayer
@@ -296,7 +296,7 @@
 							}
 
 							<!-- PDF Viewer -->
-							@if (selectedResource?.typeName === 'Documento') {
+							@if (selectedResource?.typeName === TiposMaterial.DOCUMENTO) {
 								<div class="tw-w-full">
 									<embed
 										#pdfViewer
@@ -317,7 +317,7 @@
 							}
 
 							<!-- Image Viewer -->
-							@if (selectedResource?.typeName === 'image') {
+							@if (selectedResource?.typeName === TiposMaterial.IMAGE) {
 								<div class="tw-text-center">
 									<img
 										[src]="currentResourceUrl"
@@ -338,8 +338,8 @@
 
 							<!-- Exercise/Link Viewer -->
 							@if (
-								selectedResource?.typeName === 'exercise' ||
-								selectedResource?.typeName === 'link'
+								selectedResource?.typeName === TiposMaterial.EXERCISE ||
+								selectedResource?.typeName === TiposMaterial.LINK
 							) {
 								<div class="tw-text-center tw-py-12">
 									<div class="tw-text-6xl tw-mb-4">
@@ -359,7 +359,7 @@
 										class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-6 tw-py-3 tw-rounded-lg tw-font-semibold tw-text-lg"
 									>
 										{{
-											selectedResource?.typeName === 'exercise'
+											selectedResource?.typeName === TiposMaterial.EXERCISE
 												? 'Comenzar Ejercicio'
 												: 'Abrir Enlace'
 										}}
@@ -371,8 +371,8 @@
 							<!-- Reading/Summary Viewer -->
 
 							@if (
-								selectedResource?.typeName === 'reading' ||
-								selectedResource?.typeName === 'summary'
+								selectedResource?.typeName === TiposMaterial.READING ||
+								selectedResource?.typeName === TiposMaterial.SUMMARY
 							) {
 								<div class="tw-prose tw-max-w-none">
 									<div

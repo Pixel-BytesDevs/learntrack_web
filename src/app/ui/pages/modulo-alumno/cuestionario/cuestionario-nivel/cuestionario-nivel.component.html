@@ -3,7 +3,7 @@
 >
 	<!-- Cambia el contenido según el estado -->
 	@switch (uiState) {
-		@case ('loading') {
+		@case (UiState.LOADING) {
 			<div
 				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-20 tw-text-neutral-5"
 			>
@@ -13,7 +13,7 @@
 				<p class="tw-text-lg tw-font-medium">Cargando cuestionario...</p>
 			</div>
 		}
-		@case ('timeout') {
+		@case (UiState.TIMEOUT) {
 			<div
 				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-py-24"
 			>
@@ -30,7 +30,7 @@
 				</p>
 			</div>
 		}
-		@case ('submitting') {
+		@case (UiState.SUBMITTING) {
 			<div
 				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-24"
 			>
@@ -40,7 +40,7 @@
 				<p class="tw-text-neutral-700">Enviando tus respuestas...</p>
 			</div>
 		}
-		@case ('completed') {
+		@case (UiState.COMPLETED) {
 			<div
 				class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-24"
 			>
@@ -53,7 +53,7 @@
 				</p>
 			</div>
 		}
-		@case ('active') {
+		@case (UiState.ACTIVE) {
 			<section>
 				@if (test && test.questionTestResponses.length > 0) {
 					<!-- Progreso -->

@@ -1,3 +1,4 @@
+import { TipoEstiloVark } from './../../../../../core/domain/enums/tipo-estilo-vark.enum';
 import { Component } from '@angular/core';
 import {
 	CuestionarioResponse,
@@ -23,6 +24,7 @@ export class ResultadosComponent {
 	descripcion: string = '';
 	competenciasProgreso: CompetenciaProgresoDTO[] = [];
 	competenciaInicial!: CompetenciaInicialDTO;
+	protected readonly TipoEstiloVark = TipoEstiloVark;
 
 	constructor(private cuestionarioService: UsuariosCuestionarioService) {}
 
@@ -56,13 +58,13 @@ export class ResultadosComponent {
 
 	obtenerDescripcion(tipo: string): string {
 		switch (tipo) {
-			case 'VISUAL':
+			case TipoEstiloVark.VISUAL:
 				return 'Aprendes mejor con imágenes, diagramas y ejemplos paso a paso. Las explicaciones con esquemas y colores facilitan tu comprensión y memoria.';
-			case 'AUDITIVO':
+			case TipoEstiloVark.AUDITIVO:
 				return 'Aprendes mejor escuchando y hablando. Las discusiones, explicaciones orales y grabaciones te ayudan a retener información.';
-			case 'LECTURA_ESCRITURA':
+			case TipoEstiloVark.LECTURA_ESCRITURA:
 				return 'Prefieres aprender leyendo y escribiendo. Las notas, listas y textos detallados son tus mejores herramientas.';
-			case 'KINESTESICO':
+			case TipoEstiloVark.KINESTESICO:
 				return 'Aprendes mejor haciendo. Las experiencias prácticas, simulaciones y ejemplos concretos son los más efectivos para ti.';
 			default:
 				return '';

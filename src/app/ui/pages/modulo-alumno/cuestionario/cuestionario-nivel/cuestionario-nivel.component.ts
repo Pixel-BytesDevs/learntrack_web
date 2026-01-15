@@ -45,6 +45,7 @@ export class CuestionarioNivelComponent implements OnInit, OnDestroy {
 	answeredIndices = new Set<number>();
 
 	uiState: UiState = UiState.LOADING ;
+	protected readonly UiState = UiState;
 
 	remainingSeconds = 0;
 
