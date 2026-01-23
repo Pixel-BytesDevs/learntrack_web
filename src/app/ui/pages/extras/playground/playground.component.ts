@@ -44,10 +44,12 @@ import { TiposAlerta } from './../../../../core/domain/types/tipos-alerta.type';
 import { SeccionComponent } from './components/seccion-component/seccion.component';
 
 import { FormsModule } from '@angular/forms';
+import { LogoLearnTrackComponent } from '../../../shared/components/logo-learntrack/logo-learntrack.component';
 @Component({
 	selector: 'playground',
 	imports: [
 		SeccionComponent,
+		LogoLearnTrackComponent,
 		TrackuiToggleButton,
 		TrackuiEtiquetaComponent,
 		TrackuiAlertaComponent,
