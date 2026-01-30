@@ -1,3 +1,5 @@
+import { AuthLayoutComponent } from './ui/pages/auth/auth-layout/auth-layout.component';
+import { LoginComponent } from './ui/pages/auth/login/login.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -33,9 +35,14 @@ export const routes: Routes = [
 	// 	)
 	// },
 	{
-		path: 'auth',
+		path: 'login',
 		loadComponent: () => import('./ui/pages/home/home.component').then(
 			(c) => c.HomeComponent
+		)
+	},
+	{	path:'auth',
+		loadChildren: () => import('./ui/routes/auth.routes').then(
+			(r) => r.AUTH_ROUTES
 		)
 	},
     {

@@ -10,7 +10,7 @@ import { TrackuiLoadingComponent } from './ui/shared/trackui/trackui-loading/tra
 
 @Component({
 	selector: 'app-root',
-	imports: [TrackuiMessageComponent, TrackuiLoadingComponent],
+	imports: [TrackuiMessageComponent, TrackuiLoadingComponent,RouterOutlet],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	providers: [ApiService],

@@ -68,4 +68,6 @@ export type TrackuiIcons =
     | 'warning'
     | 'grafo'
     | 'enlace'
+    | 'facebook'
+    | 'google'
 ;

@@ -18,6 +18,32 @@
 	transition: all 0.2s ease-in-out;
 }
 
+.trackui-social-button{
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	border-radius: 40px;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	padding-left: 18px;
+	padding-right: 18px;
+	padding-bottom: 8px;
+	padding-top: 8px;
+	width: 100%;
+	justify-content: center;
+	color: var(--color-inverse)
+}
+
+.trackui-social-button-black{
+	background-color: rgba(255, 255, 255, 0.048);
+	border: 0.5px solid var(--color-subordinary-3);
+}
+
+.trackui-social-button-white{
+	background-color: transparent;
+	border-color: var(--color-primary-8);
+}
+
 .icon-loader {
 	animation: cargando 1s linear infinite;
 }
