@@ -32,59 +32,32 @@
 		}
 
 		<!-- Dropdown usuario -->
-		<div class="tw-relative" (click)="toggleDropdown()">
-			<button
-				type="button"
-				class="tw-flex background-secondary-0 tw-items-center gap-xs br-sm tw-py-1 tw-px-2 hover:tw-bg-neutral-0 tw-transition"
-			>
-				<img
-					src="images/user-avatar.webp"
-					alt="Usuario"
-					class="tw-w-8 tw-h-8 tw-rounded-full tw-object-cover"
-				/>
-				<span class="tw-text-base tw-font-medium">Carlos</span>
-				<span
-					trackuiIcon
-					nombre="flecha-abajo"
-					[ngClass]="{ 'icon-rotate': isOpen }"
-				></span>
-			</button>
 
-			<!-- Dropdown menu -->
-			@if (isOpen) {
-				<div
-					class="tw-absolute tw-right-0 tw-mt-2 tw-w-56 tw-bg-inverse tw-rounded-2xl tw-shadow-xl tw-border tw-border-neutral-5 tw-z-50 tw-overflow-hidden"
-				>
-					<ul class="tw-py-2 tw-text-sm tw-text-base tw-flex tw-flex-col">
-						<li>
-							<a
-								href="#"
-								class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition"
-							>
-								<i class="bi bi-person tw-text-primary-5"></i> Perfil
-							</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition"
-							>
-								<i class="bi bi-gear tw-text-primary-5"></i> Configuración
-							</a>
-						</li>
-						<li><hr class="tw-my-1 tw-border-neutral-5" /></li>
-						<li>
-							<a
-								href="#"
-								class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 tw-text-danger-5 hover:tw-bg-danger-0 tw-transition"
-							>
-								<i class="bi bi-box-arrow-right"></i> Cerrar sesión
-							</a>
-						</li>
-					</ul>
-				</div>
-			}
-		</div>
+		<button
+			[trackuiDropdown]="UserMenu"
+			class="tw-flex background-secondary-0 tw-items-center gap-xs br-sm tw-py-1 tw-px-2 hover:tw-bg-neutral-0 tw-transition"
+			(click)="openDropdown()"
+		>
+			<img
+				src="images/user-avatar.webp"
+				alt="Usuario"
+				class="tw-w-8 tw-h-8 tw-rounded-full tw-object-cover"
+			/>
+			<span class="tw-text-base tw-font-medium">Carlos</span>
+			<span
+				trackuiIcon
+				nombre="flecha-abajo"
+				[ngClass]="{ 'icon-rotate': isOpen }"
+			></span>
+		</button>
+
+		<ng-template #UserMenu>
+			<trackui-dropdown-menu>
+				<li trackuiMenuItem>Perfil</li>
+				<li trackuiMenuItem>Configuración</li>
+				<li trackuiMenuItem>Cerrar Sesión</li>
+			</trackui-dropdown-menu>
+		</ng-template>
 	</header>
 
 	<section class="flex gap-sm h100">
