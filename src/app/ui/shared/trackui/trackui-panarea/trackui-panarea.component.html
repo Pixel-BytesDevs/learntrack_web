@@ -1,0 +1,11 @@
+<div
+  class="viewport"
+  (mousedown)="startPan($event)"
+  (mousemove)="pan($event)"
+  (mouseup)="endPan()"
+  (mouseleave)="endPan()"
+>
+  <div class="content" [style.transform]="transform()">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -45,10 +45,25 @@ import { SeccionComponent } from './components/seccion-component/seccion.compone
 
 import { FormsModule } from '@angular/forms';
 import { LogoLearnTrackComponent } from '../../../shared/components/logo-learntrack/logo-learntrack.component';
+import { TrackuiPanareaComponent } from '../../../shared/trackui/trackui-panarea/trackui-panarea.component';
+import { TrackuiNodeDirective } from '../../../shared/trackui/trackui-node/trackui-node.directive';
+import {
+	GraphEdge,
+	GraphNode,
+} from '../../../shared/components/graph-layout/graph-layout.data';
+import { GraphLayoutEngine } from '../../../shared/components/graph-layout/graph-layout.service';
+import {
+	EdgeN,
+	GraphCanvasComponent,
+} from '../../../shared/components/graph-canvas/graph-canvas.component';
+import { Edge } from 'vis-network';
 @Component({
 	selector: 'playground',
 	imports: [
 		SeccionComponent,
+		TrackuiNodeDirective,
+		GraphCanvasComponent,
+		TrackuiPanareaComponent,
 		LogoLearnTrackComponent,
 		TrackuiToggleButton,
 		TrackuiEtiquetaComponent,
@@ -71,7 +86,7 @@ import { LogoLearnTrackComponent } from '../../../shared/components/logo-learntr
 		TrackuiAccordionComponent,
 		ExpansionPanelComponent,
 		PanelDescriptionComponent,
-		
+
 		PanelTitleComponent,
 		ExpansionPanelHeaderComponent,
 		PanelItemComponent,
@@ -86,12 +101,37 @@ import { LogoLearnTrackComponent } from '../../../shared/components/logo-learntr
 		ItemStepComponent,
 		NgIf,
 		FormsModule,
-		
 	],
 	templateUrl: 'playground.component.html',
 	styleUrl: 'playground.component.scss',
 })
 export class PlayGroundPage {
+	nodes: GraphNode[] = [
+		{ id: 'A', title: 'Fundamentos de Logaritmos', state: 'perfect', deep: 0 },
+		{ id: 'B', title: 'Programación lineal', state: 'good', deep: 1 },
+		{ id: 'C', title: 'Ecuaciones Cuadraticas', state: 'low', deep: 1 },
+		{
+			id: 'D',
+			title: 'Ecuaciones de grado superior',
+			state: 'blocked',
+			deep: 1,
+		},
+		{ id: 'E', title: 'Límites', state: 'good', deep: 2 },
+		{ id: 'F', title: 'Aplicaciones', state: 'neutral', deep: 3 },
+		{ id: 'G', title: 'Factorizacion', state: 'low', deep: 3 },
+	];
+
+	edges: EdgeN[] = [
+		{ from: 'A', to: 'B' },
+		{ from: 'A', to: 'C' },
+		{ from: 'A', to: 'D' },
+		{ from: 'D', to: 'E' },
+		{ from: 'C', to: 'F' },
+		{ from: 'C', to: 'G' },
+	];
+
+	engine = new GraphLayoutEngine();
+
 	constructor() {
 		this.controlSegmentado.valueChanges.subscribe((valor) => {
 			console.log('✅ Objeto recibido en el Playground:', valor);
@@ -111,8 +151,8 @@ export class PlayGroundPage {
 	}
 
 	closeSidebar() {
-    this.isSidebarOpen = false;
-  }
+		this.isSidebarOpen = false;
+	}
 
 	tiposEtiquetas: TiposEtiqueta[] = [
 		'primary',

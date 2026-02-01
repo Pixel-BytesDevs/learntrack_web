@@ -1,9 +1,18 @@
-<trackui-sidebar 
-  [isOpen]="isSidebarOpen" 
-  [titulo]="'Mi Sidebar'" 
-  [items]="sidebarItems" 
-  (cerrar)="closeSidebar()">
+<trackui-sidebar
+	[isOpen]="isSidebarOpen"
+	[titulo]="'Mi Sidebar'"
+	[items]="sidebarItems"
+	(cerrar)="closeSidebar()"
+>
 </trackui-sidebar>
+
+<div style="width: 100%; height: 500px; border: 1px solid #ccc">
+	<app-trackui-panarea>
+		<div style="width: 100%; height: 600px">
+			<graph-canvas [nodes]="nodes" [edges]="edges" />
+		</div>
+	</app-trackui-panarea>
+</div>
 
 <logo-learntrack />
 

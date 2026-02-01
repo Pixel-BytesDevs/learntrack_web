@@ -1,0 +1,37 @@
+<div class="canvas tw-relative tw-w-full tw-h-full">
+	<svg
+		class="edges-layer tw-absolute tw-inset-0 tw-w-full tw-h-full tw-pointer-events-none tw-overflow-visible"
+	>
+		<defs>
+			<marker
+				id="arrowhead"
+				markerWidth="8"
+				markerHeight="6"
+				refX="7"
+				refY="3"
+				orient="auto"
+			>
+				<polygon points="0 0, 8 3, 0 6" fill="#cbd5e1" />
+			</marker>
+		</defs>
+
+		@for (line of edgeLines(); track $index) {
+			<path
+				[attr.d]="getBezierPath(line.x1, line.y1, line.x2, line.y2)"
+				fill="none"
+				stroke="#cbd5e1"
+				stroke-width="1.5"
+				marker-end="url(#arrowhead)"
+				class="tw-transition-all tw-duration-300 tw-opacity-60 hover:tw-opacity-100 hover:tw-stroke-slate-400 hover:tw-stroke-[2px]"
+			/>
+		}
+	</svg>
+
+	@for (node of nodesWithPosition(); track $index) {
+		<graph-node
+			class="node"
+			[node]="node.data"
+			[style.transform]="nodeTransform(node)"
+		/>
+	}
+</div>
