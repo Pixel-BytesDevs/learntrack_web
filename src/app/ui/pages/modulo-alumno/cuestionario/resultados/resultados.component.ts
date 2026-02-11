@@ -11,10 +11,11 @@ import {
 	CompetenciaProgresoDTO,
 } from '../../../../../core/domain/dto/modulo-alumno/resultado-vark/resultados.dto';
 import { RouterLink } from '@angular/router';
+import { TrackuiButtonDirective } from '../../../../shared/trackui/trackui-button/trackui-button.directive';
 
 @Component({
 	selector: 'resultados',
-	imports: [NgStyle, TitleCasePipe, RouterLink],
+	imports: [NgStyle, TitleCasePipe, RouterLink, TrackuiButtonDirective],
 	templateUrl: './resultados.component.html',
 	styleUrls: ['./resultados.component.scss'],
 })

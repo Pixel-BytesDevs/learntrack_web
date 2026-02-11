@@ -1,3 +1,4 @@
+import { PlacementResponse } from "../../domain/dto/modulo-alumno/cuestionario-nivel/placement.dto";
 import { PreguntaResponse } from "../../domain/dto/modulo-alumno/pregunta.dto";
 
 export const CUESTIONARIO_MOCKS: PreguntaResponse[] = [
@@ -11,6 +12,7 @@ export const CUESTIONARIO_MOCKS: PreguntaResponse[] = [
       { alternativaId: 4, alternativa: 'Pregunta 1 Alternativa 4' },
     ],
   },
+/*
   {
     preguntaId: 2,
     sentencia: 'Pregunta numero 2:',
@@ -31,5 +33,7 @@ export const CUESTIONARIO_MOCKS: PreguntaResponse[] = [
       { alternativaId: 12, alternativa: 'Pregunta 3 Alternativa 4' },
     ],
   },
+  */
   // Agrega más preguntas si lo necesitas
 ];
+

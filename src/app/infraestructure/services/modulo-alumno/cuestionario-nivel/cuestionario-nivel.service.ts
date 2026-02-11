@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { QuestionPlacement } from '../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/question.dto';
 import { Services } from '../../../../../environments/services/services.dev';
 import { PlacementResponse } from '../../../../core/domain/dto/modulo-alumno/cuestionario-nivel/placement.dto';
+import { PLACEMENT_RESPONSE_MOCK } from '../../../../core/mocks/modulo-alumno/cuestionario-nivel-mock';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,7 +29,7 @@ export class CuestionarioNivelService {
 			catchError((error) => {
 				console.error('Error al obtener PlacementTest:', error);
 				this._questions$.next(null);
-				return of(null);
+				return of(PLACEMENT_RESPONSE_MOCK);
 			}),
 			tap(() => this._loading$.next(false)),
 		);

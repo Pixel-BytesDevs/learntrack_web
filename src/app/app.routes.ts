@@ -45,6 +45,11 @@ export const routes: Routes = [
 			(r) => r.AUTH_ROUTES
 		)
 	},
+	{	path:'prueba',
+		loadComponent: () => import('./ui/pages/modulo-alumno/cuestionario/resultados/resultados.component').then(
+			(r) => r.ResultadosComponent
+		)
+	},
     {
         path: '**',
         redirectTo: 'profesor'

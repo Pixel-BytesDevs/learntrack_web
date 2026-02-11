@@ -8,7 +8,13 @@
 		>
 			<!-- Encabezado -->
 			<div class="tw-text-center tw-mb-8">
-				<div class="tw-text-6xl sm:tw-text-7xl tw-mb-3">✅</div>
+				<div class="flex justify-center">
+					<img
+						src="logos/check-logo.png"
+						alt=""
+						style="width: 150px; object-fit: cover"
+					/>
+				</div>
 				<h2
 					class="tw-text-2xl sm:tw-text-3xl tw-font-semibold tw-text-green-700"
 				>
@@ -23,7 +29,6 @@
 			<div
 				class="tw-bg-blue-50 tw-p-5 sm:tw-p-6 tw-rounded-xl tw-mb-10 tw-flex tw-flex-col lg:tw-flex-row tw-items-start tw-gap-4 tw-shadow-inner"
 			>
-				<div class="tw-text-5xl sm:tw-text-6xl tw-text-orange-500">🎯</div>
 				<div>
 					<h3
 						class="tw-text-lg sm:tw-text-xl tw-font-semibold tw-text-gray-800"
@@ -80,7 +85,6 @@
 				<h3
 					class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4 tw-flex tw-items-center tw-gap-2"
 				>
-					<span class="tw-text-blue-600 tw-text-xl">∑</span>
 					Tu Nivel Actual en Álgebra
 				</h3>
 
@@ -109,35 +113,30 @@
 				<h3
 					class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4 tw-flex tw-items-center tw-gap-2"
 				>
-					<span class="tw-text-blue-600 tw-text-xl">🗺️</span>
 					Comenzaremos Aquí
 				</h3>
 
 				<div class="tw-space-y-2 tw-text-gray-700">
 					<p>
 						<strong class="tw-font-semibold tw-text-gray-900"
-							>📘 Competencia inicial:</strong
+							>Competencia inicial:</strong
 						>
 						{{ competenciaInicial.competencia }}
 					</p>
 					<p>
 						<strong class="tw-font-semibold tw-text-gray-900"
-							>🎯 Dificultad sugerida:</strong
+							>Dificultad sugerida:</strong
 						>
 						{{ competenciaInicial.dificultad }}
 					</p>
 					<p class="tw-text-sm tw-leading-relaxed">
-						<strong class="tw-font-semibold tw-text-gray-900">ℹ️</strong>
 						{{ competenciaInicial.descripcion }}
 					</p>
 				</div>
 			</div>
 			<!-- Botón para continuar -->
 			<div class="tw-flex tw-justify-center tw-mt-10">
-				<button
-					routerLink="/aula/dashboard"
-					class="tw-bg-blue-600 tw-text-white tw-px-6 tw-py-3 tw-rounded-xl tw-font-semibold tw-transition tw-duration-300 hover:tw-bg-blue-700 hover:tw-scale-105 focus:tw-ring-2 focus:tw-ring-blue-300"
-				>
+				<button trackuiButton tipo="primary" routerLink="/aula/dashboard">
 					Comenzar Aprendizaje
 				</button>
 			</div>
