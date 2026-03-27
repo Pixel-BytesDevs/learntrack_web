@@ -1,6 +1,15 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { AuthorizedComponent } from './components/authorized/authorized.component';
 
 export const routes: Routes = [
+	{
+		path: '',component: HomeComponent
+	},
+	{
+		path: 'authorized',component: AuthorizedComponent
+	},
+
 	{
 		path: 'playground',
 		loadComponent: () =>
@@ -10,7 +19,8 @@ export const routes: Routes = [
 	},
 	{
 		// cuando inician sesión
-		path: '',
+		//path: '',
+		path: 'main',
 		loadChildren: () => import('./ui/routes/main.routes').then(
 			(r) => r.MAIN_ROUTES
 		)
@@ -23,6 +33,7 @@ export const routes: Routes = [
 	},
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: '',
+		pathMatch: 'full'
     }
 ];
