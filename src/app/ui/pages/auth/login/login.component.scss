@@ -1,0 +1,22 @@
+.input {
+	background: var(--color-inverse);
+	border-radius: var(--spaceXs);
+}
+
+@media (min-width: 940px) {
+	.text-color-inverse {
+		color: var(--color-inverse);
+	}
+    .text-color-secondary-1{
+        color: var(--color-secondary-1)
+    }
+    .text-color-secondary-2{
+       color: var(--color-secondary-2) 
+    }
+}
+
+@media (max-width: 940px) {
+	.text-color-black {
+		color: var(--color-subordinary-9);
+	}
+}

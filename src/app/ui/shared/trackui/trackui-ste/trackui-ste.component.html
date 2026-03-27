@@ -1,44 +1,51 @@
 <div class="trackui-step flex gap-xs py-xs justify-center">
-	<div
-		class="items-step flex gap-xs items-center"
-		*ngFor="let step of steps.toArray(); let i = index"
-		[class.active]="i === activeStep"
-		[class.completed]="step.completado && i !== activeStep"
-		[class.pending]="!step.completado && i !== activeStep"
-	>
-		<div class="flex-column gap-xxxs items-center justify-center">
-			<div
-				class="step-number flex items-center justify-center p text-bold br-50"
-			>
-				{{ step.stepNumber }}
+	@for (step of steps.toArray(); track step; let i = $index) {
+		<div
+			class="items-step flex gap-xs items-center"
+			[class.active]="i === activeStep"
+			[class.completed]="step.completado && i !== activeStep"
+			[class.pending]="!step.completado && i !== activeStep"
+		>
+			<div class="flex-column gap-xxxs items-center justify-center">
+				<div
+					class="step-number flex items-center justify-center p text-bold br-50"
+				>
+					{{ step.stepNumber }}
+				</div>
+				<p class="step-title text-bold text-subordinary-5">{{ step.titulo }}</p>
 			</div>
-			<p class="step-title text-bold text-subordinary-5">{{ step.titulo }}</p>
-		</div>
 
-		<div class="step-line" *ngIf="i < steps.length - 1"></div>
-	</div>
+			@if (i < steps.length - 1) {
+				<div class="step-line"></div>
+			}
+		</div>
+	}
 </div>
 
 <div>
-	<ng-container *ngIf="steps.toArray()[activeStep]">
-		<ng-container
-			*ngTemplateOutlet="steps.toArray()[activeStep].contentTemplate"
-		>
+	@if (steps.toArray()[activeStep]) {
+		<ng-container>
+			<ng-container
+				*ngTemplateOutlet="steps.toArray()[activeStep].contentTemplate"
+			>
+			</ng-container>
 		</ng-container>
-	</ng-container>
+	}
 </div>
 
 <!-- Controles internos -->
-<div class="step-controls flex mt-md gap-xxs justify-self-end" style="margin-top: 16px; margin-bottom: 16px;">
-	<button trackuiButton
-		tipo="outlined"
-		*ngIf="!isFirstStep"
-		(click)="prevStep()"
-	>
-		{{ textoAnterior }}
-	</button>
+<div
+	class="step-controls flex mt-md gap-xxs justify-self-end"
+	style="margin-top: 16px; margin-bottom: 16px"
+>
+	@if (!isFirstStep) {
+		<button trackuiButton tipo="outlined" (click)="prevStep()">
+			{{ textoAnterior }}
+		</button>
+	}
 
-	<button trackuiButton
+	<button
+		trackuiButton
 		tipo="primary"
 		(click)="nextStep()"
 		[disabled]="!steps.toArray()[activeStep].isValid"

@@ -1,0 +1,69 @@
+<main class="p-sm flex-column gap-sm h100-screen">
+	<header
+		class="tw-flex tw-items-center tw-justify-between tw-bg-inverse tw-border tw-border-primary-1 br-sm tw-shadow-md tw-py-2 tw-px-4 tw-gap-sm tw-w-full"
+	>
+		<!-- Logo + Nombre -->
+		<div class="tw-flex tw-items-center gap-xs">
+			<img
+				src="logos/learntrack-logo-medium.png"
+				alt="PeruAdapta logo"
+				class="tw-h-10 tw-w-10 tw-rounded-full tw-object-contain"
+			/>
+			<span
+				class="tw-text-primary-7 tw-font-semibold tw-text-lg tw-whitespace-nowrap"
+			>
+				LearnTrack
+			</span>
+		</div>
+
+		<!-- Barra de progreso dinámica -->
+		@if (isProgressVisible) {
+			<div class="tw-flex tw-items-center tw-gap-2">
+				<span class="tw-text-base tw-font-semibold tw-text-primary-7"
+					>Diagnóstico: {{ progress }}%</span
+				>
+				<div class="tw-relative tw-w-48 tw-h-2 tw-bg-gray-300 tw-rounded-full">
+					<div
+						class="tw-absolute tw-h-full tw-bg-primary-7 tw-rounded-full"
+						[style.width.%]="progress"
+					></div>
+				</div>
+			</div>
+		}
+
+		<!-- Dropdown usuario -->
+
+		<button
+			[trackuiDropdown]="UserMenu"
+			class="tw-flex background-secondary-0 tw-items-center gap-xs br-sm tw-py-1 tw-px-2 hover:tw-bg-neutral-0 tw-transition"
+			(click)="openDropdown()"
+		>
+			<img
+				src="images/user-avatar.webp"
+				alt="Usuario"
+				class="tw-w-8 tw-h-8 tw-rounded-full tw-object-cover"
+			/>
+			<span class="tw-text-base tw-font-medium">Carlos</span>
+			<span
+				trackuiIcon
+				nombre="flecha-abajo"
+				[ngClass]="{ 'icon-rotate': isOpen }"
+			></span>
+		</button>
+
+		<ng-template #UserMenu>
+			<trackui-dropdown-menu>
+				<li trackuiMenuItem>Perfil</li>
+				<li trackuiMenuItem>Configuración</li>
+				<li trackuiMenuItem>Cerrar Sesión</li>
+			</trackui-dropdown-menu>
+		</ng-template>
+	</header>
+
+	<section class="flex gap-sm h100">
+		<!-- Contenedor del contenido principal -->
+		<section class="expanded br-sm">
+			<router-outlet />
+		</section>
+	</section>
+</main>

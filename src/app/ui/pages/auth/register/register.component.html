@@ -1,0 +1,80 @@
+<div class="flex-column gap-md">
+	<form
+		[formGroup]="form"
+		(ngSubmit)="submit()"
+		class="flex flex-column gap-lg"
+	>
+		<p class="text-color-inverse">Crea tu cuenta para comenzar</p>
+
+		<div class="socia-buttons flex gap-xs justify-space-beetween">
+			<button
+				class="text-color-black"
+				trackuiSocialButton
+				[style]="'black'"
+				nameLogo="facebook"
+			>
+				Facebook
+			</button>
+			<button
+				class="text-color-black"
+				trackuiSocialButton
+				[style]="'black'"
+				nameLogo="google"
+			>
+				Google
+			</button>
+		</div>
+
+		<div class="flex-column gap-sm">
+			<trackui-input
+                class="input"
+				label="Nombre completo"
+				icono="user"
+				[formControl]="name"
+			></trackui-input>
+
+			<trackui-input
+                class="input"
+				label="Correo"
+				icono="correo"
+				[formControl]="email"
+			></trackui-input>
+
+			<trackui-input
+                class="input"
+				label="Contraseña"
+				icono="candado"
+				[formControl]="password"
+			></trackui-input>
+
+			<trackui-input
+                class="input"
+				label="Confirmar contraseña"
+				icono="candado"
+				[formControl]="confirmPassword"
+			></trackui-input>
+		</div>
+
+		<button
+			trackuiButton
+			tipo="tertiary"
+			type="submit"
+			[disabled]="loading"
+			class="justify-center"
+		>
+			Registrarse
+		</button>
+	</form>
+
+	<div class="flex justify-center gap-xxs">
+		<p class="text-color-inverse">¿Ya tienes cuenta?</p>
+		<button
+			trackuiButton
+			tipo="link"
+			class="text-color-secondary-2"
+			routerLink="/auth/login"
+		>
+			Inicia sesión
+		</button>
+	</div>
+</div>

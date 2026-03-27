@@ -1,0 +1,1 @@
+12/10/2025 22:35 -> Las opciones del sidebar tienes que estar sincronizado con la ruta, si actualizo no siempre sale la ruta que se selecciono ultimo

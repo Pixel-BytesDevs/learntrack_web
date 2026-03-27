@@ -1,0 +1,97 @@
+<div class="flex-column gap-md tw-h-full tw-overflow-hidden">
+	<!-- Sección superior -->
+	<section
+		class="tw-bg-inverse tw-rounded-2xl tw-border tw-border-neutral-5 py-md px-lg tw-shadow-sm tw-flex tw-flex-col lg:tw-flex-row tw-items-start lg:tw-items-center tw-justify-between gap-md tw-transition-all"
+	>
+		<!-- Título y descripción -->
+		<div class="tw-flex tw-flex-col gap-xxs tw-flex-1">
+			<h2
+				class="tw-text-2xl tw-font-semibold tw-text-primary-7 tw-tracking-tight tw-leading-snug"
+			>
+				Grafo de Competencias
+			</h2>
+			<p class="tw-text-sm tw-text-secondary-6 tw-max-w-[560px]">
+				Explora cómo los temas se conectan entre sí a través de sus
+				prerrequisitos y competencias del curso.
+			</p>
+		</div>
+
+		<!-- Input + botón -->
+		@if (estado !== estadoGrafoEnum.GENERADO) {
+			<div
+				class="tw-flex tw-flex-col sm:tw-flex-row gap-xs tw-w-full lg:tw-w-auto tw-flex-shrink-0"
+			>
+				<div
+					class="pr-sm tw-relative tw-w-full sm:tw-w-80 tw-flex tw-items-center tw-border tw-border-neutral-4 tw-rounded-xl tw-bg-neutral-0 hover:tw-border-primary-4 focus-within:tw-border-primary-4 tw-transition-all"
+				>
+					<input
+						type="text"
+						placeholder="https://www.minedu.gob.pe/curriculo..."
+						class="tw-flex-1 tw-bg-transparent tw-outline-none tw-text-sm py-sm pl-md tw-pr-9 tw-text-neutral-9 tw-rounded-xl tw-placeholder-neutral-5"
+						[(ngModel)]="link"
+					/>
+					<span
+						trackuiIcon
+						nombre="enlace"
+						style="font-size: 16px"
+						class="text-subordinary-8"
+					></span>
+				</div>
+
+				<button
+					trackuiButton
+					tipo="primary"
+					(click)="generarGrafo()"
+					class="tw-w-full sm:tw-w-auto"
+				>
+					Generar grafo
+				</button>
+			</div>
+		}
+	</section>
+
+	<!-- 🔹 Contenedor del grafo -->
+	<section
+		class="tw-rounded-2xl tw-border tw-border-neutral-5 tw-bg-neutral-0 tw-relative tw-shadow-inner tw-overflow-hidden tw-flex-1 tw-min-h-[400px]"
+	>
+		<!-- Estado: vacío -->
+		@if (estado === estadoGrafoEnum.NOGENERADO) {
+			<div
+				class="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-text-center gap-xs px-md"
+			>
+				<p class="tw-text-base tw-font-medium tw-text-secondary-7">
+					Aún no hay grafo generado
+				</p>
+				<p class="tw-text-sm tw-text-secondary-5">
+					Ingresa el enlace del Currículo Nacional para comenzar.
+				</p>
+			</div>
+		}
+
+		<!-- Estado: cargando -->
+		@if (estado === estadoGrafoEnum.CARGANDO) {
+			<div
+				class="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-bg-white/70 tw-backdrop-blur-sm gap-sm"
+			>
+				<trackui-loading />
+			</div>
+		}
+		@if (estado === estadoGrafoEnum.GENERADO) {
+			<section
+				class="tw-flex-1 tw-h-full tw-min-h-[400px] tw-overflow-hidden tw-rounded-2xl"
+			>
+				<!-- contenedor fijo -->
+				<div
+					class="tw-relative tw-flex-1 tw-h-full tw-min-h-[400px] tw-overflow-hidden"
+				>
+					@if (grafo$ | async; as grafo) {
+						<grafo-temas
+							class="tw-w-full tw-h-full"
+							[temas2]="grafo.temas"
+						></grafo-temas>
+					}
+				</div>
+			</section>
+		}
+	</section>
+</div>

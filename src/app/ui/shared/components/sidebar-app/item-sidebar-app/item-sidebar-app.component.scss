@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  transition: all 0.25s ease-in-out;
+}
+
+.item-sidebar {
+  overflow: hidden;
+}
+
+button {
+    transition: all 0.3s;
+    color: var(--color-cuaternary-6);
+}
+
+button:hover {
+    background-color: var(--color-cuaternary-1);
+}
+
+button.item-selected:hover {
+    background-color: var(--color-cuaternary-6);
+}
+
+.item-selected {
+    background-color: var(--color-cuaternary-6);
+    color: var(--color-inverse);   
+}
+
+.label-wrapper {
+  overflow: hidden;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+p {
+  white-space: nowrap;
+  will-change: opacity, transform;
+}

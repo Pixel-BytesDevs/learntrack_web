@@ -1,9 +1,10 @@
-@if (isOpen) {
-	<div class="sidebar-backdrop" (click)="cerrar()()"></div>
+@if(isOpen){
+	<div class="sidebar-backdrop" (click)="closeSidebar()"></div>
 }
 
-<aside class="sidebar px-xxs py-xs" [class.open]="isOpen">
-	<h5>{{ titulo() }}</h5>
-	<hr />
-	<ng-content></ng-content>
+<aside class="sidebar" [class.open]="isOpen">
+  <h5>{{ titulo }}</h5>
+  <hr />
+  <!-- El componente sidebar-items se encarga de mostrar los items -->
+  <sidebar-items [items]="items"></sidebar-items>
 </aside>

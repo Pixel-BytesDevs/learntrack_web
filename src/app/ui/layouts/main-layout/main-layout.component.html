@@ -1,0 +1,18 @@
+<main class="p-sm flex-column gap-sm h100-screen">
+	<header-profesor />
+
+	<section class="flex gap-sm">
+		<sidebar-app
+			class="sidebar-container"
+			[isMobile]="isMobile()"
+			[isOpenMenu]="isOpenMenu()"
+		></sidebar-app>
+
+		<!-- Contenedor principal del contenido -->
+		<section class="expanded br-sm main-content">
+			<div class="scrollable-content">
+				<router-outlet />
+			</div>
+		</section>
+	</section>
+</main>

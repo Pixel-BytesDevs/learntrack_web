@@ -1,0 +1,38 @@
+<aside
+	class="sidebar-app br-sm border-cuaternary-2 background-cuaternary-0 p-sm h100"
+	[ngClass]="{
+		expanded: isExpanded() && !isMobile(),
+		'mobile-open': isMobile() && isOpenMenu(),
+		'mobile-close': isMobile() && !isOpenMenu(),
+	}"
+>
+	<!-- Botón collapse -->
+	<button
+		class="btn-collapse flex items-center br-50 background-tertiary-5 p-xxxs tw-shadow-md"
+		(click)="colapsar()"
+		[ngClass]="{
+			'btn-collapse-hidden': isMobile() && isOpenMenu(),
+		}"
+	>
+		<span
+			class="text-inverse transition-transform"
+			[style.transform]="isExpanded() ? 'rotate(180deg)' : 'rotate(0deg)'"
+			trackuiIcon
+			nombre="derecha"
+			style="font-size: 16px"
+		></span>
+	</button>
+
+	<section class="flex-column gap-xs">
+		@for (item of sidebarItems; track item) {
+			<item-sidebar-app
+				class="w100"
+				[isExpanded]="isExpanded()"
+				[nombreIcon]="item.icon"
+				[label]="item.label"
+				[ruta]="item.route"
+				[(controlItem)]="controlOpcionSeleccionada"
+			/>
+		}
+	</section>
+</aside>
