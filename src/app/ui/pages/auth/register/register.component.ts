@@ -71,7 +71,7 @@ export class RegisterComponent {
 
 		const { confirmPassword, ...payload } = this.form.getRawValue();
 
-		this.authService.register(payload).subscribe({
+		/*this.authService.register(payload).subscribe({
 			next: () => {
 				this.router.navigate(['/auth/login']);
 			},
@@ -82,7 +82,7 @@ export class RegisterComponent {
 			complete: () => {
 				this.loading = false;
 			},
-		});
+		});*/
 	}
 
 	private passwordMatchValidator(

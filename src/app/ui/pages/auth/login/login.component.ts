@@ -48,7 +48,7 @@ export class LoginComponent {
 
 		const payload = this.form.getRawValue();
 
-		this.authService.login(payload).subscribe({
+		/*this.authService.login(payload).subscribe({
 			next: (res) => {
 				localStorage.setItem('token', res.token);
 
@@ -62,6 +62,6 @@ export class LoginComponent {
 			complete: () => {
 				this.loading = false;
 			},
-		});
+		});*/
 	}
 }
