@@ -28,7 +28,7 @@ export class AuthService {
 		body.set('scope',environment.scope);
 		body.set('code_verifier',environment.code_verifier);
 		body.set('code',code);
-		const basic_auth = 'Basic '+btoa('client:secret');
+		const basic_auth = 'Basic ' + btoa('client:secret');
 		const headers_object = new HttpHeaders({
 			'Content-type': 'application/x-www-form-urlencoded',
 			'Accept': '*/*',
@@ -36,7 +36,7 @@ export class AuthService {
 		});
 		const httpOptions = { headers: headers_object}
 		return this.httpClient.post<any>(this.token_url, body, httpOptions);
-	}
+	} 
 
 	
 

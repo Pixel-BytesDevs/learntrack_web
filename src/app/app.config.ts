@@ -15,12 +15,13 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpErrorInterceptor } from './infraestructure/bebux/get-error.interceptor';
 import { LoadingInterceptor } from './infraestructure/bebux/timing.interceptor';
+import { resourceInterceptor } from './infraestructure/interceptors/resource/resource.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
-		provideHttpClient(withInterceptorsFromDi()),
+		provideHttpClient(withInterceptorsFromDi(),withInterceptors([resourceInterceptor])	),
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: HttpErrorInterceptor,

@@ -30,7 +30,7 @@ export class AuthorizedComponent implements OnInit {
         this.tokenService.setTokens(data.access_token,data.refresh_token);
       },
 			(err) => {
-				console.log(err);
+				console.log("Este es error: ",err);
 			},
 		);
 	}

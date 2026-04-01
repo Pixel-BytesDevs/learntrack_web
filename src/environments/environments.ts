@@ -10,5 +10,6 @@ export const environment = {
     code_challenge: "GF8OZZDPYlZtDcYedKZnUoh3c5Xa1yMpFJ5-MFZEDKc",
     code_verifier: "OqLdAI5pQzI0S7cc2hUE2oHfbdo8xtL6GEwNQBXImAQ",
     token_url: "http://localhost:9003/oauth2/token",
-    grant_type: 'authorization_code'
+    grant_type: 'authorization_code',
+    resource_url: "http://localhost:8080/resource/",
 }
