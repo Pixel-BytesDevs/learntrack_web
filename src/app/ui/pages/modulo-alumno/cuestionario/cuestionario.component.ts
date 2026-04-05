@@ -7,10 +7,11 @@ import { TrackuiDropdown } from '../../../shared/trackui/trackui-dropdown/tracku
 import { TrackuiDropdownMenuComponent } from '../../../shared/trackui/trackui-dropdown/trackui-dropdown-menu/trackui-dropdown-menu.component';
 import { TrackUiIconsDirective } from '../../../shared/trackui/trackui-icons/trackui-icons.directive';
 import { TrackuiMenuItemDirective } from "../../../shared/trackui/trackui-dropdown/trackui-menu-item/trackui-menu-item.directive";
+import { AppHeaderComponent } from '../../../shared/components/header/header.component';
 
 @Component({
 	selector: 'cuestionario',
-	imports: [RouterOutlet, NgClass, TrackuiDropdown, TrackuiDropdownMenuComponent, TrackUiIconsDirective, TrackuiMenuItemDirective, TrackuiMenuItemDirective],
+	imports: [AppHeaderComponent, RouterOutlet],
 	templateUrl: './cuestionario.component.html',
 	styleUrl: './cuestionario.component.scss',
 })

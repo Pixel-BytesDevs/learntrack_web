@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderProfesorComponent } from '../../shared/components/header-profesor/header-profesor.component';
 import { SidebarAppComponent } from '../../shared/components/sidebar-app/sidebar-app.component';
 import { routeTransitionAnimations } from './main-layout.animation';
+import { AppHeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
 	selector: 'app-main-layout',
-	imports: [HeaderProfesorComponent, RouterOutlet, SidebarAppComponent],
+	imports: [AppHeaderComponent, RouterOutlet, SidebarAppComponent],
 	templateUrl: './main-layout.component.html',
 	styleUrl: './main-layout.component.scss',
 	animations: [routeTransitionAnimations],

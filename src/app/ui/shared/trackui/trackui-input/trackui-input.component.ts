@@ -33,7 +33,7 @@ export class TrackuiInputComponent implements ControlValueAccessor {
 	label = input.required<string>();
 	icono = input<TrackuiIcons>();
 	isErasable = input<boolean>(false);
-
+	typeImput = input<string>("text");
 	valorInput = signal<string>('');
 
 	errorMessage = input<string | undefined | null>(null);

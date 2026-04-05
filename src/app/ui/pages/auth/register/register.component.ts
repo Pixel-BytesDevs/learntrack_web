@@ -11,6 +11,7 @@ import { TrackuiButtonDirective } from '../../../shared/trackui/trackui-button/t
 import { TrackuiSocialButtonDirective } from '../../../shared/trackui/trackui-button-social-login/trackui-button-social-login.directive';
 import { AuthService } from '../../../../infraestructure/services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { RegisterPayload } from '../../../../core/domain/interfaces/auth/register-payload.interface';
 
 @Component({
 	selector: 'app-register',
@@ -34,8 +35,7 @@ export class RegisterComponent {
 
 	form = this.fb.nonNullable.group(
 		{
-			name: ['', Validators.required],
-			email: ['', [Validators.required, Validators.email]],
+			email: ['', [Validators.required]],
 			password: ['', Validators.required],
 			confirmPassword: ['', Validators.required],
 		},
@@ -43,10 +43,6 @@ export class RegisterComponent {
 			validators: this.passwordMatchValidator,
 		},
 	);
-
-	get name() {
-		return this.form.controls.name;
-	}
 
 	get email() {
 		return this.form.controls.email;
@@ -60,30 +56,38 @@ export class RegisterComponent {
 		return this.form.controls.confirmPassword;
 	}
 
-	submit(): void {
-		if (this.form.invalid || this.loading) {
-			this.form.markAllAsTouched();
-			return;
-		}
+submit(): void {
+    if (this.form.invalid || this.loading) {
+        this.form.markAllAsTouched();
+        return;
+    }
 
-		this.loading = true;
-		this.errorMsg = null;
+    this.loading = true;
+    this.errorMsg = null;
 
-		const { confirmPassword, ...payload } = this.form.getRawValue();
+    const { email, password } = this.form.getRawValue();
 
-		/*this.authService.register(payload).subscribe({
-			next: () => {
-				this.router.navigate(['/auth/login']);
-			},
-			error: (err) => {
-				this.errorMsg = err?.error?.message || 'Error al registrarse';
-				this.loading = false;
-			},
-			complete: () => {
-				this.loading = false;
-			},
-		});*/
-	}
+    // Mapeás al formato que espera el backend
+    const payload: RegisterPayload = {
+        username: email,   
+        password: password,
+        roles: ['ROLE_USER']
+    };
+
+    this.authService.register(payload).subscribe({
+        next: () => {
+			console.log("User registrado");
+            this.router.navigate(['/auth/login']);
+        },
+        error: (err) => {
+            this.errorMsg = err?.error?.message || 'Error al registrarse';
+            this.loading = false;
+        },
+        complete: () => {
+            this.loading = false;
+        },
+    });
+}
 
 	private passwordMatchValidator(
 		control: AbstractControl,

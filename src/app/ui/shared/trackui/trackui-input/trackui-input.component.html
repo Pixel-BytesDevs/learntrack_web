@@ -27,7 +27,7 @@
 		<div class="flex-column expanded relative" style="min-height: 39px">
 			<input
 				class="trackui-input"
-				type="text"
+				[type]="typeImput()"
 				placeholder=" "
 				[value]="valorInput()"
 				(input)="listenChanges($event)"

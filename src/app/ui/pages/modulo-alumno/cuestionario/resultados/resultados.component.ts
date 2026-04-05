@@ -1,5 +1,5 @@
 import { TipoEstiloVark } from './../../../../../core/domain/enums/tipo-estilo-vark.enum';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
 	CuestionarioResponse,
 	EstiloVark,
@@ -10,8 +10,10 @@ import {
 	CompetenciaInicialDTO,
 	CompetenciaProgresoDTO,
 } from '../../../../../core/domain/dto/modulo-alumno/resultado-vark/resultados.dto';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TrackuiButtonDirective } from '../../../../shared/trackui/trackui-button/trackui-button.directive';
+import { AuthService } from '../../../../../infraestructure/services/auth/auth.service';
+import { TokenService } from '../../../../../infraestructure/services/token/token.service';
 
 @Component({
 	selector: 'resultados',
@@ -26,6 +28,9 @@ export class ResultadosComponent {
 	competenciasProgreso: CompetenciaProgresoDTO[] = [];
 	competenciaInicial!: CompetenciaInicialDTO;
 	protected readonly TipoEstiloVark = TipoEstiloVark;
+	private authService = inject(AuthService);
+	private tokenService = inject(TokenService);
+	private router = inject(Router);
 
 	constructor(private cuestionarioService: UsuariosCuestionarioService) {}
 
@@ -70,5 +75,17 @@ export class ResultadosComponent {
 			default:
 				return '';
 		}
+	}
+
+	completeCuestionary(): void{
+		this.authService.completeVark(this.tokenService.getUsername()).subscribe({
+    next: () => {
+      this.router.navigate(['/aula/dashboard']);
+      // O más simple: forzar al usuario a hacer login de nuevo
+      this.tokenService.clearTokens();
+      this.router.navigate(['/auth/login']);
+    }
+  });
+
 	}
 }

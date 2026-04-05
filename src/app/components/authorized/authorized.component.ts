@@ -1,37 +1,59 @@
-import { Component, OnInit, computed } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, computed, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../infraestructure/services/auth/auth.service';
 import { TokenService } from '../../infraestructure/services/token/token.service';
 
 @Component({
 	selector: 'app-authorized',
+	template: '<p>Iniciando sesión...</p>',
 	imports: [],
 	templateUrl: './authorized.component.html',
 	styleUrl: './authorized.component.scss',
 })
 export class AuthorizedComponent implements OnInit {
-	code = '';
+	private route = inject(ActivatedRoute);
+	private authService = inject(AuthService);
+	private tokenService = inject(TokenService);
+	private router = inject(Router);
 
-	constructor(
-		private activatedRoute: ActivatedRoute,
-		private authService: AuthService,
-    private tokenService: TokenService
-	) {}
 	ngOnInit(): void {
-		this.activatedRoute.queryParams.subscribe((data) => {
-			this.code = data['code'];
-			this.getToken();
+		this.route.queryParams.subscribe((params) => {
+			const code = params['code'];
+			if (code) {
+				this.exchangeCode(code);
+			} else {
+				// No hay code, algo salió mal → volver al home
+				this.router.navigate(['/']);
+			}
 		});
 	}
 
-	getToken(): void {
-		this.authService.getToken(this.code).subscribe(
-			(data) => {
-        this.tokenService.setTokens(data.access_token,data.refresh_token);
-      },
-			(err) => {
-				console.log("Este es error: ",err);
+	private exchangeCode(code: string): void {
+		this.authService.getToken(code).subscribe({
+			next: (data) => {
+				this.tokenService.setTokens(data.access_token, data.refresh_token);
+				this.redirectByRole();
 			},
-		);
+			error: (err) => {
+				console.error('Error al obtener token:', err);
+				this.router.navigate(['/']);
+			},
+		});
+	}
+
+	private redirectByRole(): void {
+		const roles = this.tokenService.getRoles();
+		const firstLogin = this.tokenService.isFirstLogin();
+
+		if (roles.includes('ROLE_ADMIN')) {
+			this.router.navigate(['/admin/dashboard']);
+		} else if (roles.includes('ROLE_PROFESOR')) {
+			this.router.navigate(['/profesor/dashboard']);
+		} else if (roles.includes('ROLE_USER')) {
+			// Primer login → test VARK, luego → área de aula
+			this.router.navigate(firstLogin ? ['/alumno'] : ['/aula/dashboard']);
+		} else {
+			this.router.navigate(['/']);
+		}
 	}
 }

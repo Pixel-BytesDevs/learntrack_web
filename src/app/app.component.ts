@@ -6,14 +6,14 @@ import {
 } from './infraestructure/bebux/api.service';
 import { TrackuiMessageComponent } from './ui/shared/trackui/trackui-message/trackui-message.component';
 import { TrackuiLoadingComponent } from './ui/shared/trackui/trackui-loading/trackui-loading.component';
-import { HeaderComponent } from './ui/shared/components/header/header.component';
-import { MenuComponent } from "./components/menu/menu.component";
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HomeComponent } from './ui/pages/home/home.component';
+import { AppHeaderComponent } from "./ui/shared/components/header/header.component";
 
 @Component({
 	selector: 'app-root',
-	imports: [RouterOutlet, MenuComponent],
+	imports: [RouterOutlet, AppHeaderComponent],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	providers: [ApiService],

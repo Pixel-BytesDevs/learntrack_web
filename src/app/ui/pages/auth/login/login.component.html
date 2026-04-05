@@ -11,7 +11,7 @@
 			<button class="text-color-black" trackuiSocialButton [style]="'black'" nameLogo="facebook">
 				Facebook
 			</button>
-			<button class="text-color-black" trackuiSocialButton [style]="'black'" nameLogo="google">
+			<button class="text-color-black" trackuiSocialButton [style]="'black'" nameLogo="google" (click)="loginWithGoogle()">
 				Goggle
 			</button>
 		</div>
@@ -25,6 +25,7 @@
 				[formControl]="email"
 			></trackui-input>
 			<trackui-input
+				typeImput="password"
 				class="input"
 				label="Contraseña"
 				icono="candado"

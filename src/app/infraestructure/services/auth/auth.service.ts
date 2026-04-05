@@ -6,39 +6,82 @@ import { Observable } from 'rxjs';
 import { LoginResponse } from '../../../core/domain/interfaces/auth/login-response.interface';
 import { RegisterPayload } from '../../../core/domain/interfaces/auth/register-payload.interface';
 import { environment } from '../../../../environments/environments';
+import { PkceService } from '../pkce/pkce.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthService {
-	private httpClient = inject(HttpClient);
-	token_url = environment.token_url;
+	private http = inject(HttpClient);
+	private pkceService = inject(PkceService);
 
+	// ── Login con formulario propio ──────────────────────────────────
 
-
-	constructor() {
-
+	login(payload: LoginPayload): Observable<LoginResponse> {
+		return this.http.post<LoginResponse>(
+			`${environment.auth_url}/auth/login`,
+			payload,
+		);
 	}
 
-	public getToken(code: string): Observable<any>{
-		let body = new URLSearchParams;
-		body.set('grant_type',environment.grant_type);
-		body.set('client_id',environment.client_id);
-		body.set('redirect_uri',environment.redirect_uri);
-		body.set('scope',environment.scope);
-		body.set('code_verifier',environment.code_verifier);
-		body.set('code',code);
-		const basic_auth = 'Basic ' + btoa('client:secret');
-		const headers_object = new HttpHeaders({
-			'Content-type': 'application/x-www-form-urlencoded',
-			'Accept': '*/*',
-			'Authorization': basic_auth
+	// ── Login con Google (flujo PKCE hacia Spring) ───────────────────
+
+	async loginWithGoogle(): Promise<void> {
+		const verifier = this.pkceService.generateCodeVerifier();
+		const challenge = await this.pkceService.generateCodeChallenge(verifier);
+
+		const params = new URLSearchParams({
+			response_type: 'code',
+			client_id: environment.client_id,
+			redirect_uri: environment.redirect_uri,
+			scope: environment.scope,
+			code_challenge: challenge,
+			code_challenge_method: 'S256',
+			// Le indica a Spring que arranque directo con Google
+			// sin mostrar su formulario intermedio de login
+			idp: 'google',
 		});
-		const httpOptions = { headers: headers_object}
-		return this.httpClient.post<any>(this.token_url, body, httpOptions);
-	} 
 
-	
+		window.location.href = `${environment.auth_url}/oauth2/authorize?${params}`;
+	}
 
+	// ── Intercambio de code por tokens (viene de /authorized) ────────
 
+	getToken(code: string): Observable<LoginResponse> {
+		const body = new URLSearchParams({
+			grant_type: 'authorization_code',
+			client_id: environment.client_id,
+			redirect_uri: environment.redirect_uri,
+			code_verifier: this.pkceService.getCodeVerifier(),
+			code,
+		});
+
+		const headers = new HttpHeaders({
+			'Content-Type': 'application/x-www-form-urlencoded',
+			Authorization:
+				'Basic ' +
+				btoa(`${environment.client_id}:${environment.client_secret}`),
+		});
+
+		return this.http.post<LoginResponse>(
+			environment.token_url,
+			body.toString(),
+			{ headers },
+		);
+	}
+
+	// ── Register ─────────────────────────────────────────────────────
+
+	register(payload: RegisterPayload): Observable<any> {
+		return this.http.post(`${environment.auth_url}/auth/create`, payload);
+	}
+
+	// ── VARK ─────────────────────────────────────────────────────────
+
+	completeVark(username: string): Observable<any> {
+		return this.http.patch(
+			`${environment.auth_url}/auth/complete-vark?username=${username}`,
+			{},
+		);
+	}
 }

@@ -16,12 +16,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HttpErrorInterceptor } from './infraestructure/bebux/get-error.interceptor';
 import { LoadingInterceptor } from './infraestructure/bebux/timing.interceptor';
 import { resourceInterceptor } from './infraestructure/interceptors/resource/resource.interceptor';
+import { authInterceptor } from './infraestructure/interceptors/auth.interceptor';
+
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
-		provideHttpClient(withInterceptorsFromDi(),withInterceptors([resourceInterceptor])	),
+		provideHttpClient(withInterceptorsFromDi(),withInterceptors([authInterceptor])	),
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: HttpErrorInterceptor,

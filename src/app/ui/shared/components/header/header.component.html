@@ -1,36 +1,121 @@
 <header
-	class="flex items-center justify-space-beetween px-md py-xs background-inverse header-border pointer w100"
+  class="tw-flex tw-items-center tw-justify-between tw-bg-inverse tw-border tw-border-primary-1 br-sm tw-shadow-md tw-py-2 tw-px-4 tw-gap-sm tw-w-full"
 >
-	<div class="flex items-center gap-lg text-base">
-		<span trackuiIcon nombre="tres-rayas" style="font-size: 24px"></span>
-		<div class="flex gap-xxs items-center">
-			<img src="logos/learntrack-logo-medium.png" class="img-logo" />
-			<img src="logos/lr-label.png" alt="" class="label-logo" />
-		</div>
-	</div>
-
-	<div class="flex gap-md">
-		@for (opcion of opciones; track $index) {
-			<opcion-header [valor]="opcion" [(controlOpcion)]="opcionSeleccionada" />
-		}
-	</div>
-	<div class="flex gap-xs items-center" *TieneAcceso="'adm'">
-		<button trackuiButton tipo="outlined">Registrarse</button>
-		<button trackuiButton tipo="primary">Iniciar Sesión</button>
-	</div>
-	<div class="flex gap-sm items-center" *TieneAcceso="'est'">
-		<span
-			class="pointer"
-			trackuiIcon
-			nombre="bell"
-			style="font-size: 24px"
-		></span>
-		<div class="flex gap-xxs pointer">
-			<span trackuiIcon nombre="photo" style="font-size: 24px"></span>
-			<span trackuiIcon nombre="flecha-abajo" style="font-size: 24px"></span>
-		</div>
-	</div>
-	<ng-template #noAcceso>
-		<p>No tienes acceso o no has iniciado sesión.</p>
-	</ng-template>
+  <!-- Logo -->
+  <div class="tw-flex tw-items-center gap-xs">
+    <img
+      src="logos/learntrack-logo-medium.png"
+      alt="LearnTrack logo"
+      class="tw-h-10 tw-w-10 tw-rounded-full tw-object-contain"
+    />
+    <span class="tw-text-primary-7 tw-font-semibold tw-text-lg tw-whitespace-nowrap">
+      LearnTrack
+    </span>
+  </div>
+ 
+  <!-- Barra de progreso VARK (solo CuestionarioComponent la activa) -->
+  @if (showProgress()) {
+    <div class="tw-flex tw-items-center tw-gap-2">
+      <span class="tw-text-base tw-font-semibold tw-text-primary-7">
+        Diagnóstico: {{ progress() }}%
+      </span>
+      <div class="tw-relative tw-w-48 tw-h-2 tw-bg-gray-300 tw-rounded-full">
+        <div
+          class="tw-absolute tw-h-full tw-bg-primary-7 tw-rounded-full tw-transition-all tw-duration-500"
+          [style.width.%]="progress()"
+        ></div>
+      </div>
+    </div>
+  }
+ 
+  <!-- Acciones derecha -->
+  <div class="tw-flex tw-items-center gap-sm">
+ 
+    <!-- Sin sesión: botones de acceso -->
+    @if (!isLoggedIn) {
+      <a
+        routerLink="/auth/login"
+        class="tw-px-4 tw-py-2 tw-text-primary-7 tw-font-semibold hover:tw-underline tw-transition tw-text-sm"
+      >
+        Iniciar sesión
+      </a>
+      <a
+        routerLink="/auth/register"
+        class="tw-px-4 tw-py-2 background-tertiary-6 tw-text-inverse br-sm tw-font-semibold tw-text-sm hover:tw-opacity-90 tw-transition"
+      >
+        Registrarse
+      </a>
+    }
+ 
+    <!-- Con sesión: notificaciones + dropdown -->
+    @if (isLoggedIn) {
+ 
+      <!-- Notificaciones (ocultas durante el VARK) -->
+      @if (!showProgress()) {
+        <div class="tw-relative">
+          <button
+            type="button"
+            class="background-secondary-1 tw-relative tw-p-2 tw-rounded-full tw-transition flex items-center"
+          >
+            <span trackuiIcon nombre="bell" style="font-size: 25px"></span>
+            <span
+              class="tw-absolute tw-top-1 tw-right-1 tw-bg-danger-5 tw-text-inverse tw-text-xs tw-font-bold tw-rounded-full tw-px-[6px] tw-py-[1px]"
+            >3</span>
+          </button>
+        </div>
+      }
+ 
+      <!-- Dropdown usuario -->
+      <div class="tw-relative" (click)="toggleDropdown()">
+        <button
+          type="button"
+          class="tw-flex background-secondary-0 tw-items-center gap-xs br-sm tw-py-1 tw-px-2 hover:tw-bg-neutral-0 tw-transition"
+        >
+          <img
+            src="images/user-avatar.webp"
+            alt="Usuario"
+            class="tw-w-8 tw-h-8 tw-rounded-full tw-object-cover"
+          />
+          <span class="tw-text-base tw-font-medium">{{username}}</span>
+          <span
+            trackuiIcon
+            nombre="flecha-abajo"
+            [ngClass]="{ 'icon-rotate': isOpen }"
+            style="transition: all 0.3s"
+          ></span>
+        </button>
+ 
+        @if (isOpen) {
+          <div
+            @fadeInScale
+            class="tw-absolute tw-right-0 tw-mt-2 tw-w-56 tw-bg-inverse tw-rounded-2xl tw-shadow-xl tw-border tw-border-neutral-5 tw-z-50 tw-overflow-hidden"
+          >
+            <ul class="tw-py-2 tw-text-sm tw-flex tw-flex-col">
+              <li>
+                <a href="#" class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition">
+                  <i class="bi bi-person tw-text-primary-5"></i> Perfil
+                </a>
+              </li>
+              <li>
+                <a href="#" class="tw-flex tw-items-center tw-gap-xs tw-px-4 tw-py-2 hover:tw-bg-primary-0 tw-transition">
+                  <i class="bi bi-gear tw-text-primary-5"></i> Configuración
+                </a>
+              </li>
+              <li><hr class="tw-my-1 tw-border-neutral-5" /></li>
+              <li>
+                <button
+                  (click)="logout()"
+                  class="tw-flex tw-w-full tw-items-center tw-gap-xs tw-px-4 tw-py-2 tw-text-danger-5 hover:tw-bg-danger-0 tw-transition"
+                >
+                  <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                </button>
+              </li>
+            </ul>
+          </div>
+        }
+      </div>
+    }
+ 
+  </div>
 </header>
+ 
