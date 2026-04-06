@@ -48,9 +48,13 @@ export class TokenService {
 	}
 
 	// ── Helpers ──────────────────────────────────────────────────────
-	getName(): string {
-		return this.decodeToken()?.sub ?? '';
 
+	isGoogleUser(): boolean {
+		return this.decodeToken()?.isGoogleUser ?? false;
+	}
+
+	getDisplayName(): string {
+		return this.decodeToken()?.name ?? this.getUsername();
 	}
 
 	getRoles(): string[] {

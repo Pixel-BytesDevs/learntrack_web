@@ -17,7 +17,7 @@ import { TokenService } from '../../../../../infraestructure/services/token/toke
 
 @Component({
 	selector: 'resultados',
-	imports: [NgStyle, TitleCasePipe, RouterLink, TrackuiButtonDirective],
+	imports: [NgStyle, TitleCasePipe, TrackuiButtonDirective],
 	templateUrl: './resultados.component.html',
 	styleUrls: ['./resultados.component.scss'],
 })
@@ -38,8 +38,9 @@ export class ResultadosComponent {
 		this.resultado = this.cuestionarioService.resultadoCuestionario;
 
 		if (this.resultado) {
-			this.estiloPredominante = this.resultado.estilos.reduce((prev, curr) =>
-				curr.porcentaje > prev.porcentaje ? curr : prev,
+			this.estiloPredominante = this.resultado.estilos.reduce(
+				(prev, curr) => (curr.porcentaje > prev.porcentaje ? curr : prev),
+				this.resultado.estilos[0], // valor inicial
 			);
 
 			this.descripcion = this.obtenerDescripcion(
@@ -77,15 +78,33 @@ export class ResultadosComponent {
 		}
 	}
 
-	completeCuestionary(): void{
-		this.authService.completeVark(this.tokenService.getUsername()).subscribe({
-    next: () => {
-      this.router.navigate(['/alumno']);
-      // O más simple: forzar al usuario a hacer login de nuevo
-      //this.tokenService.clearTokens();
-      //this.router.navigate(['/auth/login']);
-    }
-  });
+	completeCuestionary(): void {
+	const isGoogle = this.tokenService.isGoogleUser();
 
+	if (isGoogle) {
+		this.authService
+			.completeVarkGoogle(this.tokenService.getUsername())
+			.subscribe({
+				next: (res) => {
+					console.log('SUCCESS GOOGLE', res);
+					this.router.navigate(['/alumno']);
+				},
+				error: (err) => {
+					console.error('ERROR GOOGLE', err);
+				},
+			});
+	} else {
+		this.authService
+			.completeVark(this.tokenService.getUsername())
+			.subscribe({
+				next: (res) => {
+					console.log('SUCCESS NORMAL', res);
+					this.router.navigate(['/alumno']);
+				},
+				error: (err) => {
+					console.error('ERROR NORMAL', err);
+				},
+			});
 	}
+}
 }

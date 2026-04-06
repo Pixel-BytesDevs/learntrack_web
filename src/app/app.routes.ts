@@ -4,7 +4,6 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
 import { authGuard } from './infraestructure/guards/auth/auth.guard';
 import { roleGuard } from './infraestructure/guards/auth/role.guard';
-import { firstLoginGuard } from './infraestructure/guards/auth/first-login.guard';
 import { aulaGuard } from './infraestructure/guards/auth/aula.guard';
 
 export const routes: Routes = [

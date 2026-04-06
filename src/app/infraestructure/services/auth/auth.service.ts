@@ -29,7 +29,6 @@ export class AuthService {
 	async loginWithGoogle(): Promise<void> {
 		const verifier = this.pkceService.generateCodeVerifier();
 		const challenge = await this.pkceService.generateCodeChallenge(verifier);
-		console.log("Hola beiibbb");
 
 		const params = new URLSearchParams({
 			response_type: 'code',
@@ -43,6 +42,7 @@ export class AuthService {
 			idp: 'google',
 		});
 
+		//window.location.href = `${environment.auth_url}/oauth2/authorize?${params}`;
 		window.location.href = `${environment.auth_url}/oauth2/authorize?${params}`;
 	}
 
@@ -82,6 +82,13 @@ export class AuthService {
 	completeVark(username: string): Observable<any> {
 		return this.http.patch(
 			`${environment.auth_url}/auth/complete-vark?username=${username}`,
+			{},
+		);
+	}
+
+	completeVarkGoogle(email: string): Observable<any> {
+		return this.http.patch(
+			`${environment.auth_url}/auth/complete-vark-google?email=${email}`,
 			{},
 		);
 	}

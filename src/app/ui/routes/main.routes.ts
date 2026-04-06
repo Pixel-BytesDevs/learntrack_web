@@ -6,7 +6,8 @@ import { MainLayoutComponent } from '../layouts/main-layout/main-layout.componen
 import { HomeComponent } from '../pages/home/home.component';
 import { authGuard } from '../../infraestructure/guards/auth/auth.guard';
 import { roleGuard } from '../../infraestructure/guards/auth/role.guard';
-import { firstLoginGuard } from '../../infraestructure/guards/auth/first-login.guard';
+import { initialTestGuard } from '../../infraestructure/guards/auth/initial-test.guard';
+import { aulaGuard } from '../../infraestructure/guards/auth/aula.guard';
 
 export const MAIN_ROUTES: Routes = [
 	{
@@ -19,21 +20,21 @@ export const MAIN_ROUTES: Routes = [
 			},
 			{
 				path: 'initial-test',
-				canActivate: [],
+				canActivate: [roleGuard,authGuard,initialTestGuard],
 				data: { roles: ['ROLE_USER'] },
 				loadChildren: () =>
 					import('./initial-test.routes').then((r) => r.TEST_INITIAL_ROUTES),
 			},
 			{
 				path: 'alumno',
-				canActivate: [],
+				canActivate: [roleGuard,authGuard,aulaGuard],
 				data: { roles: ['ROLE_USER'] },
 				loadChildren: () =>
 					import('./alumno.routes').then((r) => r.ALUMNO_ROUTES),
 			},
 			{
 				path: 'profesor',
-				canActivate: [authGuard, roleGuard],
+				canActivate: [authGuard,roleGuard],
 				data: { roles: ['ROLE_PROFESOR'] },
 				loadChildren: () =>
 					import('./profesor.routes').then((r) => r.PROFESOR_ROUTES),

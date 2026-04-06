@@ -2,13 +2,13 @@ import { CanActivateFn, Router } from '@angular/router';
 import { TokenService } from '../../services/token/token.service';
 import { inject } from '@angular/core';
 
-export const aulaGuard: CanActivateFn = () => {
+export const initialTestGuard: CanActivateFn = () => {
 	const tokenService = inject(TokenService);
 	const router = inject(Router);
 
-	if (tokenService.isFirstLogin()) return true;
+	if (!tokenService.isFirstLogin()) return true;
 
-	// No completo el test -> redirige al test
-	router.navigate(['/initial-test']);
+	// Todavía no completó el VARK
+	router.navigate(['/alumno']);
 	return false;
 };
