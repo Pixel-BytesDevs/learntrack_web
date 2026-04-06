@@ -63,10 +63,10 @@ export class SidebarAppComponent {
  
     } else if (roles.includes('ROLE_USER')) {
       this.sidebarItems = [
-        { label: 'Dashboard',          icon: 'home', route: '/aula/dashboard' },
-        { label: 'Mi progreso',        icon: 'home', route: '/aula/my-progress' },
-        { label: 'Mis recomendaciones', icon: 'home', route: '/aula/recomendaciones' },
-        { label: 'Perfil',             icon: 'home', route: '/aula/profile' },
+        { label: 'Dashboard',          icon: 'home', route: '/alumno/dashboard' },
+        { label: 'Mi progreso',        icon: 'home', route: '/alumno/progress' },
+        { label: 'Mis recomendaciones', icon: 'home', route: '/alumno/recomendations' },
+        { label: 'Perfil',             icon: 'home', route: '/alumno/dashboard' },
       ];
  
     } else {

@@ -84,7 +84,7 @@ export class LoginComponent {
 		} else if (roles.includes('ROLE_PROFESOR')) {
 			this.router.navigate(['/profesor/dashboard']);
 		} else if (roles.includes('ROLE_USER')) {
-			this.router.navigate(firstLogin ? ['/alumno'] : ['/aula/dashboard']);
+			this.router.navigate(firstLogin ? ['/alumno'] : ['/alumno']);
 		} else {
 			this.router.navigate(['/']);
 		}

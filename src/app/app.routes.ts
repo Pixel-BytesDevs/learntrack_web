@@ -1,3 +1,4 @@
+import { MAIN_ROUTES } from './ui/routes/main.routes';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { AuthorizedComponent } from './components/authorized/authorized.component';
@@ -7,12 +8,31 @@ import { firstLoginGuard } from './infraestructure/guards/auth/first-login.guard
 import { aulaGuard } from './infraestructure/guards/auth/aula.guard';
 
 export const routes: Routes = [
+	// ── Públicas ──────────────────────────────────────────────────
 
-  // ── Públicas ──────────────────────────────────────────────────
+	{
+		path: 'authorized',
+		component: AuthorizedComponent,
+	},
+	{
+		path: 'auth',
+		loadChildren: () =>
+			import('./ui/routes/auth.routes').then((r) => r.AUTH_ROUTES),
+	},
+	{
+		path: '',
+		loadChildren: () =>
+			import('./ui/routes/main.routes').then((r) => r.MAIN_ROUTES),
+	},
+	{ path: '**', redirectTo: '' },
+
+	/*
   {
     path: '',
     component: HomeComponent,
   },
+
+
   {
     path: 'authorized',
     component: AuthorizedComponent,
@@ -60,4 +80,5 @@ export const routes: Routes = [
   },
 
   { path: '**', redirectTo: '' },
+   */
 ];

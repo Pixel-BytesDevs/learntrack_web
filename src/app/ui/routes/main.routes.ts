@@ -1,27 +1,48 @@
+import { TEST_INITIAL_ROUTES } from './initial-test.routes';
+import { PROFESOR_ROUTES } from './profesor.routes';
+import { ALUMNO_ROUTES } from './alumno.routes';
 import { Routes } from '@angular/router';
+import { MainLayoutComponent } from '../layouts/main-layout/main-layout.component';
+import { HomeComponent } from '../pages/home/home.component';
+import { authGuard } from '../../infraestructure/guards/auth/auth.guard';
+import { roleGuard } from '../../infraestructure/guards/auth/role.guard';
+import { firstLoginGuard } from '../../infraestructure/guards/auth/first-login.guard';
 
 export const MAIN_ROUTES: Routes = [
 	{
 		path: '',
+		component: MainLayoutComponent,
 		children: [
-
 			{
-				//listado de cursos
-				path: 'mis-cursos',
+				path: 'home',
+				component: HomeComponent,
+			},
+			{
+				path: 'initial-test',
+				canActivate: [],
+				data: { roles: ['ROLE_USER'] },
 				loadChildren: () =>
-					import('./cursos.routes').then((m) => m.CURSOS_ROUTES),
-			},{
-				//home
-				path: '',
+					import('./initial-test.routes').then((r) => r.TEST_INITIAL_ROUTES),
+			},
+			{
+				path: 'alumno',
+				canActivate: [],
+				data: { roles: ['ROLE_USER'] },
 				loadChildren: () =>
-					import('./dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
+					import('./alumno.routes').then((r) => r.ALUMNO_ROUTES),
+			},
+			{
+				path: 'profesor',
+				canActivate: [authGuard, roleGuard],
+				data: { roles: ['ROLE_PROFESOR'] },
+				loadChildren: () =>
+					import('./profesor.routes').then((r) => r.PROFESOR_ROUTES),
 			},
 
-            {
-                path: 'dashboard',
-                redirectTo: ''
-            }
-
+			{
+				path: '**',
+				redirectTo: 'home',
+			},
 		],
 	},
 ];

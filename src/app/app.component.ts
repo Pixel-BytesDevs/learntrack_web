@@ -13,7 +13,7 @@ import { AppHeaderComponent } from "./ui/shared/components/header/header.compone
 
 @Component({
 	selector: 'app-root',
-	imports: [RouterOutlet, AppHeaderComponent],
+	imports: [RouterOutlet],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	providers: [ApiService],

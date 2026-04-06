@@ -1,0 +1,16 @@
+<main class="px-sm pb-sm flex-column gap-sm " style="height: 100%;">
+	<section class="flex gap-sm" style="height: 100%;">
+		<sidebar-app
+			class="sidebar-container"
+			[isMobile]="isMobile()"
+			[isOpenMenu]="isOpenMenu()"
+		></sidebar-app>
+
+		<!-- Contenedor principal del contenido -->
+		<section class="expanded br-sm main-content">
+			<div class="scrollable-content">
+				<router-outlet />
+			</div>
+		</section>
+	</section>
+</main>

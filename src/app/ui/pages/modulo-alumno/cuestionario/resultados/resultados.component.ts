@@ -80,10 +80,10 @@ export class ResultadosComponent {
 	completeCuestionary(): void{
 		this.authService.completeVark(this.tokenService.getUsername()).subscribe({
     next: () => {
-      this.router.navigate(['/aula/dashboard']);
+      this.router.navigate(['/alumno']);
       // O más simple: forzar al usuario a hacer login de nuevo
-      this.tokenService.clearTokens();
-      this.router.navigate(['/auth/login']);
+      //this.tokenService.clearTokens();
+      //this.router.navigate(['/auth/login']);
     }
   });
 

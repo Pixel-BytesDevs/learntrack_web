@@ -31,17 +31,17 @@ export class VistaInicialComponent {
 
 	// Función para iniciar la evaluación del nivel actual
 	startEvaluacionNivel(): void {
-		this.router.navigate(['alumno/cuestionario-nivel']);
+		this.router.navigate(['initial-test/test-nivel']);
 	}
 
 	// Función para iniciar el cuestionario VARK
 	startCuestionarioVark(): void {
-		this.router.navigate(['alumno/cuestionario-vark']);
+		this.router.navigate(['initial-test/test-vark']);
 	}
 
 	// Función para iniciar todo el diagnóstico
 	startDiagnostico(): void {
-		this.router.navigate(['alumno/cuestionario-vark']);
+		this.router.navigate(['initial-test/test-vark']);
 		this.updateProgress(25); // Cambiar el progreso al 25% (Ejemplo de avance)
 	}
 

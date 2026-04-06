@@ -19,6 +19,7 @@ export class AuthorizedComponent implements OnInit {
 	ngOnInit(): void {
 		this.route.queryParams.subscribe((params) => {
 			const code = params['code'];
+			console.log("Mensaje, ");
 			if (code) {
 				this.exchangeCode(code);
 			} else {
@@ -51,7 +52,7 @@ export class AuthorizedComponent implements OnInit {
 			this.router.navigate(['/profesor/dashboard']);
 		} else if (roles.includes('ROLE_USER')) {
 			// Primer login → test VARK, luego → área de aula
-			this.router.navigate(firstLogin ? ['/alumno'] : ['/aula/dashboard']);
+			this.router.navigate(firstLogin ? ['/alumno'] : ['/alumno']);
 		} else {
 			this.router.navigate(['/']);
 		}

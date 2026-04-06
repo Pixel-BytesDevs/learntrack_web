@@ -3,7 +3,7 @@ import { AppHeaderComponent } from '../../shared/components/header/header.compon
 
 @Component({
   selector: 'home',
-  imports: [AppHeaderComponent],
+  imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

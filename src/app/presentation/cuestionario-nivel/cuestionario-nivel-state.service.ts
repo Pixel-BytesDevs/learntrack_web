@@ -162,7 +162,7 @@ export class CuestionarioNivelStateService {
 					this._submitted$.next(true);
 					this._uiState.next(UiState.COMPLETED);
 					this.clearState(); // 🗑️ limpiar estado guardado al completar
-					this.router.navigate(['/alumno/resultados']);
+					this.router.navigate(['/initial-test/results']);
 				}),
 				finalize(() => this._loading$.next(false)),
 			)

@@ -29,6 +29,7 @@ export class AuthService {
 	async loginWithGoogle(): Promise<void> {
 		const verifier = this.pkceService.generateCodeVerifier();
 		const challenge = await this.pkceService.generateCodeChallenge(verifier);
+		console.log("Hola beiibbb");
 
 		const params = new URLSearchParams({
 			response_type: 'code',

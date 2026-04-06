@@ -169,11 +169,11 @@ export class CuestionarioVarkComponent implements OnInit {
 			next: () => {
 				this.storageSession.remove(KEYS_STORAGE.cuestionario);
 				// Ir a la siguiente etapa / resultados
-				this.router.navigate(['alumno/cuestionario-nivel']);
+				this.router.navigate(['initial-test/test-nivel']);
 			},
 			error: () => {
 				// el servicio debería hacer catchError → defensivo:
-				this.router.navigate(['alumno/cuestionario-nivel']);
+				this.router.navigate(['initial-test/test-nivel']);
 			},
 		});
 	}
