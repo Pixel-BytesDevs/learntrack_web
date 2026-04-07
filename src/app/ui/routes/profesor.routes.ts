@@ -1,16 +1,12 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from '../layouts/main-layout/main-layout.component';
+import { SidebarLayoutComponent } from '../layouts/sidebar-layout/sidebar-layout/sidebar-layout.component';
 
 export const PROFESOR_ROUTES: Routes = [
   {
     path: '',
-    component: MainLayoutComponent,     // mismo layout, sidebar cambia por rol
+    component: SidebarLayoutComponent,
     children: [
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
-      },
+  
       {
         path: 'dashboard',
         loadComponent: () =>

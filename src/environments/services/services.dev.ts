@@ -1,6 +1,6 @@
 export const Services = Object.freeze({
     gestorGrafo: {
-        url: 'http://26.138.194.69:8090',
+        url: 'http://localhost:8083',
     },
     moduloAlumno: {
         cuestionarioUrl: 'http://localhost:8094/preguntas',

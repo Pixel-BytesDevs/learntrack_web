@@ -1,3 +1,65 @@
 <main>
-    PAGINA INICIAL, NO ES NECESARIO ACCESO
+    <div class="home-wrapper">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Aprende Matemáticas
+            <span class="gradient-text">de Forma Inteligente</span>
+          </h1>
+          <p class="hero-description">
+            Con LearnTrack, domina las matemáticas con lecciones interactivas, 
+            ejercicios personalizados y seguimiento en tiempo real de tu progreso.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn-primary">Comenzar Gratis</button>
+            <button class="btn-secondary">Ver Demo</button>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="floating-cards">
+            <div class="card-math">📐</div>
+            <div class="card-math">📊</div>
+            <div class="card-math">🧮</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <h2 class="section-title">¿Por qué elegir <span class="gradient-text">LearnTrack</span>?</h2>
+          <div class="features-grid">
+            <div class="feature-card" *ngFor="let feature of features">
+              <div class="feature-icon">{{feature.icon}}</div>
+              <h3>{{feature.title}}</h3>
+              <p>{{feature.description}}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Section -->
+      <section class="stats">
+        <div class="container">
+          <div class="stats-container">
+            <div class="stat-item" *ngFor="let stat of stats">
+              <div class="stat-number">{{stat.number}}</div>
+              <div class="stat-label">{{stat.label}}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta">
+        <div class="container">
+          <div class="cta-content">
+            <h2>Comienza tu viaje matemático hoy</h2>
+            <p>Únete a miles de estudiantes que ya están mejorando sus habilidades matemáticas</p>
+            <button class="btn-primary-large">Regístrate Gratis</button>
+          </div>
+        </div>
+      </section>
+    </div>
 </main>
