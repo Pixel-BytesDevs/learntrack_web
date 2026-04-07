@@ -7,6 +7,7 @@ import { LoginResponse } from '../../../core/domain/interfaces/auth/login-respon
 import { RegisterPayload } from '../../../core/domain/interfaces/auth/register-payload.interface';
 import { environment } from '../../../../environments/environments';
 import { PkceService } from '../pkce/pkce.service';
+import { TokenService } from '../token/token.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -14,6 +15,7 @@ import { PkceService } from '../pkce/pkce.service';
 export class AuthService {
 	private http = inject(HttpClient);
 	private pkceService = inject(PkceService);
+	private tokenService = inject(TokenService);
 
 	// ── Login con formulario propio ──────────────────────────────────
 
@@ -90,6 +92,15 @@ export class AuthService {
 		return this.http.patch(
 			`${environment.auth_url}/auth/complete-vark-google?email=${email}`,
 			{},
+		);
+	}
+
+	refreshToken(): Observable<LoginResponse> {
+		const refreshToken = this.tokenService.getRefreshToken();
+
+		return this.http.post<LoginResponse>(
+			`${environment.auth_url}/auth/refresh`,
+			{ refreshToken }, // ✅ JSON
 		);
 	}
 }

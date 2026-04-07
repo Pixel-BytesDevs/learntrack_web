@@ -79,32 +79,37 @@ export class ResultadosComponent {
 	}
 
 	completeCuestionary(): void {
-	const isGoogle = this.tokenService.isGoogleUser();
+		const isGoogle = this.tokenService.isGoogleUser();
 
-	if (isGoogle) {
-		this.authService
-			.completeVarkGoogle(this.tokenService.getUsername())
-			.subscribe({
-				next: (res) => {
-					console.log('SUCCESS GOOGLE', res);
-					this.router.navigate(['/alumno']);
-				},
-				error: (err) => {
-					console.error('ERROR GOOGLE', err);
-				},
-			});
-	} else {
-		this.authService
-			.completeVark(this.tokenService.getUsername())
-			.subscribe({
-				next: (res) => {
-					console.log('SUCCESS NORMAL', res);
-					this.router.navigate(['/alumno']);
-				},
-				error: (err) => {
-					console.error('ERROR NORMAL', err);
-				},
-			});
+		const request$ = isGoogle
+			? this.authService.completeVarkGoogle(this.tokenService.getUsername())
+			: this.authService.completeVark(this.tokenService.getUsername());
+
+		request$.subscribe({
+			next: () => {
+				console.log('VARK completado');
+
+				// 🔥 REFRESH TOKEN AQUÍ
+				this.authService.refreshToken().subscribe({
+					next: (tokens) => {
+						console.log('TOKEN REFRESCADO', tokens);
+
+						this.tokenService.setTokens(
+							tokens.access_token,
+							tokens.refresh_token,
+						);
+
+						// ✅ ahora sí rediriges con token actualizado
+						this.router.navigate(['/alumno']);
+					},
+					error: (err) => {
+						console.error('Error refrescando token', err);
+					},
+				});
+			},
+			error: (err) => {
+				console.error('Error completando VARK', err);
+			},
+		});
 	}
-}
 }
