@@ -1,12 +1,12 @@
 export const Services = Object.freeze({
     gestorGrafo: {
-        url: 'http://26.138.194.69:8090',
+        url: 'http://localhost:8083',
     },
     moduloAlumno: {
-        cuestionarioUrl: 'http://localhost:8094/preguntas',
-        insertCuestionarioIrl: 'http://localhost:8094/cuestionarios/respuestas?reemplazar=true',
-        cuestionarioNivel: 'http://localhost:8094/api/placement/1',
-        grafoEstudiante: 'http://localhost:8094/api/usuario-topic',
-        evaluacion: 'http://localhost:8094/api/recommendation-evaluation'
+        cuestionarioUrl: 'http://localhost:8092/preguntas',
+        insertCuestionarioIrl: 'http://localhost:8092/cuestionarios/respuestas?reemplazar=true',
+        cuestionarioNivel: 'http://localhost:8092/api/placement/1',
+        grafoEstudiante: 'http://localhost:8092/api/usuario-topic',
+        evaluacion: 'http://localhost:8092/api/recommendation-evaluation'
     }
 })
