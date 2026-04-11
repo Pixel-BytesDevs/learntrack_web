@@ -18,7 +18,7 @@ export const PROFESOR_ROUTES: Routes = [
         path: 'grafo',
         loadComponent: () =>
           import('../pages/modulo-profesor/grafo-competencias/grafo-competencias.component')
-            .then(c => c.GrafoCompetenciasComponent),
+            .then((c) => c.GrafoCompetenciasComponent,),
         data: { animation: 'GrafoPage' },
       },
       {

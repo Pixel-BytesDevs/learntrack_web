@@ -9,11 +9,6 @@ import {
 import { NgFor } from '@angular/common';
 import { GraphNodeComponent } from './graph-node/graph-node.component';
 
-interface TotalByDeep {
-	deep: number;
-	total: number;
-}
-
 interface NodePosition {
 	data: GraphNode;
 	x: number;
@@ -109,16 +104,15 @@ export class GraphCanvasComponent implements OnInit {
 		const tree = new Map<string, string[]>();
 
 		edges.forEach(({ from, to }) => {
-			if (!tree.has(from)) tree.set(from, []);
-			tree.get(from)!.push(to);
+			if (!tree.has(to)) tree.set(to, []);
+			tree.get(to)!.push(from);
 		});
-
 		return tree;
 	}
 
 	findRoot(nodes: GraphNode[], edges: EdgeN[]): GraphNode {
-		const children = new Set(edges.map((e) => e.to));
-		return nodes.find((n) => !children.has(n.id))!;
+		const dependientes = new Set(edges.map((e) => e.from));
+		return nodes.find((n) => !dependientes.has(n.id))!;
 	}
 
 	calculateSubtreeSize(

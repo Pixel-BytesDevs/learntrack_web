@@ -21,6 +21,12 @@ export const routes: Routes = [
 		loadChildren: () =>
 			import('./ui/routes/main.routes').then((r) => r.MAIN_ROUTES),
 	},
+	{
+		path: 'play',
+		loadComponent: () =>
+			import('./ui/pages/extras/playground/playground.component').then(
+				(c) => c.PlayGroundPage,
+			),
+	},
 	{ path: '**', redirectTo: '' },
-
 ];

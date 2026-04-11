@@ -6,6 +6,14 @@
 >
 </trackui-sidebar>
 
+<div style="width: 100%; height: 500px; border: 1px #000 solid">
+	<app-trackui-panarea>
+		<div style="width: 100%; height: 600px">
+			<graph-canvas [nodes]="nodes" [edges]="edges" />
+		</div>
+	</app-trackui-panarea>
+</div>
+
 <trackui-modal
 	titulo="Titulo modal"
 	[cerrar]="cerrarModal"

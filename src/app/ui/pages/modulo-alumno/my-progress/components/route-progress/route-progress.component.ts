@@ -10,6 +10,12 @@ import { Edge, Network, Node } from 'vis-network';
 import { DataSet } from 'vis-data';
 import { GrafoEstudianteService } from '../../../../../../infraestructure/services/modulo-alumno/grafo-estudiante/grafo-estudiante.service';
 import { filter } from 'rxjs';
+import { GraphNode } from '../../../../../shared/components/graph-layout/graph-layout.data';
+import {
+	EdgeN,
+	GraphCanvasComponent,
+} from '../../../../../shared/components/graph-canvas/graph-canvas.component';
+import { TrackuiPanareaComponent } from '../../../../../shared/trackui/trackui-panarea/trackui-panarea.component';
 
 export interface TemaNodo {
 	id: number;
@@ -21,7 +27,7 @@ export interface TemaNodo {
 
 @Component({
 	selector: 'app-route-progress',
-	imports: [AsyncPipe],
+	imports: [AsyncPipe, GraphCanvasComponent, TrackuiPanareaComponent],
 	templateUrl: './route-progress.component.html',
 	styleUrl: './route-progress.component.scss',
 })
@@ -52,14 +58,71 @@ export class RouteProgressComponent implements OnInit {
 		// },
 	];
 
+	graphNodes: GraphNode[] = [];
+	graphEdges: EdgeN[] = [];
+
 	constructor() {}
 
 	ngOnInit(): void {
 		this.progressService.getGrafoEstudiante(1).subscribe((graph) => {
 			if (graph) {
-				this.temas = graph; // Renderizar el grafo con los datos obtenidos
+				this.temas = graph; // ✅ FALTABA ESTO
+
+				const { nodes, edges } = this.mapGraphData(graph);
+
+				this.graphNodes = nodes;
+				this.graphEdges = edges;
+
+				console.log('NODES', nodes);
+				console.log('EDGES', edges);
 			}
 		});
+	}
+
+	mapGraphData(data: TemaNodo[]): { nodes: GraphNode[]; edges: EdgeN[] } {
+		return {
+			nodes: data.map((n) => this.mapTemaNodoToGraphNode(n)),
+			edges: this.mapEdges(data),
+		};
+	}
+
+	mapTemaNodoToGraphNode(nodo: TemaNodo): GraphNode {
+		return {
+			id: nodo.id.toString(),
+			title: nodo.label,
+			state: this.mapState(nodo),
+			deep: nodo.dominio,
+		};
+	}
+
+	mapEdges(nodos: TemaNodo[]): EdgeN[] {
+		const edges: EdgeN[] = [];
+
+		nodos.forEach((nodo) => {
+			nodo.conexiones.forEach((destinoId) => {
+				edges.push({
+					from: destinoId.toString(), // 🔁 INVERTIDO
+					to: nodo.id.toString(),
+				});
+			});
+		});
+
+		return edges;
+	}
+
+	mapState(nodo: TemaNodo): GraphNode['state'] {
+		if (!nodo.isActive) return 'blocked';
+
+		switch (nodo.dominio) {
+			case 1:
+				return 'low';
+			case 2:
+				return 'good';
+			case 3:
+				return 'excellent';
+			default:
+				return 'neutral';
+		}
 	}
 
 	get temasPorReforzar() {
@@ -82,14 +145,14 @@ export class RouteProgressComponent implements OnInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.progressService.graph$.pipe(filter((g) => !!g)).subscribe(() => {
-			const t = setTimeout(() => {
-				if (this.networkContainer.nativeElement) {
-					this.initializeNetwork();
-				}
-				clearTimeout(t);
-			}, 100); // Esperar al siguiente ciclo de detección de cambios
-		});
+		// this.progressService.graph$.pipe(filter((g) => !!g)).subscribe(() => {
+		// 	const t = setTimeout(() => {
+		// 		if (this.networkContainer.nativeElement) {
+		// 			this.initializeNetwork();
+		// 		}
+		// 		clearTimeout(t);
+		// 	}, 100);
+		// });
 	}
 
 	initializeNetwork() {
